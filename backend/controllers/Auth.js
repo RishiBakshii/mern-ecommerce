@@ -5,6 +5,7 @@ const { generateOTP } = require("../utils/GenerateOtp");
 const Otp = require("../models/Otp");
 const { sanitizeUser } = require("../utils/SanitizeUser");
 const { generateToken } = require("../utils/GenerateToken");
+const PasswordResetToken = require("../models/PasswordResetToken");
 
 exports.signup=async(req,res)=>{
     try {
@@ -111,5 +112,49 @@ exports.verifyOtp=async(req,res)=>{
     } catch (error) {
         console.log(error);
         res.status(500).json({message:"Some Error occured"})
+    }
+}
+
+exports.forgotPassword=async(req,res)=>{
+    let newToken;
+    try {
+        // checks if user provided email exists or not
+        const isExistingUser=await User.findOne({email:req.body.email})
+
+        // if email does not exists returns a 404 response
+        if(!isExistingUser){
+            return res.status(404).json({message:"Provided email does not exists"})
+        }
+
+        // if user exists , generates a password reset token
+        const passwordResetToken=generateToken(sanitizeUser(isExistingUser),true)
+
+        // hashes the token
+        const hashedToken=await bcrypt.hash(passwordResetToken,10)
+
+        // saves hashed token in passwordResetToken collection
+        newToken=new PasswordResetToken({user:isExistingUser._id,token:hashedToken,expiresAt:Date.now() + parseInt(process.env.OTP_EXPIRATION_TIME)})
+        await newToken.save()
+
+        // sends the password reset link to the user's mail
+        await sendMail(isExistingUser.email,'Password Reset Link for Your MERN-AUTH-REDUX-TOOLKIT Account',`<p>Dear ${isExistingUser.name},
+
+        We received a request to reset the password for your MERN-AUTH-REDUX-TOOLKIT account. If you initiated this request, please use the following link to reset your password:</p>
+        
+        <p><a href=${process.env.ORIGIN}/reset-password/${isExistingUser._id}/${passwordResetToken} target="_blank">Reset Password</a></p>
+        
+        <p>This link is valid for a limited time. If you did not request a password reset, please ignore this email. Your account security is important to us.
+        
+        Thank you,
+        The MERN-AUTH-REDUX-TOOLKIT Team</p>`)
+
+        res.status(200).json({message:`Password Reset link sent to ${isExistingUser.email}`})
+
+    } catch (error) {
+        console.log(error);
+        if(newToken){
+            await PasswordResetToken.findByIdAndDelete(newToken._id)
+        }
+        res.status(500).json({message:'Error occured while sending password reset mail'})
     }
 }

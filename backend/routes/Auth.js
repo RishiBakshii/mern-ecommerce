@@ -6,6 +6,7 @@ router
     .post("/signup",authController.signup)
     .post('/login',authController.login)
     .post("/verify-otp",authController.verifyOtp)
+    .post("/forgot-password",authController.forgotPassword)
 
 
 module.exports=router
