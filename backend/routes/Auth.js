@@ -7,6 +7,7 @@ router
     .post('/login',authController.login)
     .post("/verify-otp",authController.verifyOtp)
     .post("/forgot-password",authController.forgotPassword)
+    .post("/reset-password",authController.resetPassword)
 
 
 module.exports=router

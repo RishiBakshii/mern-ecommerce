@@ -158,3 +158,48 @@ exports.forgotPassword=async(req,res)=>{
         res.status(500).json({message:'Error occured while sending password reset mail'})
     }
 }
+
+exports.resetPassword=async(req,res)=>{
+    try {
+
+        // checks if user exists or not
+        const isExistingUser=await User.findById(req.body.userId)
+
+        // if user does not exists then returns a 404 response
+        if(!isExistingUser){
+            return res.status(404).json({message:"User does not exists"})
+        }
+
+        // fetches the resetPassword token by the userId
+        const isResetTokenExisting=await PasswordResetToken.findOne({user:isExistingUser._id})
+
+        // If token does not exists for that userid, then returns a 404 response
+        if(!isResetTokenExisting){
+            return res.status(404).json({message:"Reset Link is Not Valid"})
+        }
+
+        // if the token has expired then deletes the token, and send response accordingly
+        if(isResetTokenExisting.expiresAt < new Date()){
+            await PasswordResetToken.findByIdAndDelete(isResetTokenExisting._id)
+            return res.status(404).json({message:"Reset Link has been expired"})
+        }
+
+        // if token exists and is not expired and token matches the hash, then resets the user password and deletes the token
+        if(isResetTokenExisting && isResetTokenExisting.expiresAt>new Date() && (await bcrypt.compare(req.body.token,isResetTokenExisting.token))){
+
+            // deleting the password reset token
+            await PasswordResetToken.findByIdAndDelete(isResetTokenExisting._id)
+
+            // resets the password after hashing it
+            await User.findByIdAndUpdate(isExistingUser._id,{password:await bcrypt.hash(req.body.password,10)})
+            return res.status(200).json({message:"Password Updated Successfuly"})
+        }
+
+        return res.status(404).json({message:"Reset Link has been expired"})
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Error occured while resetting the password, please try again later"})
+    }
+}
