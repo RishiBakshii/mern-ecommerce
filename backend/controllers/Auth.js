@@ -197,9 +197,17 @@ exports.resetPassword=async(req,res)=>{
 
         return res.status(404).json({message:"Reset Link has been expired"})
 
-
     } catch (error) {
         console.log(error);
         res.status(500).json({message:"Error occured while resetting the password, please try again later"})
+    }
+}
+
+exports.logout=async(req,res)=>{
+    try {
+        res.clearCookie("token")
+        res.status(200).json({message:'Logout successful'})
+    } catch (error) {
+        console.log(error);
     }
 }
