@@ -211,3 +211,15 @@ exports.logout=async(req,res)=>{
         console.log(error);
     }
 }
+
+exports.checkAuth=async(req,res)=>{
+    try {
+        if(req.user){
+            return res.status(200).json(req.user)
+        }
+        res.sendStatus(401)
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(500)
+    }
+}
