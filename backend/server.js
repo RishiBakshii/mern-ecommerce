@@ -4,6 +4,7 @@ const cors=require('cors')
 const morgan=require("morgan")
 const cookieParser=require("cookie-parser")
 const authRoutes=require("./routes/Auth")
+const productRoutes=require("./routes/Product")
 const { connectToDB } = require("./database/db")
 
 
@@ -22,6 +23,7 @@ server.use(morgan("tiny"))
 
 // routeMiddleware
 server.use("/auth",authRoutes)
+server.use("/products",productRoutes)
 
 
 
