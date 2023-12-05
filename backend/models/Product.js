@@ -19,15 +19,21 @@ const productSchema= new Schema({
         default: 0,
     },
     category:{
-        type:String,
+        type:Schema.Types.ObjectId,
+        ref:"Category",
         required:true
     },
     brand:{
-        type:String,
+        type:Schema.Types.ObjectId,
+        ref:"Brand",
         required:true
     },
     stockQuantity:{
         type:Number,
+        required:true
+    },
+    thumbnail:{
+        type:String,
         required:true
     },
     images:{
