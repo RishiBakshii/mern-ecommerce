@@ -60,6 +60,17 @@ exports.updateById=async(req,res)=>{
     }
 }
 
+exports.undeleteById=async(req,res)=>{
+    try {
+        const {id}=req.params
+        const unDeleted=await Product.findByIdAndUpdate(id,{isDeleted:false},{new:true})
+        res.status(200).json(unDeleted)
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:'Error restoring product, please try again later'})
+    }
+}
+
 exports.deleteById=async(req,res)=>{
     try {
         const {id}=req.params
