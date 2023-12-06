@@ -6,5 +6,6 @@ router
     .post("/",productController.create)
     .get("/",productController.getAll)
     .get("/:id",productController.getById)
+    .patch("/:id",productController.updateById)
 
 module.exports=router
