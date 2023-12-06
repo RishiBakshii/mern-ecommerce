@@ -1,5 +1,4 @@
 const mongoose=require("mongoose")
-const { itemSchema } = require("./Item")
 const {Schema}=mongoose
 
 const orderSchema=new Schema({
@@ -9,11 +8,11 @@ const orderSchema=new Schema({
         required:true
     },
     item:{
-        type:String,
+        type:[Schema.Types.Mixed],
         required:true
     },
     address:{
-        type:[itemSchema],
+        type:[Schema.Types.Mixed],
         required:true
     },
     status:{
