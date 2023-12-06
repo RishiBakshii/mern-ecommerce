@@ -37,3 +37,16 @@ exports.getAll = async (req, res) => {
         res.status(500).json({message:'Error fetching products, please try again later'})
     }
 };
+
+exports.getById=async(req,res)=>{
+    try {
+        const {id}=req.params
+        const result=await Product.findById(id)
+        res.status(200).json(result)
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:'Error getting product details, please try again later'})
+    }
+}
+
+

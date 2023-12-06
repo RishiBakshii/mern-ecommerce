@@ -5,5 +5,6 @@ const router=express.Router()
 router
     .post("/",productController.create)
     .get("/",productController.getAll)
+    .get("/:id",productController.getById)
 
 module.exports=router
