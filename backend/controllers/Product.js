@@ -60,4 +60,15 @@ exports.updateById=async(req,res)=>{
     }
 }
 
+exports.deleteById=async(req,res)=>{
+    try {
+        const {id}=req.params
+        const deleted=await Product.findByIdAndUpdate(id,{isDeleted:true},{new:true})
+        res.status(200).json(deleted)
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:'Error deleting product, please try again later'})
+    }
+}
+
 
