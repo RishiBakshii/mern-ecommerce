@@ -4,5 +4,6 @@ const router=express.Router()
 
 router
     .post("/",cartController.create)
+    .patch("/:id",cartController.updateById)
 
 module.exports=router
