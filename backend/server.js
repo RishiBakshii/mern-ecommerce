@@ -7,6 +7,7 @@ const authRoutes=require("./routes/Auth")
 const productRoutes=require("./routes/Product")
 const orderRoutes=require("./routes/Order")
 const cartRoutes=require("./routes/Cart")
+const brandRoutes=require("./routes/Brand")
 const { connectToDB } = require("./database/db")
 
 
@@ -28,6 +29,7 @@ server.use("/auth",authRoutes)
 server.use("/products",productRoutes)
 server.use("/orders",orderRoutes)
 server.use("/cart",cartRoutes)
+server.use("/brands",brandRoutes)
 
 
 
