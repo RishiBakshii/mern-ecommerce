@@ -8,6 +8,7 @@ const productRoutes=require("./routes/Product")
 const orderRoutes=require("./routes/Order")
 const cartRoutes=require("./routes/Cart")
 const brandRoutes=require("./routes/Brand")
+const categoryRoutes=require("./routes/Category")
 const { connectToDB } = require("./database/db")
 
 
@@ -30,6 +31,7 @@ server.use("/products",productRoutes)
 server.use("/orders",orderRoutes)
 server.use("/cart",cartRoutes)
 server.use("/brands",brandRoutes)
+server.use("/categories",categoryRoutes)
 
 
 
