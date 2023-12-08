@@ -6,6 +6,7 @@ const cookieParser=require("cookie-parser")
 const authRoutes=require("./routes/Auth")
 const productRoutes=require("./routes/Product")
 const orderRoutes=require("./routes/Order")
+const cartRoutes=require("./routes/Cart")
 const { connectToDB } = require("./database/db")
 
 
@@ -26,7 +27,7 @@ server.use(morgan("tiny"))
 server.use("/auth",authRoutes)
 server.use("/products",productRoutes)
 server.use("/orders",orderRoutes)
-
+server.use("/cart",cartRoutes)
 
 
 
