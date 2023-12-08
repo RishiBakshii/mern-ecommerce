@@ -10,3 +10,14 @@ exports.create=async(req,res)=>{
         return res.status(500).json({message:'Error creating an order, please trying again later'})
     }
 }
+
+exports.getByUserId=async(req,res)=>{
+    try {
+        const {id}=req.params
+        const results=await Order.find({user:id})
+        res.status(200).json(results)
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({message:'Error fetching orders, please trying again later'})
+    }
+}
