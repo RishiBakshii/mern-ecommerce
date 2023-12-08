@@ -5,6 +5,7 @@ const router=express.Router()
 
 router
     .post("/",orderController.create)
+    .get("/",orderController.getAll)
     .get("/user/:id",orderController.getByUserId)
 
 

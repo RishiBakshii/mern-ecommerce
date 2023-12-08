@@ -21,3 +21,13 @@ exports.getByUserId=async(req,res)=>{
         return res.status(500).json({message:'Error fetching orders, please trying again later'})
     }
 }
+
+exports.getAll = async (req, res) => {
+    try {
+        const results=await Order.find({})
+        res.status(200).json(results)
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:'Error fetching orders, please try again later'})
+    }
+};
