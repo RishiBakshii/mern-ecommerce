@@ -1,5 +1,5 @@
 import {BrowserRouter as Router,Routes,Route} from  'react-router-dom'
-import { LoginPage, SignupPage, ForgotPasswordPage } from './pages';
+import { LoginPage, SignupPage, ForgotPasswordPage, ResetPasswordPage} from './pages';
 
 function App() {
   return (
@@ -8,6 +8,7 @@ function App() {
         <Route exact path='/signup' element={<SignupPage/>}/>
         <Route exact path='/login' element={<LoginPage/>}/>
         <Route exact path='/forgot-password' element={<ForgotPasswordPage/>}/>
+        <Route exact path='/reset-password/:userId/:passwordResetToken' element={<ResetPasswordPage/>}/>
       </Routes>
     </Router>
   );
