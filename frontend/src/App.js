@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { checkAuthAsync, selectIsAuthChecked, selectLoggedInUser } from './features/auth/AuthSlice';
 import {Protected} from './features/auth/components/Protected'
 import { Logout } from './features/auth/components/Logout';
+import { fetchLoggedInUserByIdAsync } from './features/user/UserSlice';
 
 function App() {
   const dispatch=useDispatch()
@@ -14,6 +15,14 @@ function App() {
   useEffect(()=>{
     dispatch(checkAuthAsync())
   },[dispatch])
+
+  useEffect(()=>{
+    /* when a user is logged in then this dispatches an action to get all the details of loggedInUser, 
+    as while login and signup only the bare-minimum information is sent by the server */
+    if(loggedInUser){
+      dispatch(fetchLoggedInUserByIdAsync(loggedInUser?._id))
+    }
+  },[loggedInUser])
 
   return (
     <Router>
