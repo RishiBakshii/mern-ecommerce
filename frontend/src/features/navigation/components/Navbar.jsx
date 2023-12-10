@@ -43,7 +43,7 @@ export const Navbar=()=> {
           <Stack flexDirection={'row'} alignItems={'center'} justifyContent={'center'} columnGap={2}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={userInfo.name} src="null" />
+                <Avatar alt={userInfo?.name} src="null" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -68,7 +68,7 @@ export const Navbar=()=> {
                 </MenuItem>
               ))}
             </Menu>
-            <Typography variant='h6' fontWeight={300}>Hey👋, {userInfo.name} </Typography>
+            <Typography variant='h6' fontWeight={300}>Hey👋, {userInfo?.name} </Typography>
           </Stack>
 
         </Toolbar>
