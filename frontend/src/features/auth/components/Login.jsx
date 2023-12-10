@@ -36,7 +36,7 @@ export const Login = () => {
   
   useEffect(()=>{
     /* It tracks the auth status, on being fullfilled it shows the message accordinly*/
-    if(status==='fullfilled' && loggedInUser.isVerified===true){
+    if(status==='fullfilled' && loggedInUser?.isVerified===true){
       toast.success(`Login successful`)
       reset()
     }
