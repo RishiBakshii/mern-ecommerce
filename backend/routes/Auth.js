@@ -9,7 +9,7 @@ router
     .post("/verify-otp",authController.verifyOtp)
     .post("/forgot-password",authController.forgotPassword)
     .post("/reset-password",authController.resetPassword)
-    .get("check-auth",verifyToken,authController.checkAuth)
+    .get("/check-auth",verifyToken,authController.checkAuth)
     .get('/logout',authController.logout)
 
 
