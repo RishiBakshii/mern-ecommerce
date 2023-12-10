@@ -54,6 +54,9 @@ const authSlice=createSlice({
         },
         clearAuthErrors:(state)=>{
             state.errors=null
+        },
+        resetAuthStatus:(state)=>{
+            state.status='idle'
         }
     },
     extraReducers:(builder)=>{
@@ -156,7 +159,7 @@ export const selectAuthSuccessMessage=(state)=>state.AuthSlice.successMessage
 export const selectIsAuthChecked=(state)=>state.AuthSlice.isAuthChecked
 
 // exporting reducers
-export const {clearAuthSuccessMessage,clearAuthErrors}=authSlice.actions
+export const {clearAuthSuccessMessage,clearAuthErrors,resetAuthStatus}=authSlice.actions
 
 export default authSlice.reducer
 

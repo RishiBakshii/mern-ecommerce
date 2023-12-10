@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import { ecommerceOutlookAnimation, shoppingBagAnimation} from '../../../assets'
 import {useDispatch,useSelector} from 'react-redux'
 import { LoadingButton } from '@mui/lab';
-import {selectAuthStatus,selectAuthErrors,selectLoggedInUser, signupAsync, verifyOtpAsync, clearAuthErrors, clearAuthSuccessMessage} from '../AuthSlice'
+import {selectAuthStatus,selectAuthErrors,selectLoggedInUser, signupAsync, verifyOtpAsync, clearAuthErrors, clearAuthSuccessMessage, resetAuthStatus} from '../AuthSlice'
 import { toast } from 'react-toastify'
 
 export const Signup = () => {
@@ -56,6 +56,7 @@ export const Signup = () => {
     return ()=>{
       dispatch(clearAuthErrors())
       dispatch(clearAuthSuccessMessage())
+      dispatch(resetAuthStatus())
     }
   },[status])
 
