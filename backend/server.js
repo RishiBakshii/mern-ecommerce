@@ -9,6 +9,7 @@ const orderRoutes=require("./routes/Order")
 const cartRoutes=require("./routes/Cart")
 const brandRoutes=require("./routes/Brand")
 const categoryRoutes=require("./routes/Category")
+const userRoutes=require("./routes/User")
 const { connectToDB } = require("./database/db")
 
 
@@ -27,6 +28,7 @@ server.use(morgan("tiny"))
 
 // routeMiddleware
 server.use("/auth",authRoutes)
+server.use("/users",userRoutes)
 server.use("/products",productRoutes)
 server.use("/orders",orderRoutes)
 server.use("/cart",cartRoutes)
