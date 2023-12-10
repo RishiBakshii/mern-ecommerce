@@ -9,6 +9,9 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
+import { Stack } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { selectUserInfo } from '../../user/UserSlice';
 
 const settings = [
     {name:'Profile',to:"/profile"},
@@ -19,6 +22,7 @@ const settings = [
 export const Navbar=()=> {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const userInfo=useSelector(selectUserInfo)
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -36,10 +40,10 @@ export const Navbar=()=> {
             ECOMMERCE
           </Typography>
 
-          <Box>
+          <Stack flexDirection={'row'} alignItems={'center'} justifyContent={'center'} columnGap={2}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt={userInfo.name} src="null" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -64,7 +68,8 @@ export const Navbar=()=> {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+            <Typography variant='h6' fontWeight={300}>Hey👋, {userInfo.name} </Typography>
+          </Stack>
 
         </Toolbar>
     </AppBar>
