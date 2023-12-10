@@ -1,9 +1,24 @@
 import {BrowserRouter as Router,Routes,Route} from  'react-router-dom'
 import { LoginPage, SignupPage, ForgotPasswordPage, ResetPasswordPage, HomePage} from './pages';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkAuthAsync, selectIsAuthChecked, selectLoggedInUser } from './features/auth/AuthSlice';
+import {Protected} from './features/auth/components/Protected'
 
 function App() {
+  const dispatch=useDispatch()
+  const isAuthChecked=useSelector(selectIsAuthChecked)
+  const loggedInUser=useSelector(selectLoggedInUser)
+
+  useEffect(()=>{
+    dispatch(checkAuthAsync())
+  },[dispatch])
+
   return (
     <Router>
+
+      {isAuthChecked && 
+
       <Routes>
 
         <Route exact path='/signup' element={<SignupPage/>}/>
@@ -12,9 +27,14 @@ function App() {
         <Route exact path='/reset-password/:userId/:passwordResetToken' element={<ResetPasswordPage/>}/>
 
 
-        <Route exact path='/' element={<HomePage/>}/>
+        <Route exact path='/' element={
+          <Protected>
+            <HomePage/>
+          </Protected>
+        }/>
 
       </Routes>
+      }
     </Router>
   );
 }
