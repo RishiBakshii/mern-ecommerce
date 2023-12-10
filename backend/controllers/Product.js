@@ -29,7 +29,7 @@ exports.getAll = async (req, res) => {
             sort[req.query.sort]=req.query.order?req.query.order==='asc'?1:-1:1
         }
 
-        const results=await Product.find(filter).sort(sort).exec()
+        const results=await Product.find(filter).sort(sort).populate("brand").exec()
         res.status(200).json(results)
     
     } catch (error) {
