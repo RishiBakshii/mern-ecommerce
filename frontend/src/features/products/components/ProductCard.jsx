@@ -1,9 +1,11 @@
 import { FormHelperText, Paper, Stack, Typography } from '@mui/material'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
-export const ProductCard = ({title,price,thumbnail,brand,stockQuantity}) => {
+export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity}) => {
+    const navigate=useNavigate()
   return (
-    <Stack component={Paper} elevation={1} p={2} width={'340px'}  sx={{cursor:"pointer"}}>
+    <Stack component={Paper} elevation={1} p={2} width={'340px'}  sx={{cursor:"pointer"}} onClick={()=>navigate(`/product-details/${id}`)}>
 
         {/* image display */}
         <Stack flex={4} justifyContent={'center'} alignItems={'center'}>

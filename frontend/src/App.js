@@ -1,5 +1,5 @@
 import {BrowserRouter as Router,Routes,Route} from  'react-router-dom'
-import { LoginPage, SignupPage, ForgotPasswordPage, ResetPasswordPage, HomePage} from './pages';
+import { LoginPage, SignupPage, ForgotPasswordPage, ResetPasswordPage, HomePage, ProductDetailsPage} from './pages';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkAuthAsync, selectIsAuthChecked, selectLoggedInUser } from './features/auth/AuthSlice';
@@ -46,6 +46,12 @@ function App() {
         <Route exact path='/' element={
           <Protected>
             <HomePage/>
+          </Protected>
+        }/>
+
+        <Route exact path='/product-details/:id' element={
+          <Protected>
+            <ProductDetailsPage/>
           </Protected>
         }/>
 

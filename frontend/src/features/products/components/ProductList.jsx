@@ -110,7 +110,7 @@ export const ProductList = () => {
         <Grid gap={2} container flex={1}>
             {
                 products.map((product)=>(
-                    <ProductCard key={product._id} title={product.title} thumbnail={product.thumbnail} brand={product.brand.name} price={product.price}/>
+                    <ProductCard key={product._id} id={product._id} title={product.title} thumbnail={product.thumbnail} brand={product.brand.name} price={product.price}/>
                 ))
             }
         </Grid>

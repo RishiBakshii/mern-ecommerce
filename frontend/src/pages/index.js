@@ -1,6 +1,7 @@
 import { ForgotPasswordPage } from "./ForgotPasswordPage";
 import { HomePage } from "./HomePage";
 import { LoginPage } from "./LoginPage";
+import { ProductDetailsPage } from "./ProductDetailsPage";
 import { ResetPasswordPage } from "./ResetPasswordPage";
 import { SignupPage } from "./SignupPage";
 
@@ -10,4 +11,5 @@ export {
     ForgotPasswordPage,
     ResetPasswordPage,
     HomePage,
+    ProductDetailsPage,
 }
