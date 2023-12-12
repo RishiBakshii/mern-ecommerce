@@ -11,10 +11,12 @@ import { selectBrands } from '../../brands/BrandSlice'
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import { selectCategories } from '../../categories/CategoriesSlice'
 
 export const ProductList = () => {
     const [filters,setFilters]=useState({})
     const brands=useSelector(selectBrands)
+    const categories=useSelector(selectCategories)
     const products=useSelector(selectProducts)
     const dispatch=useDispatch()
 
@@ -27,6 +29,16 @@ export const ProductList = () => {
 
         const filterArray = Array.from(filterSet);
         setFilters({...filters,brand:filterArray})
+    }
+
+    const handleCategoryFilters=(e)=>{
+        const filterSet=new Set(filters.category)
+
+        if(e.target.checked){filterSet.add(e.target.value)}
+        else{filterSet.delete(e.target.value)}
+
+        const filterArray = Array.from(filterSet);
+        setFilters({...filters,category:filterArray})
     }
 
 
@@ -66,6 +78,25 @@ export const ProductList = () => {
                                     {
                                         brands?.map((brand)=>(
                                             <FormControlLabel control={<Checkbox />} label={brand.name} value={brand._id} />
+                                        ))
+                                    }
+                                </FormGroup>
+                            </AccordionDetails>
+                        </Accordion>
+                    </Stack>
+
+                    {/* category filters */}
+                    <Stack mt={2}>
+                        <Accordion>
+                            <AccordionSummary expandIcon={<AddIcon />}  aria-controls="category-filters" id="category-filters" >
+                                    <Typography>Category</Typography>
+                            </AccordionSummary>
+
+                            <AccordionDetails sx={{p:0}}>
+                                <FormGroup onChange={handleCategoryFilters}>
+                                    {
+                                        categories?.map((category)=>(
+                                            <FormControlLabel control={<Checkbox />} key={category._id} label={category.name} value={category._id} />
                                         ))
                                     }
                                 </FormGroup>

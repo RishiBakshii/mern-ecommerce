@@ -17,7 +17,11 @@ export const fetchProducts=async(filters)=>{
             queryString+=`brand=${brand}&`
         })
     }
-
+    if(filters.category){
+        filters.category.map((category)=>{
+            queryString+=`category=${category}&`
+        })
+    }
 
     try {
         const res=await axiosi.get(`/products?${queryString}`)
