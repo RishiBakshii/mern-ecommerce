@@ -7,6 +7,7 @@ import {Protected} from './features/auth/components/Protected'
 import { Logout } from './features/auth/components/Logout';
 import { fetchLoggedInUserByIdAsync } from './features/user/UserSlice';
 import { fetchProductsAsync } from './features/products/ProductSlice';
+import { fetchAllBrandsAsync } from './features/brands/BrandSlice';
 
 function App() {
   const dispatch=useDispatch()
@@ -23,6 +24,7 @@ function App() {
     if(loggedInUser){
       dispatch(fetchLoggedInUserByIdAsync(loggedInUser?._id))
       dispatch(fetchProductsAsync())
+      dispatch(fetchAllBrandsAsync())
     }
   },[loggedInUser])
 
