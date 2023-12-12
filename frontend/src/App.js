@@ -8,6 +8,7 @@ import { Logout } from './features/auth/components/Logout';
 import { fetchLoggedInUserByIdAsync } from './features/user/UserSlice';
 import { fetchProductsAsync } from './features/products/ProductSlice';
 import { fetchAllBrandsAsync } from './features/brands/BrandSlice';
+import { fetchAllCategoriesAsync } from './features/categories/CategoriesSlice';
 
 function App() {
   const dispatch=useDispatch()
@@ -25,6 +26,7 @@ function App() {
       dispatch(fetchLoggedInUserByIdAsync(loggedInUser?._id))
       dispatch(fetchProductsAsync({}))
       dispatch(fetchAllBrandsAsync())
+      dispatch(fetchAllCategoriesAsync())
     }
   },[loggedInUser])
 
