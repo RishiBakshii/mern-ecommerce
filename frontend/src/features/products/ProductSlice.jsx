@@ -14,8 +14,8 @@ export const addProductAsync=createAsyncThunk("products/addProductAsync",async(d
     const addedProduct=await addProduct(data)
     return addedProduct
 })
-export const fetchProductsAsync=createAsyncThunk("products/fetchProductsAsync",async()=>{
-    const products=await fetchProducts()
+export const fetchProductsAsync=createAsyncThunk("products/fetchProductsAsync",async(filters)=>{
+    const products=await fetchProducts(filters)
     return products
 })
 export const fetchProductByIdAsync=createAsyncThunk("products/fetchProductByIdAsync",async(id)=>{

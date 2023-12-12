@@ -3,11 +3,11 @@ import React from 'react'
 
 export const ProductCard = ({title,price,thumbnail,brand,stockQuantity}) => {
   return (
-    <Stack component={Paper} elevation={1} p={2} width={'300px'} sx={{cursor:"pointer"}}>
+    <Stack component={Paper} elevation={1} p={2} width={'340px'}  sx={{cursor:"pointer"}}>
 
         {/* image display */}
         <Stack flex={4} justifyContent={'center'} alignItems={'center'}>
-            <img style={{width:"100%",height:"100%",objectFit:"fill"}} src={thumbnail} alt={`${title} photo unavailable`} />
+            <img style={{height:"100%",width:"100%",objectFit:"contain"}} src={thumbnail} alt={`${title} photo unavailable`} />
         </Stack>
 
         {/* lower section */}

@@ -8,9 +8,19 @@ export const addProduct=async(data)=>{
         throw error.response.data
     }
 }
-export const fetchProducts=async()=>{
+export const fetchProducts=async(filters)=>{
+
+    let queryString=''
+
+    if(filters.brand){
+        filters.brand.map((brand)=>{
+            queryString+=`brand=${brand}&`
+        })
+    }
+
+
     try {
-        const res=await axiosi.get('/products')
+        const res=await axiosi.get(`/products?${queryString}`)
         return res.data
     } catch (error) {
         throw error.response.data

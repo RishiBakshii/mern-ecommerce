@@ -23,7 +23,7 @@ function App() {
     as while login and signup only the bare-minimum information is sent by the server */
     if(loggedInUser){
       dispatch(fetchLoggedInUserByIdAsync(loggedInUser?._id))
-      dispatch(fetchProductsAsync())
+      dispatch(fetchProductsAsync({}))
       dispatch(fetchAllBrandsAsync())
     }
   },[loggedInUser])
