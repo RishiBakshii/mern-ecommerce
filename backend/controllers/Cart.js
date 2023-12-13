@@ -2,7 +2,7 @@ const Cart=require('../models/Cart')
 
 exports.create=async(req,res)=>{
     try {
-        const created=new Cart(req.body)
+        const created=await new Cart(req.body).populate('product')
         await created.save()
         res.status(201).json(created)
     } catch (error) {
@@ -14,7 +14,7 @@ exports.create=async(req,res)=>{
 exports.getByUserId=async(req,res)=>{
     try {
         const {id}=req.params
-        const result=await Cart.find({user:id})
+        const result=await Cart.find({user:id}).populate('product')
         res.status(200).json(result)
     } catch (error) {
         console.log(error);
@@ -25,7 +25,7 @@ exports.getByUserId=async(req,res)=>{
 exports.updateById=async(req,res)=>{
     try {
         const {id}=req.params
-        const updated=await Cart.findByIdAndUpdate(id,req.body,{new:true})
+        const updated=await Cart.findByIdAndUpdate(id,req.body,{new:true}).populate("product")
         res.status(200).json(updated)
     } catch (error) {
         console.log(error);
