@@ -6,5 +6,6 @@ router
     .post("/",cartController.create)
     .get("/user/:id",cartController.getByUserId)
     .patch("/:id",cartController.updateById)
+    .delete("/:id",cartController.deleteById)
 
 module.exports=router
