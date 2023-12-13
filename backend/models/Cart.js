@@ -1,5 +1,4 @@
 const mongoose=require("mongoose")
-const { itemSchema } = require("./Item")
 const {Schema}=mongoose
 
 const cartSchema=new Schema({
@@ -8,9 +7,14 @@ const cartSchema=new Schema({
         ref:"User",
         required:true,
     },
-    items:{
-        type:[itemSchema],
+    product:{
+        type:Schema.Types.ObjectId,
+        ref:"Product",
         required:true
+    },
+    quantity:{
+        type:Number,
+        default:1,
     }
 },{versionKey:false})
 
