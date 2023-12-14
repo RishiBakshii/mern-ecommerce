@@ -9,6 +9,7 @@ import { fetchLoggedInUserByIdAsync } from './features/user/UserSlice';
 import { fetchProductsAsync } from './features/products/ProductSlice';
 import { fetchAllBrandsAsync } from './features/brands/BrandSlice';
 import { fetchAllCategoriesAsync } from './features/categories/CategoriesSlice';
+import { fetchCartByUserIdAsync } from './features/cart/CartSlice';
 
 function App() {
   const dispatch=useDispatch()
@@ -27,6 +28,7 @@ function App() {
       dispatch(fetchProductsAsync({}))
       dispatch(fetchAllBrandsAsync())
       dispatch(fetchAllCategoriesAsync())
+      dispatch(fetchCartByUserIdAsync(loggedInUser?._id))
     }
   },[loggedInUser])
 
