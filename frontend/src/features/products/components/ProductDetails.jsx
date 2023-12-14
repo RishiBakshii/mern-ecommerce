@@ -3,11 +3,20 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { fetchProductByIdAsync, selectSelectedProduct } from '../ProductSlice'
 import { Button, Stack, Typography } from '@mui/material'
+import { addToCartAsync } from '../../cart/CartSlice'
+import { selectLoggedInUser } from '../../auth/AuthSlice'
 
 export const ProductDetails = () => {
     const {id}=useParams()
     const product=useSelector(selectSelectedProduct)
+    const loggedInUser=useSelector(selectLoggedInUser)
     const dispatch=useDispatch()
+
+
+    const handleAddToCart=()=>{
+        const item={user:loggedInUser._id,product:id,quantity:1}
+        dispatch(addToCartAsync(item))
+    }
 
     useEffect(()=>{
         if(id){
@@ -54,7 +63,7 @@ export const ProductDetails = () => {
 
                 <Stack flex={2} justifyContent={'space-between'}>
                         <Typography variant='h5'>${product?.price}</Typography>
-                        <Button variant='contained'>Add to cart</Button>
+                        <Button variant='contained' onClick={handleAddToCart}>Add to cart</Button>
                 </Stack>
             </Stack>
 

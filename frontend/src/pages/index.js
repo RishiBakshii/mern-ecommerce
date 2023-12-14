@@ -1,3 +1,4 @@
+import { CartPage } from "./CartPage";
 import { ForgotPasswordPage } from "./ForgotPasswordPage";
 import { HomePage } from "./HomePage";
 import { LoginPage } from "./LoginPage";
@@ -12,4 +13,5 @@ export {
     ResetPasswordPage,
     HomePage,
     ProductDetailsPage,
+    CartPage,
 }
