@@ -8,10 +8,12 @@ import Menu from '@mui/material/Menu';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { Link } from 'react-router-dom';
-import { Stack } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import { Badge, Stack } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { selectUserInfo } from '../../user/UserSlice';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { selectCartItems } from '../../cart/CartSlice';
 
 const settings = [
     {name:'Profile',to:"/profile"},
@@ -23,10 +25,13 @@ export const Navbar=()=> {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const userInfo=useSelector(selectUserInfo)
+  const cartItems=useSelector(selectCartItems)
+  const navigate=useNavigate()
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
+
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -69,6 +74,12 @@ export const Navbar=()=> {
               ))}
             </Menu>
             <Typography variant='h6' fontWeight={300}>Hey👋, {userInfo?.name} </Typography>
+
+            {cartItems?.length>0 && <Badge  badgeContent={cartItems.length} color='error'>
+              <IconButton onClick={()=>navigate("/cart")}>
+                <ShoppingCartOutlinedIcon sx={{color:'white'}}/>
+                </IconButton>
+            </Badge>}
           </Stack>
 
         </Toolbar>
