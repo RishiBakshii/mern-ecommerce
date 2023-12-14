@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { fetchProductByIdAsync, selectSelectedProduct } from '../ProductSlice'
-import { Button, Stack, Typography } from '@mui/material'
-import { addToCartAsync } from '../../cart/CartSlice'
+import { Alert, Button, Stack, Typography, useTheme } from '@mui/material'
+import { addToCartAsync, selectCartItems } from '../../cart/CartSlice'
 import { selectLoggedInUser } from '../../auth/AuthSlice'
 
 export const ProductDetails = () => {
@@ -11,7 +11,10 @@ export const ProductDetails = () => {
     const product=useSelector(selectSelectedProduct)
     const loggedInUser=useSelector(selectLoggedInUser)
     const dispatch=useDispatch()
+    const cartItems=useSelector(selectCartItems)
+    const theme=useTheme()
 
+    const isProductAlreadyInCart=cartItems.some((item)=>item.product._id===id)
 
     const handleAddToCart=()=>{
         const item={user:loggedInUser._id,product:id,quantity:1}
@@ -63,7 +66,13 @@ export const ProductDetails = () => {
 
                 <Stack flex={2} justifyContent={'space-between'}>
                         <Typography variant='h5'>${product?.price}</Typography>
-                        <Button variant='contained' onClick={handleAddToCart}>Add to cart</Button>
+                        {
+                            isProductAlreadyInCart?(
+                                <Alert severity='info' color={'info'} sx={{bgcolor:theme.palette.primary.light}}>This Product is Already in your cart</Alert>
+                            ):(
+                                <Button variant='contained' onClick={handleAddToCart}>Add to cart</Button>
+                            )
+                        }
                 </Stack>
             </Stack>
 
