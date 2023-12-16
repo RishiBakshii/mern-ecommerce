@@ -1,5 +1,5 @@
 import {BrowserRouter as Router,Routes,Route} from  'react-router-dom'
-import { LoginPage, SignupPage, ForgotPasswordPage, ResetPasswordPage, HomePage, ProductDetailsPage, CartPage} from './pages';
+import { LoginPage, SignupPage, ForgotPasswordPage, ResetPasswordPage, HomePage, ProductDetailsPage, CartPage, UserProfilePage} from './pages';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkAuthAsync, selectIsAuthChecked, selectLoggedInUser } from './features/auth/AuthSlice';
@@ -62,6 +62,12 @@ function App() {
         <Route exact path='/cart' element={
           <Protected>
             <CartPage/>
+          </Protected>
+        }/>
+
+        <Route exact path='/profile' element={
+          <Protected>
+            <UserProfilePage/>
           </Protected>
         }/>
 

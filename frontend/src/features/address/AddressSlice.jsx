@@ -30,7 +30,11 @@ export const deleteAddressByIdAsync=createAsyncThunk('address/deleteAddressByIdA
 const addressSlice=createSlice({
     name:"addressSlice",
     initialState:initialState,
-    reducers:{},
+    reducers:{
+        resetAddressStatus:(state)=>{
+            state.status='idle'
+        }
+    },
     extraReducers:(builder)=>{
         builder
             .addCase(addAddressAsync.pending,(state)=>{
@@ -90,5 +94,7 @@ export const selectAddresses=(state)=>state.AddressSlice.addresses
 export const selectAddressErrors=(state)=>state.AddressSlice.errors
 export const selectAddressSuccessMessage=(state)=>state.AddressSlice.successMessage
 
+// exporting reducers
+export const {resetAddressStatus}=addressSlice.actions
 
 export default addressSlice.reducer
