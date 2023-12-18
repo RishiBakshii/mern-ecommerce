@@ -5,6 +5,7 @@ import { fetchProductByIdAsync, selectSelectedProduct } from '../ProductSlice'
 import { Alert, Button, Stack, Typography, useTheme } from '@mui/material'
 import { addToCartAsync, selectCartItems } from '../../cart/CartSlice'
 import { selectLoggedInUser } from '../../auth/AuthSlice'
+import { fetchReviewsByProductIdAsync } from '../../review/ReviewSlice'
 
 export const ProductDetails = () => {
     const {id}=useParams()
@@ -24,6 +25,7 @@ export const ProductDetails = () => {
     useEffect(()=>{
         if(id){
             dispatch(fetchProductByIdAsync(id))
+            dispatch(fetchReviewsByProductIdAsync(id))
         }
     },[id])
 
