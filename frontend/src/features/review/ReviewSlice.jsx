@@ -39,7 +39,7 @@ const reviewSlice=createSlice({
                 state.status='pending'
             })
             .addCase(createReviewAsync.fulfilled,(state,action)=>{
-                state.status='pending'
+                state.status='fulfilled'
                 state.reviews.push(action.payload)
             })
             .addCase(createReviewAsync.rejected,(state,action)=>{
@@ -51,7 +51,7 @@ const reviewSlice=createSlice({
                 state.status='pending'
             })
             .addCase(fetchReviewsByProductIdAsync.fulfilled,(state,action)=>{
-                state.status='pending'
+                state.status='fulfilled'
                 state.reviews=action.payload
             })
             .addCase(fetchReviewsByProductIdAsync.rejected,(state,action)=>{
@@ -63,7 +63,7 @@ const reviewSlice=createSlice({
                 state.status='pending'
             })
             .addCase(updateReviewByIdAsync.fulfilled,(state,action)=>{
-                state.status='pending'
+                state.status='fulfilled'
                 const index=state.reviews.findIndex((review)=>review._id===action.payload._id)
                 state.reviews[index]=action.payload
             })
@@ -76,7 +76,7 @@ const reviewSlice=createSlice({
                 state.status='pending'
             })
             .addCase(deleteReviewByIdAsync.fulfilled,(state,action)=>{
-                state.status='pending'
+                state.status='fulfilled'
                 state.reviews=state.reviews.filter((review)=>review._id!==action.payload._id)
             })
             .addCase(deleteReviewByIdAsync.rejected,(state,action)=>{

@@ -1,42 +1,53 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { fetchProductByIdAsync, selectSelectedProduct } from '../ProductSlice'
-import { Alert, Button, Stack, Typography, useTheme } from '@mui/material'
+import { Alert,Button,Rating, Stack, TextField, Typography, useTheme } from '@mui/material'
 import { addToCartAsync, selectCartItems } from '../../cart/CartSlice'
 import { selectLoggedInUser } from '../../auth/AuthSlice'
-import { fetchReviewsByProductIdAsync } from '../../review/ReviewSlice'
+import { createReviewAsync, fetchReviewsByProductIdAsync, selectReviewStatus,} from '../../review/ReviewSlice'
+import { useForm } from "react-hook-form"
+import {LoadingButton} from '@mui/lab'
+import { Reviews } from '../../review/components/Reviews'
+
 
 export const ProductDetails = () => {
     const {id}=useParams()
+    const [value, setValue] = useState(1);
     const product=useSelector(selectSelectedProduct)
     const loggedInUser=useSelector(selectLoggedInUser)
     const dispatch=useDispatch()
     const cartItems=useSelector(selectCartItems)
     const theme=useTheme()
+    const reviewStatus=useSelector(selectReviewStatus)
+    
 
     const isProductAlreadyInCart=cartItems.some((item)=>item.product._id===id)
+
 
     const handleAddToCart=()=>{
         const item={user:loggedInUser._id,product:id,quantity:1}
         dispatch(addToCartAsync(item))
     }
 
+    
     useEffect(()=>{
         if(id){
             dispatch(fetchProductByIdAsync(id))
             dispatch(fetchReviewsByProductIdAsync(id))
         }
     },[id])
+    
+
 
   return (
-    <Stack width={'100vw'} height={'calc(100vh - 4rem)'} alignItems={'center'}>
+    <Stack alignItems={'center'}>
 
         {/* parent */}
-        <Stack width={'80%'} rowGap={5} justifyContent={'center'} alignItems={''}>
+        <Stack width={'80%'} rowGap={5} justifyContent={'center'} mb={5}>
 
             {/* upper */}
-            <Stack mt={3} gap={2} height={"30rem"}  flexDirection={'row'} justifyContent={'space-evenly'}>
+            <Stack mt={5} gap={2} height={"30rem"}  flexDirection={'row'} justifyContent={'space-evenly'}>
 
                 <Stack height={'100%'}>
                     <img style={{width:'100%',height:"100%",objectFit:"contain"}} src={product?.images[0]} alt="" />
@@ -78,7 +89,18 @@ export const ProductDetails = () => {
                 </Stack>
             </Stack>
 
+
+            {/* reviews */}
+            <Stack mt={5}  alignSelf={'flex-start'}>
+
+                <Reviews productId={id}/>       
+
+            </Stack>
+
+
         </Stack>
+
+
 
     </Stack>
   )
