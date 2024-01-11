@@ -32,3 +32,12 @@ export const deleteCartItemById=async(id)=>{
         throw error.response.data
     }
 }
+
+export const resetCartByUserId=async(userId)=>{
+    try {
+        const res=await axiosi.delete(`/cart/user/${userId}`)
+        return res.data
+    } catch (error) {
+        throw error.response.data
+    }
+}
