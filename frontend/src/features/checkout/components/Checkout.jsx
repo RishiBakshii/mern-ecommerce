@@ -8,7 +8,7 @@ import { addAddressAsync, selectAddressStatus, selectAddresses } from '../../add
 import { selectLoggedInUser } from '../../auth/AuthSlice'
 import { Link, useNavigate } from 'react-router-dom'
 import { createOrderAsync, selectCurrentOrder, selectOrderStatus } from '../../order/OrderSlice'
-import { selectCartItems } from '../../cart/CartSlice'
+import { resetCartByUserIdAsync, selectCartItems } from '../../cart/CartSlice'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { SHIPPING, TAXES } from '../../../constants'
 
@@ -40,6 +40,7 @@ export const Checkout = () => {
 
     useEffect(()=>{
         if(currentOrder && currentOrder?._id){
+            dispatch(resetCartByUserIdAsync(loggedInUser?._id))
             navigate(`/order-success/${currentOrder?._id}`)
         }
     },[currentOrder])
