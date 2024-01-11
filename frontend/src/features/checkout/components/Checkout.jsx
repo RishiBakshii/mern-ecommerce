@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addAddressAsync, selectAddressStatus, selectAddresses } from '../../address/AddressSlice'
 import { selectLoggedInUser } from '../../auth/AuthSlice'
 import { Link, useNavigate } from 'react-router-dom'
-import { createOrderAsync, selectOrderStatus } from '../../order/OrderSlice'
+import { createOrderAsync, selectCurrentOrder, selectOrderStatus } from '../../order/OrderSlice'
 import { selectCartItems } from '../../cart/CartSlice'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { SHIPPING, TAXES } from '../../../constants'
@@ -23,9 +23,10 @@ export const Checkout = () => {
     const dispatch=useDispatch()
     const loggedInUser=useSelector(selectLoggedInUser)
     const addressStatus=useSelector(selectAddressStatus)
+    const navigate=useNavigate()
     const cartItems=useSelector(selectCartItems)
     const orderStatus=useSelector(selectOrderStatus)
-
+    const currentOrder=useSelector(selectCurrentOrder)
     const orderTotal=cartItems.reduce((acc,item)=>(item.product.price*item.quantity)+acc,0)
     
     useEffect(()=>{
@@ -36,6 +37,12 @@ export const Checkout = () => {
             alert('Error adding your address')
         }
     },[addressStatus])
+
+    useEffect(()=>{
+        if(currentOrder && currentOrder?._id){
+            navigate(`/order-success/${currentOrder?._id}`)
+        }
+    },[currentOrder])
     
     const handleAddAddress=(data)=>{
         const address={...data,user:loggedInUser._id}
@@ -46,8 +53,7 @@ export const Checkout = () => {
         const order={user:loggedInUser._id,item:cartItems,address:selectedAddress,paymentMode:selectedPaymentMethod,total:orderTotal+SHIPPING+TAXES}
         dispatch(createOrderAsync(order))
     }
-    
-    
+
   return (
     <Stack flexDirection={'row'}  justifyContent={'center'} flexWrap={'wrap'}>
 

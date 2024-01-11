@@ -5,6 +5,7 @@ import { createOrder, getAllOrders, getOrderByUserId, updateOrderById } from './
 const initialState={
     status:"idle",
     orders:[],
+    currentOrder:null,
     errors:null,
     successMessage:null
 }
@@ -32,7 +33,11 @@ export const updateOrderByIdAsync=createAsyncThunk("orders/updateOrderByIdAsync"
 const orderSlice=createSlice({
     name:'orderSlice',
     initialState:initialState,
-    reducers:{},
+    reducers:{
+        resetCurrentOrder:(state)=>{
+            state.currentOrder=null
+        }
+    },
     extraReducers:(builder)=>{
         builder
             .addCase(createOrderAsync.pending,(state)=>{
@@ -41,6 +46,7 @@ const orderSlice=createSlice({
             .addCase(createOrderAsync.fulfilled,(state,action)=>{
                 state.status='fulfilled'
                 state.orders.push(action.payload)
+                state.currentOrder=action.payload
             })
             .addCase(createOrderAsync.rejected,(state,action)=>{
                 state.status='rejected'
@@ -86,11 +92,14 @@ const orderSlice=createSlice({
     }
 })
 
+// exporting reducers
+export const {resetCurrentOrder}=orderSlice.actions
 
 // exporting selectors
 export const selectOrderStatus=(state)=>state.OrderSlice.status
 export const selectOrders=(state)=>state.OrderSlice.orders
 export const selectOrdersErrors=(state)=>state.OrderSlice.errors
 export const selectOrdersSuccessMessage=(state)=>state.OrderSlice.successMessage
+export const selectCurrentOrder=(state)=>state.OrderSlice.currentOrder
 
 export default orderSlice.reducer

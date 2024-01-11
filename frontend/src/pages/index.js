@@ -3,6 +3,7 @@ import { CheckoutPage } from "./CheckoutPage";
 import { ForgotPasswordPage } from "./ForgotPasswordPage";
 import { HomePage } from "./HomePage";
 import { LoginPage } from "./LoginPage";
+import { OrderSuccessPage } from "./OrderSuccessPage";
 import { ProductDetailsPage } from "./ProductDetailsPage";
 import { ResetPasswordPage } from "./ResetPasswordPage";
 import { SignupPage } from "./SignupPage";
@@ -18,4 +19,5 @@ export {
     CartPage,
     UserProfilePage,
     CheckoutPage,
+    OrderSuccessPage,
 }
