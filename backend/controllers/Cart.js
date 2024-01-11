@@ -38,9 +38,22 @@ exports.deleteById=async(req,res)=>{
     try {
         const {id}=req.params
         const deleted=await Cart.findByIdAndDelete(id)
-        res.status(200).json(deleted)
+        res.status(204).json(deleted)
     } catch (error) {
         console.log(error);
         return res.status(500).json({message:'Error deleting cart item, please trying again later'})
     }
+}
+
+exports.deleteByUserId=async(req,res)=>{
+
+    try {
+        const {id}=req.params
+        await Cart.deleteMany({user:id})
+        res.sendStatus(204)
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Some Error occured while resetting your cart"})
+    }
+
 }
