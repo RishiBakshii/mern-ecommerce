@@ -4,9 +4,9 @@ import { Button, Paper, Stack, Typography } from '@mui/material'
 import { selectCartItems } from '../CartSlice'
 import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
+import { SHIPPING, TAXES } from '../../../constants'
 
-export const Cart = () => {
-
+export const Cart = ({checkout}) => {
     const items=useSelector(selectCartItems)
     const subtotal=items.reduce((acc,item)=>item.product.price*item.quantity+acc,0)
     const totalItems=items.reduce((acc,item)=>acc+item.quantity,0)
@@ -19,7 +19,7 @@ export const Cart = () => {
     },[items])
 
   return (
-    <Stack width={'100vw'} height={'calc(100vh - 4rem)'} justifyContent={'flex-start'} alignItems={'center'}>
+    <Stack justifyContent={'flex-start'} alignItems={'center'}>
 
         <Stack p={4} width={'50rem'} rowGap={4}>
 
@@ -35,22 +35,59 @@ export const Cart = () => {
             {/* subtotal */}
             <Stack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
 
-                <Stack>
-                    <Typography variant='h6' fontWeight={500}>Subtotal</Typography>
-                    <Typography>Total items in cart {totalItems}</Typography>
-                    <Typography color={'text.secondary'}>Shipping and taxes will be calculated at checkout.</Typography>
-                </Stack>
+                {
+                    checkout?(
+                        <Stack rowGap={2} width={'100%'} p={2}>
 
-                <Stack>
-                    <Typography variant='h6' fontWeight={500}>${subtotal}</Typography>
-                </Stack>
+                            <Stack flexDirection={'row'} justifyContent={'space-between'}>
+                                <Typography>Subtotal</Typography>
+                                <Typography>${subtotal}</Typography>
+                            </Stack>
+
+                            <Stack flexDirection={'row'} justifyContent={'space-between'}>
+                                <Typography>Shipping</Typography>
+                                <Typography>${SHIPPING}</Typography>
+                            </Stack>
+
+                            <Stack flexDirection={'row'} justifyContent={'space-between'}>
+                                <Typography>Taxes</Typography>
+                                <Typography>${TAXES}</Typography> 
+                            </Stack>
+
+                            <hr/>
+
+                            <Stack flexDirection={'row'} justifyContent={'space-between'}>
+                                <Typography>Total</Typography>
+                                <Typography>${subtotal+SHIPPING+TAXES}</Typography>
+                            </Stack>
+                            
+
+                        </Stack>
+                    ):(
+                        <>
+                            <Stack>
+                                <Typography variant='h6' fontWeight={500}>Subtotal</Typography>
+                                <Typography>Total items in cart {totalItems}</Typography>
+                                <Typography color={'text.secondary'}>Shipping and taxes will be calculated at checkout.</Typography>
+                            </Stack>
+
+                            <Stack>
+                                <Typography variant='h6' fontWeight={500}>${subtotal}</Typography>
+                            </Stack>
+                        </>
+                    )
+                }
+
             </Stack>
             
             {/* checkout or continue shopping */}
+            {
+            !checkout && 
             <Stack>
-                <Button variant='contained'>Checkout</Button>
-                <Typography mt={2} component={Link} to={'/'} textAlign={'center'}>or continue shopping</Typography>
+                    <Button variant='contained' component={Link} to='/checkout'>Checkout</Button>
+                    <Typography mt={2} component={Link} to={'/'} textAlign={'center'}>or continue shopping</Typography>
             </Stack>
+            }
     
         </Stack>
 
