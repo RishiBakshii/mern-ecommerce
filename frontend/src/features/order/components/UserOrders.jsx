@@ -5,6 +5,8 @@ import { selectLoggedInUser } from '../../auth/AuthSlice'
 import { Button, Paper, Stack, Typography } from '@mui/material'
 import {Link} from 'react-router-dom'
 import { addToCartAsync, selectCartItems } from '../../cart/CartSlice'
+import Lottie from 'lottie-react'
+import { noOrdersAnimation } from '../../../assets'
 
 export const UserOrders = () => {
 
@@ -116,6 +118,20 @@ export const UserOrders = () => {
                                     
                             </Stack>
                         ))
+
+                    }
+
+                    {
+                    !orders.length && 
+                        <Stack alignSelf={'center'} rowGap={2}>
+
+                            <Stack width={'30rem'} height={'30rem'}>
+                                <Lottie animationData={noOrdersAnimation}/>
+                            </Stack>
+
+                            <Typography variant='h5' >oh! Looks like you haven't been shopping lately</Typography>
+
+                        </Stack>
                     }
 
             </Stack>
