@@ -48,7 +48,7 @@ export const updateProductById=async(update)=>{
 }
 export const undeleteProductById=async(id)=>{
     try {
-        const res=await axiosi.patch(`/products/${id}`)
+        const res=await axiosi.patch(`/products/undelete/${id}`)
         return res.data
     } catch (error) {
         throw error.response.data

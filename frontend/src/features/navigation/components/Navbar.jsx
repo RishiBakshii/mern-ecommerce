@@ -9,23 +9,21 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link, useNavigate } from 'react-router-dom';
-import { Badge, Stack } from '@mui/material';
+import { Badge, Button, Stack } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { selectUserInfo } from '../../user/UserSlice';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { selectCartItems } from '../../cart/CartSlice';
+import { selectLoggedInUser } from '../../auth/AuthSlice';
 
-const settings = [
-    {name:'Profile',to:"/profile"},
-    {name:'My orders',to:"/orders"},
-    {name:'Logout',to:"/logout"},
-];
+
 
 export const Navbar=()=> {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const userInfo=useSelector(selectUserInfo)
   const cartItems=useSelector(selectCartItems)
+  const loggedInUser=useSelector(selectLoggedInUser)
   const navigate=useNavigate()
 
   const handleOpenUserMenu = (event) => {
@@ -37,6 +35,13 @@ export const Navbar=()=> {
     setAnchorElUser(null);
   };
 
+  const settings = [
+    {name:'Profile',to:loggedInUser?.isAdmin?"/admin/profile":"/profile"},
+    loggedInUser?.isAdmin?{name:'Add new Product',to:"/admin/add-product"}:null,
+    {name:loggedInUser?.isAdmin?'Orders':'My orders',to:loggedInUser?.isAdmin?"/admin/orders":"/orders"},
+    {name:'Logout',to:"/logout"},
+  ];
+
   return (
     <AppBar position="sticky">
         <Toolbar sx={{p:1,height:"4rem",display:"flex",justifyContent:"space-around"}}>
@@ -44,6 +49,8 @@ export const Navbar=()=> {
           <Typography variant="h6" noWrap component="a" href="/" sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none', }}>
             ECOMMERCE
           </Typography>
+
+
 
           <Stack flexDirection={'row'} alignItems={'center'} justifyContent={'center'} columnGap={2}>
             <Tooltip title="Open settings">
@@ -74,6 +81,7 @@ export const Navbar=()=> {
               ))}
             </Menu>
             <Typography variant='h6' fontWeight={300}>Hey👋, {userInfo?.name} </Typography>
+            <Button variant=''>{loggedInUser.isAdmin?"Admin":""}</Button>
 
             {cartItems?.length>0 && <Badge  badgeContent={cartItems.length} color='error'>
               <IconButton onClick={()=>navigate("/cart")}>

@@ -1,4 +1,4 @@
-import {BrowserRouter as Router,Routes,Route} from  'react-router-dom'
+import {BrowserRouter as Router,Routes,Route, Navigate} from  'react-router-dom'
 import { LoginPage, SignupPage, ForgotPasswordPage, ResetPasswordPage, HomePage, ProductDetailsPage, CartPage, UserProfilePage, CheckoutPage, OrderSuccessPage, UserOrdersPage} from './pages';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import { fetchAllBrandsAsync } from './features/brands/BrandSlice';
 import { fetchAllCategoriesAsync } from './features/categories/CategoriesSlice';
 import { fetchCartByUserIdAsync } from './features/cart/CartSlice';
 import {fetchAddressByUserIdAsync} from './features/address/AddressSlice'
+import { AdminDashboardPage } from './pages/AdminDashboardPage';
 
 function App() {
   const dispatch=useDispatch()
@@ -48,21 +49,28 @@ function App() {
         <Route exact path='/reset-password/:userId/:passwordResetToken' element={<ResetPasswordPage/>}/>
 
         {
-          loggedInUser.isAdmin?(""):(
-
+          loggedInUser?.isAdmin?(
+            // admin routes
+            <>
+            <Route exact path='/admin/dashboard' element={<AdminDashboardPage/>}/>
+            <Route exact path='*' element={<Navigate to={'/admin/dashboard'}/>}/>
+            </>
+          ):(
             // user routes
             <>
             <Route exact path='/' element={<Protected><HomePage/></Protected>}/>
-            <Route exact path='/product-details/:id' element={<Protected><ProductDetailsPage/> </Protected>}/>
             <Route exact path='/cart' element={<Protected><CartPage/></Protected>}/>
             <Route exact path='/profile' element={<Protected><UserProfilePage/></Protected>}/>
             <Route exact path='/checkout' element={<Protected><CheckoutPage/></Protected>}/>
             <Route exact path='/order-success/:id' element={<Protected><OrderSuccessPage/></Protected>}/>
             <Route exact path='/orders' element={<Protected><UserOrdersPage/></Protected>}/>
-            <Route exact path='/logout' element={<Protected><Logout/></Protected>}/>
             </>
           )
         }
+
+        {/* common routes */}
+        <Route exact path='/logout' element={<Protected><Logout/></Protected>}/>
+        <Route exact path='/product-details/:id' element={<Protected><ProductDetailsPage/></Protected>}/>
 
       </Routes>
       }
