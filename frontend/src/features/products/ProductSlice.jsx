@@ -4,6 +4,7 @@ import { addProduct, deleteProductById, fetchProductById, fetchProducts, undelet
 
 const initialState={
     status:"idle",
+    productUpdateStatus:'idle',
     products:[],
     selectedProduct:null,
     errors:null,
@@ -50,6 +51,9 @@ const productSlice=createSlice({
         },
         clearSelectedProduct:(state)=>{
             state.selectedProduct=null
+        },
+        resetProductUpdateStatus:(state)=>{
+            state.productUpdateStatus='idle'
         }
     },
     extraReducers:(builder)=>{
@@ -91,15 +95,15 @@ const productSlice=createSlice({
             })
 
             .addCase(updateProductByIdAsync.pending,(state)=>{
-                state.status='pending'
+                state.productUpdateStatus='pending'
             })
             .addCase(updateProductByIdAsync.fulfilled,(state,action)=>{
-                state.status='fullfilled'
+                state.productUpdateStatus='fullfilled'
                 const index=state.products.findIndex((product)=>product._id===action.payload._id)
                 state.products[index]=action.payload
             })
             .addCase(updateProductByIdAsync.rejected,(state,action)=>{
-                state.status='rejected'
+                state.productUpdateStatus='rejected'
                 state.errors=action.error
             })
 
@@ -137,8 +141,9 @@ export const selectProducts=(state)=>state.ProductSlice.products
 export const selectSelectedProduct=(state)=>state.ProductSlice.selectedProduct
 export const selectProductErrors=(state)=>state.ProductSlice.errors
 export const selectProductSuccessMessage=(state)=>state.ProductSlice.successMessage
+export const selectProductUpdateStatus=(state)=>state.ProductSlice.productUpdateStatus
 
 // exporting actions
-export const {clearProductSuccessMessage,clearProductErrors,clearSelectedProduct,resetProductStatus}=productSlice.actions
+export const {clearProductSuccessMessage,clearProductErrors,clearSelectedProduct,resetProductStatus,resetProductUpdateStatus}=productSlice.actions
 
 export default productSlice.reducer

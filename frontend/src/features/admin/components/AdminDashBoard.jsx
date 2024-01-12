@@ -12,6 +12,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { selectCategories } from '../../categories/CategoriesSlice'
 import { ProductCard } from '../../products/components/ProductCard'
 import { deleteProductByIdAsync, fetchProductsAsync, selectProducts, undeleteProductByIdAsync } from '../../products/ProductSlice';
+import { Link } from 'react-router-dom';
 
 export const AdminDashBoard = () => {
 
@@ -125,7 +126,7 @@ export const AdminDashBoard = () => {
                         <ProductCard key={product._id} id={product._id} title={product.title} thumbnail={product.thumbnail} brand={product.brand.name} price={product.price}/>
                     </Stack>
                     <Stack mt={2} flexDirection={'row'} justifySelf={'flex-end'} alignSelf={'flex-end'} columnGap={2}>
-                        <Button variant='contained'>Update</Button>
+                        <Button component={Link} to={`/admin/product-update/${product._id}`} variant='contained'>Update</Button>
                         {
                             product.isDeleted===true?(
                                 <Button onClick={()=>handleProductUnDelete(product._id)} color='error' variant='outlined'>Un-delete</Button>

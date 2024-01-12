@@ -5,6 +5,7 @@ import { HomePage } from "./HomePage";
 import { LoginPage } from "./LoginPage";
 import { OrderSuccessPage } from "./OrderSuccessPage";
 import { ProductDetailsPage } from "./ProductDetailsPage";
+import { ProductUpdatePage } from "./ProductUpdatePage";
 import { ResetPasswordPage } from "./ResetPasswordPage";
 import { SignupPage } from "./SignupPage";
 import { UserOrdersPage } from "./UserOrdersPage";
@@ -21,5 +22,6 @@ export {
     UserProfilePage,
     CheckoutPage,
     OrderSuccessPage,
-    UserOrdersPage
+    UserOrdersPage,
+    ProductUpdatePage,
 }

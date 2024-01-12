@@ -1,5 +1,5 @@
 import {BrowserRouter as Router,Routes,Route, Navigate} from  'react-router-dom'
-import { LoginPage, SignupPage, ForgotPasswordPage, ResetPasswordPage, HomePage, ProductDetailsPage, CartPage, UserProfilePage, CheckoutPage, OrderSuccessPage, UserOrdersPage} from './pages';
+import { LoginPage, SignupPage, ForgotPasswordPage, ResetPasswordPage, HomePage, ProductDetailsPage, CartPage, UserProfilePage, CheckoutPage, OrderSuccessPage, UserOrdersPage, ProductUpdatePage} from './pages';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkAuthAsync, selectIsAuthChecked, selectLoggedInUser } from './features/auth/AuthSlice';
@@ -53,6 +53,7 @@ function App() {
             // admin routes
             <>
             <Route exact path='/admin/dashboard' element={<AdminDashboardPage/>}/>
+            <Route exact path='/admin/product-update/:id' element={<ProductUpdatePage/>}/>
             <Route exact path='*' element={<Navigate to={'/admin/dashboard'}/>}/>
             </>
           ):(
