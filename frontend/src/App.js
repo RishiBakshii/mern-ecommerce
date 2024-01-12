@@ -41,53 +41,28 @@ function App() {
 
       <Routes>
 
+        {/* public routes */}
         <Route exact path='/signup' element={<SignupPage/>}/>
         <Route exact path='/login' element={<LoginPage/>}/>
         <Route exact path='/forgot-password' element={<ForgotPasswordPage/>}/>
         <Route exact path='/reset-password/:userId/:passwordResetToken' element={<ResetPasswordPage/>}/>
-        <Route exact path='/logout' element={<Logout/>}/>
 
-        <Route exact path='/' element={
-          <Protected>
-            <HomePage/>
-          </Protected>
-        }/>
+        {
+          loggedInUser.isAdmin?(""):(
 
-        <Route exact path='/product-details/:id' element={
-          <Protected>
-            <ProductDetailsPage/>
-          </Protected>
-        }/>
-
-        <Route exact path='/cart' element={
-          <Protected>
-            <CartPage/>
-          </Protected>
-        }/>
-
-        <Route exact path='/profile' element={
-          <Protected>
-            <UserProfilePage/>
-          </Protected>
-        }/>
-
-        <Route exact path='/checkout' element={
-          <Protected>
-            <CheckoutPage/>
-          </Protected>
-        }/>
-
-        <Route exact path='/order-success/:id' element={
-          <Protected>
-            <OrderSuccessPage/>
-          </Protected>
-        }/>
-
-        <Route exact path='/orders' element={
-          <Protected>
-            <UserOrdersPage/>
-          </Protected>
-        }/>
+            // user routes
+            <>
+            <Route exact path='/' element={<Protected><HomePage/></Protected>}/>
+            <Route exact path='/product-details/:id' element={<Protected><ProductDetailsPage/> </Protected>}/>
+            <Route exact path='/cart' element={<Protected><CartPage/></Protected>}/>
+            <Route exact path='/profile' element={<Protected><UserProfilePage/></Protected>}/>
+            <Route exact path='/checkout' element={<Protected><CheckoutPage/></Protected>}/>
+            <Route exact path='/order-success/:id' element={<Protected><OrderSuccessPage/></Protected>}/>
+            <Route exact path='/orders' element={<Protected><UserOrdersPage/></Protected>}/>
+            <Route exact path='/logout' element={<Protected><Logout/></Protected>}/>
+            </>
+          )
+        }
 
       </Routes>
       }
