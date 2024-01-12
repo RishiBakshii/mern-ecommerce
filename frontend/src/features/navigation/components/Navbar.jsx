@@ -37,10 +37,11 @@ export const Navbar=()=> {
 
   const settings = [
     {name:'Profile',to:loggedInUser?.isAdmin?"/admin/profile":"/profile"},
-    loggedInUser?.isAdmin?{name:'Add new Product',to:"/admin/add-product"}:null,
     {name:loggedInUser?.isAdmin?'Orders':'My orders',to:loggedInUser?.isAdmin?"/admin/orders":"/orders"},
     {name:'Logout',to:"/logout"},
   ];
+
+  loggedInUser?.isAdmin && settings.push({name:'Add new Product',to:"/admin/add-product"})
 
   return (
     <AppBar position="sticky">
