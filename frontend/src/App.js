@@ -52,9 +52,9 @@ function App() {
           loggedInUser?.isAdmin?(
             // admin routes
             <>
-            <Route exact path='/admin/dashboard' element={<AdminDashboardPage/>}/>
-            <Route exact path='/admin/product-update/:id' element={<ProductUpdatePage/>}/>
-            <Route exact path='/admin/add-product' element={<AddProductPage/>}/>
+            <Route exact path='/admin/dashboard' element={<Protected><AdminDashboardPage/></Protected>}/>
+            <Route exact path='/admin/product-update/:id' element={<Protected><ProductUpdatePage/></Protected>}/>
+            <Route exact path='/admin/add-product' element={<Protected><AddProductPage/></Protected>}/>
             <Route exact path='*' element={<Navigate to={'/admin/dashboard'}/>}/>
             </>
           ):(

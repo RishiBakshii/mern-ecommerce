@@ -83,6 +83,8 @@ export const ProductDetails = () => {
                             isProductAlreadyInCart?(
                                 <Alert severity='info' color={'info'} sx={{bgcolor:theme.palette.primary.light}}>This Product is Already in your cart</Alert>
                             ):(
+
+                                loggedInUser?.isAdmin?null:
                                 <Button variant='contained' onClick={handleAddToCart}>Add to cart</Button>
                             )
                         }

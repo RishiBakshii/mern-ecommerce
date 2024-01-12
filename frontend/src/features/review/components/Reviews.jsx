@@ -101,7 +101,7 @@ export const Reviews = ({productId}) => {
                         </Stack>
 
                     ):(
-                        <Typography variant='h6' fontWeight={400}>Be the one to post review first</Typography>
+                        <Typography variant='h6' fontWeight={400}>{loggedInUser?.isAdmin?"There are no reviews currently":"Be the one to post review first"}</Typography>
                     )
 
                 }
@@ -115,16 +115,20 @@ export const Reviews = ({productId}) => {
             </Stack>
             
             {/* add review form */}
-            <Stack rowGap={3} component={'form'} noValidate onSubmit={handleSubmit(handleAddReview)}>
-                <TextField {...register("comment",{required:true})} sx={{mt:4,width:"40rem"}}  multiline rows={6} fullWidth placeholder='Write a review...'/>
-                
-                <Stack>
-                    <Typography variant='body2'>How much did you like the product?</Typography>
-                    <Rating size='large' value={value} onChange={(e) => setValue(e.target.value)}/>
+            {
+                !loggedInUser?.isAdmin &&
+
+                <Stack rowGap={3} component={'form'} noValidate onSubmit={handleSubmit(handleAddReview)}>
+                    <TextField {...register("comment",{required:true})} sx={{mt:4,width:"40rem"}}  multiline rows={6} fullWidth placeholder='Write a review...'/>
+                    
+                    <Stack>
+                        <Typography variant='body2'>How much did you like the product?</Typography>
+                        <Rating size='large' value={value} onChange={(e) => setValue(e.target.value)}/>
+                    </Stack>
+                    
+                    <LoadingButton loading={reviewStatus==='pending'} type='submit' variant='contained'>Add review</LoadingButton>
                 </Stack>
-                
-                <LoadingButton loading={reviewStatus==='pending'} type='submit' variant='contained'>Add review</LoadingButton>
-            </Stack>
+            }
         </Stack>
   )
 }
