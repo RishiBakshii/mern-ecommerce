@@ -5,6 +5,7 @@ import { addProduct, deleteProductById, fetchProductById, fetchProducts, undelet
 const initialState={
     status:"idle",
     productUpdateStatus:'idle',
+    productAddStatus:"idle",
     products:[],
     selectedProduct:null,
     errors:null,
@@ -54,19 +55,22 @@ const productSlice=createSlice({
         },
         resetProductUpdateStatus:(state)=>{
             state.productUpdateStatus='idle'
+        },
+        resetProductAddStatus:(state)=>{
+            state.productAddStatus='idle'
         }
     },
     extraReducers:(builder)=>{
         builder
             .addCase(addProductAsync.pending,(state)=>{
-                state.status='pending'
+                state.productAddStatus='pending'
             })
             .addCase(addProductAsync.fulfilled,(state,action)=>{
-                state.status='fullfilled'
+                state.productAddStatus='fullfilled'
                 state.products.push(action.payload)
             })
             .addCase(addProductAsync.rejected,(state,action)=>{
-                state.status='rejected'
+                state.productAddStatus='rejected'
                 state.errors=action.error
             })
 
@@ -142,8 +146,9 @@ export const selectSelectedProduct=(state)=>state.ProductSlice.selectedProduct
 export const selectProductErrors=(state)=>state.ProductSlice.errors
 export const selectProductSuccessMessage=(state)=>state.ProductSlice.successMessage
 export const selectProductUpdateStatus=(state)=>state.ProductSlice.productUpdateStatus
+export const selectProductAddStatus=(state)=>state.ProductSlice.productAddStatus
 
 // exporting actions
-export const {clearProductSuccessMessage,clearProductErrors,clearSelectedProduct,resetProductStatus,resetProductUpdateStatus}=productSlice.actions
+export const {clearProductSuccessMessage,clearProductErrors,clearSelectedProduct,resetProductStatus,resetProductUpdateStatus,resetProductAddStatus}=productSlice.actions
 
 export default productSlice.reducer
