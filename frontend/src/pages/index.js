@@ -1,4 +1,5 @@
 import { AddProductPage } from "./AddProductPage";
+import { AdminOrdersPage } from "./AdminOrdersPage";
 import { CartPage } from "./CartPage";
 import { CheckoutPage } from "./CheckoutPage";
 import { ForgotPasswordPage } from "./ForgotPasswordPage";
@@ -26,4 +27,5 @@ export {
     UserOrdersPage,
     ProductUpdatePage,
     AddProductPage,
+    AdminOrdersPage,
 }

@@ -4,6 +4,7 @@ import { createOrder, getAllOrders, getOrderByUserId, updateOrderById } from './
 
 const initialState={
     status:"idle",
+    orderUpdateStatus:"idle",
     orders:[],
     currentOrder:null,
     errors:null,
@@ -36,6 +37,9 @@ const orderSlice=createSlice({
     reducers:{
         resetCurrentOrder:(state)=>{
             state.currentOrder=null
+        },
+        resetOrderUpdateStatus:(state)=>{
+            state.orderUpdateStatus='idle'
         }
     },
     extraReducers:(builder)=>{
@@ -78,22 +82,22 @@ const orderSlice=createSlice({
             })
 
             .addCase(updateOrderByIdAsync.pending,(state)=>{
-                state.status='pending'
+                state.orderUpdateStatus='pending'
             })
             .addCase(updateOrderByIdAsync.fulfilled,(state,action)=>{
-                state.status='fulfilled'
+                state.orderUpdateStatus='fulfilled'
                 const index=state.orders.findIndex((order)=>order._id===action.payload._id)
                 state.orders[index]=action.payload
             })
             .addCase(updateOrderByIdAsync.rejected,(state,action)=>{
-                state.status='rejected'
+                state.orderUpdateStatus='rejected'
                 state.errors=action.error
             })
     }
 })
 
 // exporting reducers
-export const {resetCurrentOrder}=orderSlice.actions
+export const {resetCurrentOrder,resetOrderUpdateStatus}=orderSlice.actions
 
 // exporting selectors
 export const selectOrderStatus=(state)=>state.OrderSlice.status
@@ -101,5 +105,6 @@ export const selectOrders=(state)=>state.OrderSlice.orders
 export const selectOrdersErrors=(state)=>state.OrderSlice.errors
 export const selectOrdersSuccessMessage=(state)=>state.OrderSlice.successMessage
 export const selectCurrentOrder=(state)=>state.OrderSlice.currentOrder
+export const selectOrderUpdateStatus=(state)=>state.OrderSlice.orderUpdateStatus
 
 export default orderSlice.reducer
