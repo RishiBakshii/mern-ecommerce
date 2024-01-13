@@ -9,7 +9,7 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link, useNavigate } from 'react-router-dom';
-import { Badge, Button, Stack } from '@mui/material';
+import { Badge, Button, Chip, Stack } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { selectUserInfo } from '../../user/UserSlice';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -40,8 +40,6 @@ export const Navbar=()=> {
     {name:loggedInUser?.isAdmin?'Orders':'My orders',to:loggedInUser?.isAdmin?"/admin/orders":"/orders"},
     {name:'Logout',to:"/logout"},
   ];
-
-  loggedInUser?.isAdmin && settings.push({name:'Add new Product',to:"/admin/add-product"})
 
   return (
     <AppBar position="sticky">
@@ -75,6 +73,15 @@ export const Navbar=()=> {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
+
+              {
+                loggedInUser?.isAdmin && 
+              
+                <MenuItem  onClick={handleCloseUserMenu}>
+                  <Typography component={Link} color={'text.primary'} sx={{textDecoration:"none"}} to="/admin/add-product" textAlign="center">Add new Product</Typography>
+                </MenuItem>
+              
+              }
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography component={Link} color={'text.primary'} sx={{textDecoration:"none"}} to={setting.to} textAlign="center">{setting.name}</Typography>
