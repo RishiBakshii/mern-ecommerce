@@ -16,6 +16,8 @@ exports.getAll = async (req, res) => {
     try {
         const filter={}
         const sort={}
+        let skip=0
+        let limit=0
 
         if(req.query.brand){
             filter.brand={$in:req.query.brand}
@@ -29,7 +31,20 @@ exports.getAll = async (req, res) => {
             sort[req.query.sort]=req.query.order?req.query.order==='asc'?1:-1:1
         }
 
-        const results=await Product.find(filter).sort(sort).populate("brand").exec()
+        if(req.query.page && req.query.limit){
+
+            const pageSize=req.query.limit
+            const page=req.query.page
+
+            skip=pageSize*(page-1)
+            limit=pageSize
+        }
+
+        const totalDocs=await Product.find(filter).sort(sort).populate("brand").countDocuments().exec()
+        const results=await Product.find(filter).sort(sort).populate("brand").skip(skip).limit(limit).exec()
+
+        res.set("X-Total-Count",totalDocs)
+
         res.status(200).json(results)
     
     } catch (error) {
