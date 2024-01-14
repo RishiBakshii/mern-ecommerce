@@ -15,8 +15,23 @@ exports.create=async(req,res)=>{
 exports.getByProductId=async(req,res)=>{
     try {
         const {id}=req.params
-        const result=await Review.find({product:id}).populate('user')
+        let skip=0
+        let limit=0
+
+        if(req.query.page && req.query.limit){
+            const pageSize=req.query.limit
+            const page=req.query.page
+
+            skip=pageSize*(page-1)
+            limit=pageSize
+        }
+
+        const totalDocs=await Review.find({product:id}).countDocuments().exec()
+        const result=await Review.find({product:id}).skip(skip).limit(limit).populate('user').exec()
+
+        res.set("X-total-Count",totalDocs)
         res.status(200).json(result)
+
     } catch (error) {
         console.log(error);
         res.status(500).json({message:'Error getting reviews for this product, please try again later'})
