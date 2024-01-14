@@ -23,9 +23,14 @@ export const fetchProducts=async(filters)=>{
         })
     }
 
+    if(filters.pagination){
+        queryString+=`page=${filters.pagination.page}&limit=${filters.pagination.limit}`
+    }
+
     try {
         const res=await axiosi.get(`/products?${queryString}`)
-        return res.data
+        const totalResults=await res.headers.get("X-Total-Count")
+        return {data:res.data,totalResults:totalResults}
     } catch (error) {
         throw error.response.data
     }

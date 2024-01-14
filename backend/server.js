@@ -23,7 +23,7 @@ connectToDB()
 
 
 // middlewares
-server.use(cors({credentials:true,origin:process.env.ORIGIN}))
+server.use(cors({credentials:true,origin:process.env.ORIGIN,exposedHeaders:['X-Total-Count']}))
 server.use(express.json())
 server.use(cookieParser())
 server.use(morgan("tiny"))

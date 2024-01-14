@@ -7,6 +7,7 @@ const initialState={
     productUpdateStatus:'idle',
     productAddStatus:"idle",
     products:[],
+    totalResults:0,
     selectedProduct:null,
     errors:null,
     successMessage:null
@@ -79,7 +80,8 @@ const productSlice=createSlice({
             })
             .addCase(fetchProductsAsync.fulfilled,(state,action)=>{
                 state.status='fullfilled'
-                state.products=action.payload
+                state.products=action.payload.data
+                state.totalResults=action.payload.totalResults
             })
             .addCase(fetchProductsAsync.rejected,(state,action)=>{
                 state.status='rejected'
@@ -142,6 +144,7 @@ const productSlice=createSlice({
 // exporting selectors
 export const selectProductStatus=(state)=>state.ProductSlice.status
 export const selectProducts=(state)=>state.ProductSlice.products
+export const selectProductTotalResults=(state)=>state.ProductSlice.totalResults
 export const selectSelectedProduct=(state)=>state.ProductSlice.selectedProduct
 export const selectProductErrors=(state)=>state.ProductSlice.errors
 export const selectProductSuccessMessage=(state)=>state.ProductSlice.successMessage

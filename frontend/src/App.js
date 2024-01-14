@@ -6,7 +6,6 @@ import { checkAuthAsync, selectIsAuthChecked, selectLoggedInUser } from './featu
 import {Protected} from './features/auth/components/Protected'
 import { Logout } from './features/auth/components/Logout';
 import { fetchLoggedInUserByIdAsync } from './features/user/UserSlice';
-import { fetchProductsAsync } from './features/products/ProductSlice';
 import { fetchAllBrandsAsync } from './features/brands/BrandSlice';
 import { fetchAllCategoriesAsync } from './features/categories/CategoriesSlice';
 import { fetchCartByUserIdAsync } from './features/cart/CartSlice';
@@ -27,7 +26,6 @@ function App() {
     as while login and signup only the bare-minimum information is sent by the server */
     if(loggedInUser){
       dispatch(fetchLoggedInUserByIdAsync(loggedInUser?._id))
-      dispatch(fetchProductsAsync({}))
       dispatch(fetchAllBrandsAsync())
       dispatch(fetchAllCategoriesAsync())
       dispatch(fetchCartByUserIdAsync(loggedInUser?._id))

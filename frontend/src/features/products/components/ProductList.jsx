@@ -1,7 +1,7 @@
-import { Grid, Stack, Typography } from '@mui/material'
+import { Box, Grid, Stack, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchProductsAsync, selectProducts } from '../ProductSlice'
+import { fetchProductsAsync, selectProductTotalResults, selectProducts } from '../ProductSlice'
 import { ProductCard } from './ProductCard'
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -12,12 +12,17 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { selectCategories } from '../../categories/CategoriesSlice'
+import Pagination from '@mui/material/Pagination';
+import { ITEMS_PER_PAGE } from '../../../constants'
 
 export const ProductList = () => {
     const [filters,setFilters]=useState({})
+    const [page,setPage]=useState(1)
+
     const brands=useSelector(selectBrands)
     const categories=useSelector(selectCategories)
     const products=useSelector(selectProducts)
+    const totalResults=useSelector(selectProductTotalResults)
     const dispatch=useDispatch()
 
     const handleBrandFilters=(e)=>{
@@ -41,10 +46,16 @@ export const ProductList = () => {
         setFilters({...filters,category:filterArray})
     }
 
+    useEffect(()=>{
+        setPage(1)
+    },[totalResults])
 
     useEffect(()=>{
-        dispatch(fetchProductsAsync(filters))
-    },[filters])
+        const finalFilters={...filters}
+        finalFilters['pagination']={page:page,limit:ITEMS_PER_PAGE}
+        console.log(finalFilters);
+        dispatch(fetchProductsAsync(finalFilters))
+    },[filters,page])
 
 
   return (
@@ -107,13 +118,22 @@ export const ProductList = () => {
         </Stack>
 
         {/* products */}
-        <Grid gap={2} container flex={1}>
-            {
-                products.map((product)=>(
-                    <ProductCard key={product._id} id={product._id} title={product.title} thumbnail={product.thumbnail} brand={product.brand.name} price={product.price}/>
-                ))
-            }
-        </Grid>
+        <Stack flex={1} rowGap={4}>
+
+            <Grid gap={2} container >
+                {
+                    products.map((product)=>(
+                        <ProductCard key={product._id} id={product._id} title={product.title} thumbnail={product.thumbnail} brand={product.brand.name} price={product.price}/>
+                    ))
+                }
+            </Grid>
+
+            <Stack alignSelf={'flex-end'} mr={5} rowGap={2}>
+                <Pagination size='large' page={page}  onChange={(e,page)=>setPage(page)} count={Math.ceil(totalResults/ITEMS_PER_PAGE)} variant="outlined" shape="rounded" />
+                <Typography textAlign={'center'}>Showing {(page-1)*ITEMS_PER_PAGE+1} to {page*ITEMS_PER_PAGE>totalResults?totalResults:page*ITEMS_PER_PAGE} of {totalResults} results</Typography>
+            </Stack>    
+        
+        </Stack>
 
     </Stack>
   )
