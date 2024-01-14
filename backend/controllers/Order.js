@@ -24,8 +24,22 @@ exports.getByUserId=async(req,res)=>{
 
 exports.getAll = async (req, res) => {
     try {
-        const results=await Order.find({})
+        let skip=0
+        let limit=0
+
+        if(req.query.page && req.query.limit){
+            const pageSize=req.query.limit
+            const page=req.query.page
+            skip=pageSize*(page-1)
+            limit=pageSize
+        }
+
+        const totalDocs=await Order.find({}).countDocuments().exec()
+        const results=await Order.find({}).skip(skip).limit(limit).exec()
+
+        res.header("X-Total-Count",totalDocs)
         res.status(200).json(results)
+
     } catch (error) {
         console.log(error);
         res.status(500).json({message:'Error fetching orders, please try again later'})
