@@ -1,4 +1,4 @@
-import { Box, Grid, Stack, Typography } from '@mui/material'
+import { Box, FormControl, Grid, InputLabel, MenuItem, Select, Stack, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProductsAsync, selectProductTotalResults, selectProducts } from '../ProductSlice'
@@ -15,9 +15,16 @@ import { selectCategories } from '../../categories/CategoriesSlice'
 import Pagination from '@mui/material/Pagination';
 import { ITEMS_PER_PAGE } from '../../../constants'
 
+
+const sortOptions=[
+    {name:"Price: low to high",sort:"price",order:"asc"},
+    {name:"Price: high to low",sort:"price",order:"desc"},
+]
+
 export const ProductList = () => {
     const [filters,setFilters]=useState({})
     const [page,setPage]=useState(1)
+    const [sort,setSort]=useState(null)
 
     const brands=useSelector(selectBrands)
     const categories=useSelector(selectCategories)
@@ -50,12 +57,16 @@ export const ProductList = () => {
         setPage(1)
     },[totalResults])
 
+
     useEffect(()=>{
         const finalFilters={...filters}
+
         finalFilters['pagination']={page:page,limit:ITEMS_PER_PAGE}
-        console.log(finalFilters);
+        finalFilters['sort']=sort
+
         dispatch(fetchProductsAsync(finalFilters))
-    },[filters,page])
+        
+    },[filters,page,sort])
 
 
   return (
@@ -119,7 +130,29 @@ export const ProductList = () => {
 
         {/* products */}
         <Stack flex={1} rowGap={4}>
+            
+            {/* sort options */}
+            <Stack alignSelf={'flex-end'} width={'12rem'}>
+                <FormControl fullWidth>
+                        <InputLabel id="sort-dropdown">Sort</InputLabel>
+                        <Select
+                            variant='filled'
+                            labelId="sort-dropdown"
+                            label="Sort"
+                            onChange={(e)=>setSort(e.target.value)}
+                            value={sort}
+                        >
+                            <MenuItem bgcolor='text.secondary' value={null}>Reset</MenuItem>
+                            {
+                                sortOptions.map((option)=>(
+                                    <MenuItem key={option} value={option}>{option.name}</MenuItem>
+                                ))
+                            }
+                        </Select>
+                </FormControl>
+            </Stack>
 
+            {/* product grid */}
             <Grid gap={2} container >
                 {
                     products.map((product)=>(
@@ -127,7 +160,8 @@ export const ProductList = () => {
                     ))
                 }
             </Grid>
-
+            
+            {/* pagination */}
             <Stack alignSelf={'flex-end'} mr={5} rowGap={2}>
                 <Pagination size='large' page={page}  onChange={(e,page)=>setPage(page)} count={Math.ceil(totalResults/ITEMS_PER_PAGE)} variant="outlined" shape="rounded" />
                 <Typography textAlign={'center'}>Showing {(page-1)*ITEMS_PER_PAGE+1} to {page*ITEMS_PER_PAGE>totalResults?totalResults:page*ITEMS_PER_PAGE} of {totalResults} results</Typography>
