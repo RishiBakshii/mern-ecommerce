@@ -2,7 +2,7 @@ const Wishlist = require("../models/Wishlist")
 
 exports.create=async(req,res)=>{
     try {
-        const created=await new Wishlist(req.body).populate("product")
+        const created=await new Wishlist(req.body).populate({path:"product",populate:["brand"]})
         await created.save()
         res.status(201).json(created)
     } catch (error) {
@@ -24,7 +24,7 @@ exports.getByUserId=async(req,res)=>{
             limit=pageSize
         }
 
-        const result=await Wishlist.find({user:id}).skip(skip).limit(limit).populate("product")
+        const result=await Wishlist.find({user:id}).skip(skip).limit(limit).populate({path:"product",populate:['brand']})
         const totalResults=await Wishlist.find({user:id}).countDocuments().exec()
 
         res.set("X-Total-Count",totalResults)
