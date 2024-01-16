@@ -8,6 +8,7 @@ import CartSlice from '../features/cart/CartSlice'
 import AddressSlice from '../features/address/AddressSlice'
 import ReviewSlice from '../features/review/ReviewSlice'
 import OrderSlice from '../features/order/OrderSlice'
+import WishlistSlice from '../features/wishlist/WishlistSlice'
 
 export const store=configureStore({
     reducer:{
@@ -20,5 +21,6 @@ export const store=configureStore({
         AddressSlice,
         ReviewSlice,
         OrderSlice,
+        WishlistSlice
     }
 })
