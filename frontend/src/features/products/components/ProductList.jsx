@@ -1,4 +1,4 @@
-import { Box, FormControl, Grid, InputLabel, MenuItem, Select, Stack, Typography } from '@mui/material'
+import { Badge, Box, Chip, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, Stack, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProductsAsync, selectProductTotalResults, selectProducts } from '../ProductSlice'
@@ -14,7 +14,11 @@ import Checkbox from '@mui/material/Checkbox';
 import { selectCategories } from '../../categories/CategoriesSlice'
 import Pagination from '@mui/material/Pagination';
 import { ITEMS_PER_PAGE } from '../../../constants'
-
+import {createWishlistItemAsync, deleteWishlistItemByIdAsync, resetWishlistItemAddStatus, resetWishlistItemDeleteStatus, selectWishlistItemAddStatus, selectWishlistItemDeleteStatus, selectWishlistItems} from '../../wishlist/WishlistSlice'
+import LoyaltyIcon from '@mui/icons-material/Loyalty';
+import { Link } from 'react-router-dom'
+import {selectLoggedInUser} from '../../auth/AuthSlice'
+import {toast} from 'react-toastify'
 
 const sortOptions=[
     {name:"Price: low to high",sort:"price",order:"asc"},
@@ -30,6 +34,12 @@ export const ProductList = () => {
     const categories=useSelector(selectCategories)
     const products=useSelector(selectProducts)
     const totalResults=useSelector(selectProductTotalResults)
+    const loggedInUser=useSelector(selectLoggedInUser)
+
+    const wishlistItems=useSelector(selectWishlistItems)
+    const wishlistItemAddStatus=useSelector(selectWishlistItemAddStatus)
+    const wishlistItemDeleteStatus=useSelector(selectWishlistItemDeleteStatus)
+
     const dispatch=useDispatch()
 
     const handleBrandFilters=(e)=>{
@@ -67,6 +77,46 @@ export const ProductList = () => {
         dispatch(fetchProductsAsync(finalFilters))
         
     },[filters,page,sort])
+
+
+    const handleAddRemoveFromWishlist=(e,productId)=>{
+        if(e.target.checked){
+            const data={user:loggedInUser?._id,product:productId}
+            dispatch(createWishlistItemAsync(data))
+        }
+
+        else if(!e.target.checked){
+            const index=wishlistItems.findIndex((item)=>item.product._id===productId)
+            dispatch(deleteWishlistItemByIdAsync(wishlistItems[index]._id));
+        }
+    }
+
+    useEffect(()=>{
+        if(wishlistItemAddStatus==='fulfilled'){
+            toast.success("Product added to wishlist")
+        }
+        else if(wishlistItemAddStatus==='rejected'){
+            toast.error("Error adding product to wishlist, please try again later")
+        }
+
+        return ()=>{
+            dispatch(resetWishlistItemAddStatus())
+        }
+
+    },[wishlistItemAddStatus])
+
+    useEffect(()=>{
+        if(wishlistItemDeleteStatus==='fulfilled'){
+            toast.success("Product removed from wishlist")
+        }
+        else if(wishlistItemDeleteStatus==='rejected'){
+            toast.error("Error removing product from wishlist, please try again later")
+        }
+
+        return ()=>{
+            dispatch(resetWishlistItemDeleteStatus())
+        }
+    },[wishlistItemDeleteStatus])
 
 
   return (
@@ -131,32 +181,51 @@ export const ProductList = () => {
         {/* products */}
         <Stack flex={1} rowGap={4}>
             
-            {/* sort options */}
-            <Stack alignSelf={'flex-end'} width={'12rem'}>
-                <FormControl fullWidth>
-                        <InputLabel id="sort-dropdown">Sort</InputLabel>
-                        <Select
-                            variant='filled'
-                            labelId="sort-dropdown"
-                            label="Sort"
-                            onChange={(e)=>setSort(e.target.value)}
-                            value={sort}
-                        >
-                            <MenuItem bgcolor='text.secondary' value={null}>Reset</MenuItem>
-                            {
-                                sortOptions.map((option)=>(
-                                    <MenuItem key={option} value={option}>{option.name}</MenuItem>
-                                ))
-                            }
-                        </Select>
-                </FormControl>
+            <Stack flexDirection={'row'} justifyContent={'flex-end'} alignItems={'center'} columnGap={5}>
+                
+                {/* wishlist option */}
+                {
+                    !loggedInUser?.isAdmin &&
+
+                    wishlistItems?.length>0?
+                
+                <Stack>
+                    <Badge badgeContent={wishlistItems?.length} color='info'>
+                        <IconButton component={Link} to={"/wishlist"}><LoyaltyIcon fontSize='large' sx={{color:"pink"}}/></IconButton>
+                    </Badge>
+                </Stack>:''
+ 
+                }
+
+            
+                {/* sort options */}
+                <Stack alignSelf={'flex-end'} width={'12rem'}>
+                    <FormControl fullWidth>
+                            <InputLabel id="sort-dropdown">Sort</InputLabel>
+                            <Select
+                                variant='standard'
+                                labelId="sort-dropdown"
+                                label="Sort"
+                                onChange={(e)=>setSort(e.target.value)}
+                                value={sort}
+                            >
+                                <MenuItem bgcolor='text.secondary' value={null}>Reset</MenuItem>
+                                {
+                                    sortOptions.map((option)=>(
+                                        <MenuItem key={option} value={option}>{option.name}</MenuItem>
+                                    ))
+                                }
+                            </Select>
+                    </FormControl>
+                </Stack>
+            
             </Stack>
 
             {/* product grid */}
             <Grid gap={2} container >
                 {
                     products.map((product)=>(
-                        <ProductCard key={product._id} id={product._id} title={product.title} thumbnail={product.thumbnail} brand={product.brand.name} price={product.price}/>
+                        <ProductCard key={product._id} id={product._id} title={product.title} thumbnail={product.thumbnail} brand={product.brand.name} price={product.price} handleAddRemoveFromWishlist={handleAddRemoveFromWishlist}/>
                     ))
                 }
             </Grid>

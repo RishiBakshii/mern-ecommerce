@@ -14,7 +14,7 @@ root.render(
     <ThemeProvider theme={theme}>
         <Provider store={store}>
               <App />
-              <ToastContainer position='top-right'/>
+              <ToastContainer position='top-right' autoClose={1500} closeOnClick/>
         </Provider>
     </ThemeProvider>
   </React.StrictMode>
