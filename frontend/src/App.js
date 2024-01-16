@@ -11,6 +11,7 @@ import { fetchAllCategoriesAsync } from './features/categories/CategoriesSlice';
 import { fetchCartByUserIdAsync } from './features/cart/CartSlice';
 import {fetchAddressByUserIdAsync} from './features/address/AddressSlice'
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
+import {fetchWishlistByUserIdAsync} from './features/wishlist/WishlistSlice'
 
 function App() {
   const dispatch=useDispatch()
@@ -30,6 +31,7 @@ function App() {
       dispatch(fetchAllCategoriesAsync())
       dispatch(fetchCartByUserIdAsync(loggedInUser?._id))
       dispatch(fetchAddressByUserIdAsync(loggedInUser?._id))
+      dispatch(fetchWishlistByUserIdAsync(loggedInUser?._id))
     }
   },[loggedInUser])
 
