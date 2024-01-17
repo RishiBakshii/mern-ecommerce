@@ -4,6 +4,8 @@ import {addToCart,fetchCartByUserId,updateCartItemById,deleteCartItemById, reset
 const initialState={
     status:"idle",
     items:[],
+    cartItemAddStatus:"idle",
+    cartItemRemoveStatus:"idle",
     errors:null,
     successMessage:null
 }
@@ -32,18 +34,25 @@ export const resetCartByUserIdAsync=createAsyncThunk('cart/resetCartByUserIdAsyn
 const cartSlice=createSlice({
     name:"cartSlice",
     initialState:initialState,
-    reducers:{},
+    reducers:{
+        resetCartItemAddStatus:(state)=>{
+            state.cartItemAddStatus='idle'
+        },
+        resetCartItemRemoveStatus:(state)=>{
+            state.cartItemRemoveStatus='idle'
+        }
+    },
     extraReducers:(builder)=>{
         builder
             .addCase(addToCartAsync.pending,(state)=>{
-                state.status='pending'
+                state.cartItemAddStatus='pending'
             })
             .addCase(addToCartAsync.fulfilled,(state,action)=>{
-                state.status='fulfilled'
+                state.cartItemAddStatus='fulfilled'
                 state.items.push(action.payload)
             })
             .addCase(addToCartAsync.rejected,(state,action)=>{
-                state.status='rejected'
+                state.cartItemAddStatus='rejected'
                 state.errors=action.error
             })
 
@@ -73,14 +82,14 @@ const cartSlice=createSlice({
             })
 
             .addCase(deleteCartItemByIdAsync.pending,(state)=>{
-                state.status='pending'
+                state.cartItemRemoveStatus='pending'
             })
             .addCase(deleteCartItemByIdAsync.fulfilled,(state,action)=>{
-                state.status='fulfilled'
+                state.cartItemRemoveStatus='fulfilled'
                 state.items=state.items.filter((item)=>item._id!==action.payload._id)
             })
             .addCase(deleteCartItemByIdAsync.rejected,(state,action)=>{
-                state.status='rejected'
+                state.cartItemRemoveStatus='rejected'
                 state.errors=action.error
             })
 
@@ -103,6 +112,10 @@ export const selectCartStatus=(state)=>state.CartSlice.status
 export const selectCartItems=(state)=>state.CartSlice.items
 export const selectCartErrors=(state)=>state.CartSlice.errors
 export const selectCartSuccessMessage=(state)=>state.CartSlice.successMessage
+export const selectCartItemAddStatus=(state)=>state.CartSlice.cartItemAddStatus
+export const selectCartItemRemoveStatus=(state)=>state.CartSlice.cartItemRemoveStatus
 
+// exporting reducers
+export const {resetCartItemAddStatus,resetCartItemRemoveStatus}=cartSlice.actions
 
 export default cartSlice.reducer
