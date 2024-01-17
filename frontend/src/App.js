@@ -29,9 +29,12 @@ function App() {
       dispatch(fetchLoggedInUserByIdAsync(loggedInUser?._id))
       dispatch(fetchAllBrandsAsync())
       dispatch(fetchAllCategoriesAsync())
-      dispatch(fetchCartByUserIdAsync(loggedInUser?._id))
-      dispatch(fetchAddressByUserIdAsync(loggedInUser?._id))
-      dispatch(fetchWishlistByUserIdAsync(loggedInUser?._id))
+
+      if(!loggedInUser.isAdmin){
+        dispatch(fetchCartByUserIdAsync(loggedInUser?._id))
+        dispatch(fetchAddressByUserIdAsync(loggedInUser?._id))
+        dispatch(fetchWishlistByUserIdAsync(loggedInUser?._id))
+      }
     }
   },[loggedInUser])
 
