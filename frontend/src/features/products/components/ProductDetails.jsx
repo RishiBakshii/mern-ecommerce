@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { fetchProductByIdAsync, selectSelectedProduct } from '../ProductSlice'
 import { Alert,Button,Rating, Stack, TextField, Typography, useTheme } from '@mui/material'
-import { addToCartAsync, selectCartItems } from '../../cart/CartSlice'
+import { addToCartAsync, resetCartItemAddStatus, selectCartItemAddStatus, selectCartItems } from '../../cart/CartSlice'
 import { selectLoggedInUser } from '../../auth/AuthSlice'
 import { createReviewAsync, fetchReviewsByProductIdAsync, selectReviewStatus,} from '../../review/ReviewSlice'
 import { useForm } from "react-hook-form"
 import {LoadingButton} from '@mui/lab'
 import { Reviews } from '../../review/components/Reviews'
+import {toast} from 'react-toastify'
 
 
 export const ProductDetails = () => {
@@ -20,6 +21,7 @@ export const ProductDetails = () => {
     const cartItems=useSelector(selectCartItems)
     const theme=useTheme()
     const reviewStatus=useSelector(selectReviewStatus)
+    const cartItemAddStatus=useSelector(selectCartItemAddStatus)
     
 
     const isProductAlreadyInCart=cartItems.some((item)=>item.product._id===id)
@@ -37,6 +39,23 @@ export const ProductDetails = () => {
             dispatch(fetchReviewsByProductIdAsync(id))
         }
     },[id])
+
+
+    useEffect(()=>{
+
+        if(cartItemAddStatus==='fulfilled'){
+            toast.success("Product added to cart")
+        }
+
+        else if(cartItemAddStatus==='rejected'){
+            toast.error('Error adding product to cart, please try again later')
+        }
+
+        return ()=>{
+            dispatch(resetCartItemAddStatus())
+        }
+
+    },[cartItemAddStatus])
     
 
 
