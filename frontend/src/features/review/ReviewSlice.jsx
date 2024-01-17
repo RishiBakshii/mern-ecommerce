@@ -4,6 +4,9 @@ import { createReview, deleteReviewById, fetchReviewsByProductId, updateReviewBy
 
 const initialState={
     status:"idle",
+    reviewAddStatus:"idle",
+    reviewDeleteStatus:"idle",
+    reviewUpdateStatus:"idle",
     reviews:[],
     errors:null,
     successMessage:null
@@ -32,18 +35,28 @@ export const deleteReviewByIdAsync=createAsyncThunk('reviews/deleteReviewByIdAsy
 const reviewSlice=createSlice({
     name:"reviewSlice",
     initialState:initialState,
-    reducers:{},
+    reducers:{
+        resetReviewAddStatus:(state)=>{
+            state.reviewAddStatus='idle'
+        },
+        resetReviewDeleteStatus:(state)=>{
+            state.reviewDeleteStatus='idle'
+        },
+        resetReviewUpdateStatus:(state)=>{
+            state.reviewUpdateStatus='idle'
+        }
+    },
     extraReducers:(builder)=>{
         builder
             .addCase(createReviewAsync.pending,(state)=>{
-                state.status='pending'
+                state.reviewAddStatus='pending'
             })
             .addCase(createReviewAsync.fulfilled,(state,action)=>{
-                state.status='fulfilled'
+                state.reviewAddStatus='fulfilled'
                 state.reviews.push(action.payload)
             })
             .addCase(createReviewAsync.rejected,(state,action)=>{
-                state.status='rejected'
+                state.reviewAddStatus='rejected'
                 state.errors=action.error
             })
 
@@ -60,27 +73,27 @@ const reviewSlice=createSlice({
             })
 
             .addCase(updateReviewByIdAsync.pending,(state)=>{
-                state.status='pending'
+                state.reviewUpdateStatus='pending'
             })
             .addCase(updateReviewByIdAsync.fulfilled,(state,action)=>{
-                state.status='fulfilled'
+                state.reviewUpdateStatus='fulfilled'
                 const index=state.reviews.findIndex((review)=>review._id===action.payload._id)
                 state.reviews[index]=action.payload
             })
             .addCase(updateReviewByIdAsync.rejected,(state,action)=>{
-                state.status='rejected'
+                state.reviewUpdateStatus='rejected'
                 state.errors=action.error
             })
 
             .addCase(deleteReviewByIdAsync.pending,(state)=>{
-                state.status='pending'
+                state.reviewDeleteStatus='pending'
             })
             .addCase(deleteReviewByIdAsync.fulfilled,(state,action)=>{
-                state.status='fulfilled'
+                state.reviewDeleteStatus='fulfilled'
                 state.reviews=state.reviews.filter((review)=>review._id!==action.payload._id)
             })
             .addCase(deleteReviewByIdAsync.rejected,(state,action)=>{
-                state.status='rejected'
+                state.reviewDeleteStatus='rejected'
                 state.errors=action.error
             })
     }
@@ -92,5 +105,11 @@ export const selectReviewStatus=(state)=>state.ReviewSlice.status
 export const selectReviews=(state)=>state.ReviewSlice.reviews
 export const selectReviewErrors=(state)=>state.ReviewSlice.errors
 export const selectReviewSuccessMessage=(state)=>state.ReviewSlice.successMessage
+export const selectReviewAddStatus=(state)=>state.ReviewSlice.reviewAddStatus
+export const selectReviewDeleteStatus=(state)=>state.ReviewSlice.reviewDeleteStatus
+export const selectReviewUpdateStatus=(state)=>state.ReviewSlice.reviewUpdateStatus
+
+// exporting actions
+export const {resetReviewAddStatus,resetReviewDeleteStatus,resetReviewUpdateStatus}=reviewSlice.actions
 
 export default reviewSlice.reducer
