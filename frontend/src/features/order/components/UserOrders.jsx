@@ -4,9 +4,10 @@ import { getOrderByUserIdAsync, selectOrders } from '../OrderSlice'
 import { selectLoggedInUser } from '../../auth/AuthSlice'
 import { Button, Paper, Stack, Typography } from '@mui/material'
 import {Link} from 'react-router-dom'
-import { addToCartAsync, selectCartItems } from '../../cart/CartSlice'
+import { addToCartAsync, resetCartItemAddStatus, selectCartItemAddStatus, selectCartItems } from '../../cart/CartSlice'
 import Lottie from 'lottie-react'
 import { noOrdersAnimation } from '../../../assets'
+import { toast } from 'react-toastify'
 
 export const UserOrders = () => {
 
@@ -15,9 +16,29 @@ export const UserOrders = () => {
     const orders=useSelector(selectOrders)
     const cartItems=useSelector(selectCartItems)
 
+    const cartItemAddStatus=useSelector(selectCartItemAddStatus)
+    
+
     useEffect(()=>{
         dispatch(getOrderByUserIdAsync(loggedInUser?._id))
     },[dispatch])
+
+
+    useEffect(()=>{
+
+        if(cartItemAddStatus==='fulfilled'){
+            toast.success("Product added to cart")
+        }
+
+        else if(cartItemAddStatus==='rejected'){
+            toast.error('Error adding product to cart, please try again later')
+        }
+
+        return ()=>{
+            dispatch(resetCartItemAddStatus())
+        }
+
+    },[cartItemAddStatus])
 
 
     const handleAddToCart=(product)=>{
