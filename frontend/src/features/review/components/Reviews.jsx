@@ -1,11 +1,12 @@
 import { LinearProgress, Rating, Stack, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { createReviewAsync, selectReviewStatus, selectReviews } from '../ReviewSlice'
+import { createReviewAsync, resetReviewAddStatus, resetReviewDeleteStatus, resetReviewUpdateStatus, selectReviewAddStatus, selectReviewDeleteStatus, selectReviewStatus, selectReviewUpdateStatus, selectReviews } from '../ReviewSlice'
 import { ReviewItem } from './ReviewItem'
 import { LoadingButton } from '@mui/lab'
 import { useForm } from 'react-hook-form'
 import { selectLoggedInUser } from '../../auth/AuthSlice'
+import {toast} from 'react-toastify'
 
 export const Reviews = ({productId}) => {
 
@@ -16,8 +17,53 @@ export const Reviews = ({productId}) => {
     const loggedInUser=useSelector(selectLoggedInUser)
     const reviewStatus=useSelector(selectReviewStatus)
 
+    const reviewAddStatus=useSelector(selectReviewAddStatus)
+    const reviewDeleteStatus=useSelector(selectReviewDeleteStatus)
+    const reviewUpdateStatus=useSelector(selectReviewUpdateStatus)
+    
 
-  
+    useEffect(()=>{
+
+        if(reviewAddStatus==='fulfilled'){
+            toast.success("Review added")
+        }
+        else if(reviewAddStatus==='rejected'){
+            toast.error("Error posting review, please try again later")
+        }
+
+        reset()
+        setValue(1)
+
+        return ()=>{
+            dispatch(resetReviewAddStatus())
+        }
+    },[reviewAddStatus])
+
+    useEffect(()=>{
+
+        if(reviewDeleteStatus==='fulfilled'){
+            toast.success("Review deleted")
+        }
+        else if(reviewDeleteStatus==='rejected'){
+            toast.error("Error deleting review, please try again later")
+        }
+        return ()=>{
+            dispatch(resetReviewDeleteStatus())
+        }
+    },[reviewDeleteStatus])
+
+    useEffect(()=>{
+
+        if(reviewUpdateStatus==='fulfilled'){
+            toast.success("Review updated")
+        }
+        else if(reviewUpdateStatus==='rejected'){
+            toast.error("Error updating review, please try again later")
+        }
+        return ()=>{
+            dispatch(resetReviewUpdateStatus())
+        }
+    },[reviewUpdateStatus])
 
     const ratingCounts={
         5:0,
@@ -38,13 +84,6 @@ export const Reviews = ({productId}) => {
     },{ count: 0, rating: 0 });
 
     const averageRating=parseInt(productRatings.rating/productRatings.count)
-
-    useEffect(()=>{
-        if(reviewStatus==='fulfilled'){
-            setValue(1)
-            reset()
-        }
-    },[reviewStatus])
 
     const handleAddReview=(data)=>{
         const review={...data,rating:value,user:loggedInUser._id,product:productId}

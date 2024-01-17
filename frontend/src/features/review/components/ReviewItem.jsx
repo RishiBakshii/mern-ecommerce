@@ -31,18 +31,11 @@ export const ReviewItem = ({id,username,userid,comment,rating,createdAt}) => {
     handleClose()
   }
 
-
   const handleUpdateReview=(data)=>{
     const update={...data,_id:id,rating:editRating}
     dispatch(updateReviewByIdAsync(update))
+    setEdit(false)
   }
-
-  useEffect(()=>{
-    if(reviewStatus==='fulfilled'){
-      setEdit(false)
-    }
-  },[reviewStatus])
-
 
 
   return (
