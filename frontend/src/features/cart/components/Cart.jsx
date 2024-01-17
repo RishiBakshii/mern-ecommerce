@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import { CartItem } from './CartItem'
 import { Button, Paper, Stack, Typography } from '@mui/material'
-import { selectCartItems } from '../CartSlice'
-import { useSelector } from 'react-redux'
+import { resetCartItemRemoveStatus, selectCartItemRemoveStatus, selectCartItems } from '../CartSlice'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { SHIPPING, TAXES } from '../../../constants'
+import { toast } from 'react-toastify'
 
 export const Cart = ({checkout}) => {
     const items=useSelector(selectCartItems)
@@ -12,11 +13,27 @@ export const Cart = ({checkout}) => {
     const totalItems=items.reduce((acc,item)=>acc+item.quantity,0)
     const navigate=useNavigate()
 
+    const cartItemRemoveStatus=useSelector(selectCartItemRemoveStatus)
+    const dispatch=useDispatch()
+
     useEffect(()=>{
         if(items.length===0){
             navigate("/")
         }
     },[items])
+
+    useEffect(()=>{
+        if(cartItemRemoveStatus==='fulfilled'){
+            toast.success("Product removed from cart")
+        }
+        else if(cartItemRemoveStatus==='rejected'){
+            toast.error("Error removing product from cart, please try again later")
+        }
+
+        return ()=>{
+            dispatch(resetCartItemRemoveStatus())
+        }
+    },[cartItemRemoveStatus])
 
   return (
     <Stack justifyContent={'flex-start'} alignItems={'center'}>
