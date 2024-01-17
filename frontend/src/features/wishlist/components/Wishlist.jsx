@@ -11,7 +11,7 @@ import { emptyWishlistAnimation } from '../../../assets';
 import Lottie from 'lottie-react' 
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { useForm } from "react-hook-form"
-import {addToCartAsync, selectCartItems} from '../../cart/CartSlice'
+import {addToCartAsync, resetCartItemAddStatus, selectCartItemAddStatus, selectCartItems} from '../../cart/CartSlice'
 
 export const Wishlist = () => {
 
@@ -22,6 +22,7 @@ export const Wishlist = () => {
   const wishlistItemUpdateStatus=useSelector(selectWishlistItemUpdateStatus)
   const loggedInUser=useSelector(selectLoggedInUser)
   const cartItems=useSelector(selectCartItems)
+  const cartItemAddStatus=useSelector(selectCartItemAddStatus)
 
   const [editIndex,setEditIndex]=useState(-1)
   const [editValue,setEditValue]=useState('')
@@ -83,6 +84,22 @@ export const Wishlist = () => {
       dispatch(resetWishlistItemUpdateStatus())
     }
   },[wishlistItemUpdateStatus])
+
+  useEffect(()=>{
+
+    if(cartItemAddStatus==='fulfilled'){
+        toast.success("Product added to cart")
+    }
+
+    else if(cartItemAddStatus==='rejected'){
+        toast.error('Error adding product to cart, please try again later')
+    }
+
+    return ()=>{
+        dispatch(resetCartItemAddStatus())
+    }
+
+},[cartItemAddStatus])
 
 
   const handleNoteUpdate=(wishlistItemId)=>{
