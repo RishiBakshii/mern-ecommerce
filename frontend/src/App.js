@@ -12,6 +12,7 @@ import { fetchCartByUserIdAsync } from './features/cart/CartSlice';
 import {fetchAddressByUserIdAsync} from './features/address/AddressSlice'
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
 import {fetchWishlistByUserIdAsync} from './features/wishlist/WishlistSlice'
+import { NotFoundPage } from './pages/NotFoundPage';
 
 function App() {
   const dispatch=useDispatch()
@@ -71,6 +72,7 @@ function App() {
             <Route exact path='/order-success/:id' element={<Protected><OrderSuccessPage/></Protected>}/>
             <Route exact path='/orders' element={<Protected><UserOrdersPage/></Protected>}/>
             <Route exact path='/wishlist' element={<Protected><WishlistPage/></Protected>}/>
+            <Route exact path='*' element={<NotFoundPage/>}/>
             </>
           )
         }
