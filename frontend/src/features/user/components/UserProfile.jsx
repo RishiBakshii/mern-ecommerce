@@ -2,10 +2,11 @@ import { Avatar, Button, Paper, Stack, Typography, useTheme ,TextField} from '@m
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectUserInfo } from '../UserSlice'
-import { addAddressAsync, selectAddressErrors, selectAddressStatus, selectAddresses } from '../../address/AddressSlice'
+import { addAddressAsync, resetAddressAddStatus, resetAddressDeleteStatus, resetAddressUpdateStatus, selectAddressAddStatus, selectAddressDeleteStatus, selectAddressErrors, selectAddressStatus, selectAddressUpdateStatus, selectAddresses } from '../../address/AddressSlice'
 import { Address } from '../../address/components/Address'
 import { useForm } from 'react-hook-form'
 import { LoadingButton } from '@mui/lab'
+import {toast} from 'react-toastify'
 
 export const UserProfile = () => {
 
@@ -18,21 +19,59 @@ export const UserProfile = () => {
     const theme=useTheme()
     const [addAddress,setAddAddress]=useState(false)
 
+    
+    const addressAddStatus=useSelector(selectAddressAddStatus)
+    const addressUpdateStatus=useSelector(selectAddressUpdateStatus)
+    const addressDeleteStatus=useSelector(selectAddressDeleteStatus)
+
 
     useEffect(()=>{
-        if(status==='fulfilled'){
-            setAddAddress(false)
-            reset()
+        if(addressAddStatus==='fulfilled'){
+            toast.success("Address added")
         }
-        else if(status==='rejected'){
-            setAddAddress(false)
-            reset()
+        else if(addressAddStatus==='rejected'){
+            toast.error("Error adding address, please try again later")
         }
-    },[status])
+
+        return ()=>{
+            dispatch(resetAddressAddStatus())
+        }
+    },[addressAddStatus])
+
+    useEffect(()=>{
+
+        if(addressUpdateStatus==='fulfilled'){
+            toast.success("Address updated")
+        }
+        else if(addressUpdateStatus==='rejected'){
+            toast.error("Error updating address, please try again later")
+        }
+
+        return ()=>{
+            dispatch(resetAddressUpdateStatus())
+        }
+
+    },[addressUpdateStatus])
+
+    useEffect(()=>{
+
+        if(addressDeleteStatus==='fulfilled'){
+            toast.success("Address deleted")
+        }
+        else if(addressDeleteStatus==='rejected'){
+            toast.error("Error deleting address, please try again later")
+        }
+
+        return ()=>{
+            dispatch(resetAddressDeleteStatus())
+        }
+
+    },[addressDeleteStatus])
 
     const handleAddAddress=(data)=>{
         const address={...data,user:userInfo._id}
         dispatch(addAddressAsync(address))
+        setAddAddress(false)
     }
 
   return (

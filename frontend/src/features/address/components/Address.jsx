@@ -1,9 +1,9 @@
 import { LoadingButton } from '@mui/lab'
-import { Box, Button, Paper, Stack, TextField, Typography, useTheme } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { Button, Paper, Stack, TextField, Typography, useTheme } from '@mui/material'
+import React, { useState } from 'react'
 import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteAddressByIdAsync, resetAddressStatus, selectAddressErrors, selectAddressStatus, updateAddressByIdAsync } from '../AddressSlice'
+import { deleteAddressByIdAsync, selectAddressErrors, selectAddressStatus, updateAddressByIdAsync } from '../AddressSlice'
 
 export const Address = ({id,type,street,postalCode,country,phoneNumber,state,city}) => {
 
@@ -16,25 +16,13 @@ export const Address = ({id,type,street,postalCode,country,phoneNumber,state,cit
     const error=useSelector(selectAddressErrors)
 
 
-    useEffect(()=>{
-
-        if(status==='fulfilled'){
-            setEdit(false)
-        }
-        else if(status==='rejected'){
-            setEdit(false)
-        }
-        return ()=>{
-            dispatch(resetAddressStatus())
-        }
-    },[status])
-
     const handleRemoveAddress=()=>{
         dispatch(deleteAddressByIdAsync(id))
     }
 
     const handleUpdateAddress=(data)=>{
         const update={...data,_id:id}
+        setEdit(false)
         dispatch(updateAddressByIdAsync(update))
     }
 
