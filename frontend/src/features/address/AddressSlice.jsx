@@ -4,6 +4,9 @@ import { addAddress, deleteAddressById, fetchAddressByUserId, updateAddressById 
 
 const initialState={
     status:"idle",
+    addressAddStatus:"idle",
+    addressDeleteStatus:"idle",
+    addressUpdateStatus:"idle",
     addresses:[],
     errors:null,
     successMessage:null
@@ -33,19 +36,28 @@ const addressSlice=createSlice({
     reducers:{
         resetAddressStatus:(state)=>{
             state.status='idle'
-        }
+        },
+        resetAddressAddStatus:(state)=>{
+            state.addressAddStatus="idle"
+        },
+        resetAddressDeleteStatus:(state)=>{
+            state.addressDeleteStatus="idle"
+        },
+        resetAddressUpdateStatus:(state)=>{
+            state.addressUpdateStatus="idle"
+        },
     },
     extraReducers:(builder)=>{
         builder
             .addCase(addAddressAsync.pending,(state)=>{
-                state.status='pending'
+                state.addressAddStatus='pending'
             })
             .addCase(addAddressAsync.fulfilled,(state,action)=>{
-                state.status='fulfilled'
+                state.addressAddStatus='fulfilled'
                 state.addresses.push(action.payload)
             })
             .addCase(addAddressAsync.rejected,(state,action)=>{
-                state.status='rejected'
+                state.addressAddStatus='rejected'
                 state.errors=action.error
             })
 
@@ -62,27 +74,27 @@ const addressSlice=createSlice({
             })
 
             .addCase(updateAddressByIdAsync.pending,(state)=>{
-                state.status='pending'
+                state.addressUpdateStatus='pending'
             })
             .addCase(updateAddressByIdAsync.fulfilled,(state,action)=>{
-                state.status='fulfilled'
+                state.addressUpdateStatus='fulfilled'
                 const index=state.addresses.findIndex((address)=>address._id===action.payload._id)
                 state.addresses[index]=action.payload
             })
             .addCase(updateAddressByIdAsync.rejected,(state,action)=>{
-                state.status='rejected'
+                state.addressUpdateStatus='rejected'
                 state.errors=action.error
             })
 
             .addCase(deleteAddressByIdAsync.pending,(state)=>{
-                state.status='pending'
+                state.addressDeleteStatus='pending'
             })
             .addCase(deleteAddressByIdAsync.fulfilled,(state,action)=>{
-                state.status='fulfilled'
+                state.addressDeleteStatus='fulfilled'
                 state.addresses=state.addresses.filter((address)=>address._id!==action.payload._id)
             })
             .addCase(deleteAddressByIdAsync.rejected,(state,action)=>{
-                state.status='rejected'
+                state.addressDeleteStatus='rejected'
                 state.errors=action.error
             })
     }
@@ -93,8 +105,11 @@ export const selectAddressStatus=(state)=>state.AddressSlice.status
 export const selectAddresses=(state)=>state.AddressSlice.addresses
 export const selectAddressErrors=(state)=>state.AddressSlice.errors
 export const selectAddressSuccessMessage=(state)=>state.AddressSlice.successMessage
+export const selectAddressAddStatus=(state)=>state.AddressSlice.addressAddStatus
+export const selectAddressDeleteStatus=(state)=>state.AddressSlice.addressDeleteStatus
+export const selectAddressUpdateStatus=(state)=>state.AddressSlice.addressUpdateStatus
 
 // exporting reducers
-export const {resetAddressStatus}=addressSlice.actions
+export const {resetAddressStatus,resetAddressAddStatus,resetAddressDeleteStatus,resetAddressUpdateStatus}=addressSlice.actions
 
 export default addressSlice.reducer
