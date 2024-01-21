@@ -19,6 +19,7 @@ import LoyaltyIcon from '@mui/icons-material/Loyalty';
 import { Link } from 'react-router-dom'
 import {selectLoggedInUser} from '../../auth/AuthSlice'
 import {toast} from 'react-toastify'
+import {banner1} from '../../../assets'
 
 const sortOptions=[
     {name:"Price: low to high",sort:"price",order:"asc"},
@@ -177,64 +178,72 @@ export const ProductList = () => {
                     </Stack>
             </Stack>
         </Stack>
-
-        {/* products */}
+        
         <Stack flex={1} rowGap={4}>
-            
-            <Stack flexDirection={'row'} justifyContent={'flex-end'} alignItems={'center'} columnGap={5}>
-                
-                {/* wishlist option */}
-                {
-                    !loggedInUser?.isAdmin &&
 
-                    wishlistItems?.length>0?
-                
-                <Stack>
-                    <Badge badgeContent={wishlistItems?.length} color='info'>
-                        <IconButton component={Link} to={"/wishlist"}><LoyaltyIcon fontSize='large' sx={{color:"pink"}}/></IconButton>
-                    </Badge>
-                </Stack>:''
- 
-                }
-
-            
-                {/* sort options */}
-                <Stack alignSelf={'flex-end'} width={'12rem'}>
-                    <FormControl fullWidth>
-                            <InputLabel id="sort-dropdown">Sort</InputLabel>
-                            <Select
-                                variant='standard'
-                                labelId="sort-dropdown"
-                                label="Sort"
-                                onChange={(e)=>setSort(e.target.value)}
-                                value={sort}
-                            >
-                                <MenuItem bgcolor='text.secondary' value={null}>Reset</MenuItem>
-                                {
-                                    sortOptions.map((option)=>(
-                                        <MenuItem key={option} value={option}>{option.name}</MenuItem>
-                                    ))
-                                }
-                            </Select>
-                    </FormControl>
-                </Stack>
-            
+            <Stack sx={{width:"100%",height:"500px",flexDirection:"row",backgroundColor:"red"}}>
+                <img style={{height:"100%",width:"100%",objectFit:"cover"}} src={banner1} alt="Sale Banner" />
             </Stack>
 
-            {/* product grid */}
-            <Grid gap={2} container >
-                {
-                    products.map((product)=>(
-                        <ProductCard key={product._id} id={product._id} title={product.title} thumbnail={product.thumbnail} brand={product.brand.name} price={product.price} handleAddRemoveFromWishlist={handleAddRemoveFromWishlist}/>
-                    ))
-                }
-            </Grid>
+            {/* products */}
+            <Stack>
+                
+                <Stack flexDirection={'row'} justifyContent={'flex-end'} alignItems={'center'} columnGap={5}>
+                    
+                    {/* wishlist option */}
+                    {
+                        !loggedInUser?.isAdmin &&
+
+                        wishlistItems?.length>0?
+                    
+                    <Stack>
+                        <Badge badgeContent={wishlistItems?.length} color='info'>
+                            <IconButton component={Link} to={"/wishlist"}><LoyaltyIcon fontSize='large' sx={{color:"pink"}}/></IconButton>
+                        </Badge>
+                    </Stack>:''
+    
+                    }
+
+                
+                    {/* sort options */}
+                    <Stack alignSelf={'flex-end'} width={'12rem'}>
+                        <FormControl fullWidth>
+                                <InputLabel id="sort-dropdown">Sort</InputLabel>
+                                <Select
+                                    variant='standard'
+                                    labelId="sort-dropdown"
+                                    label="Sort"
+                                    onChange={(e)=>setSort(e.target.value)}
+                                    value={sort}
+                                >
+                                    <MenuItem bgcolor='text.secondary' value={null}>Reset</MenuItem>
+                                    {
+                                        sortOptions.map((option)=>(
+                                            <MenuItem key={option} value={option}>{option.name}</MenuItem>
+                                        ))
+                                    }
+                                </Select>
+                        </FormControl>
+                    </Stack>
+                
+                </Stack>
+
+                {/* product grid */}
+                <Grid gap={2} container >
+                    {
+                        products.map((product)=>(
+                            <ProductCard key={product._id} id={product._id} title={product.title} thumbnail={product.thumbnail} brand={product.brand.name} price={product.price} handleAddRemoveFromWishlist={handleAddRemoveFromWishlist}/>
+                        ))
+                    }
+                </Grid>
+                
+                {/* pagination */}
+                <Stack alignSelf={'flex-end'} mr={5} rowGap={2}>
+                    <Pagination size='large' page={page}  onChange={(e,page)=>setPage(page)} count={Math.ceil(totalResults/ITEMS_PER_PAGE)} variant="outlined" shape="rounded" />
+                    <Typography textAlign={'center'}>Showing {(page-1)*ITEMS_PER_PAGE+1} to {page*ITEMS_PER_PAGE>totalResults?totalResults:page*ITEMS_PER_PAGE} of {totalResults} results</Typography>
+                </Stack>    
             
-            {/* pagination */}
-            <Stack alignSelf={'flex-end'} mr={5} rowGap={2}>
-                <Pagination size='large' page={page}  onChange={(e,page)=>setPage(page)} count={Math.ceil(totalResults/ITEMS_PER_PAGE)} variant="outlined" shape="rounded" />
-                <Typography textAlign={'center'}>Showing {(page-1)*ITEMS_PER_PAGE+1} to {page*ITEMS_PER_PAGE>totalResults?totalResults:page*ITEMS_PER_PAGE} of {totalResults} results</Typography>
-            </Stack>    
+            </Stack>
         
         </Stack>
 
