@@ -9,6 +9,7 @@ import { selectWishlistItems } from '../../wishlist/WishlistSlice';
 import { selectLoggedInUser } from '../../auth/AuthSlice';
 import { addToCartAsync, selectCartItemAddStatus, selectCartItems } from '../../cart/CartSlice';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import {AnimatePresence, color, motion} from 'framer-motion'
 
 export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity,handleAddRemoveFromWishlist,isWishlistCard}) => {
 
@@ -37,10 +38,10 @@ export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity,handle
     {
 
     isProductAlreadyinWishlist!==-1 ?
-    <Stack  component={isWishlistCard?"":Paper} elevation={1} p={2} width={'340px'}  sx={{cursor:"pointer"}} onClick={()=>navigate(`/product-details/${id}`)}>
+    <Stack  component={isWishlistCard?"":Paper} elevation={1} p={2} width={'340px'} height={'400px'}  sx={{cursor:"pointer"}} onClick={()=>navigate(`/product-details/${id}`)}>
 
         {/* image display */}
-        <Stack flex={4} height={'300px'} width={"300px"} justifyContent={'center'} alignItems={'center'}>
+        <Stack flex={4} height={'200px'} width={"300px"} justifyContent={'center'} alignItems={'center'}>
             <img style={{height:"100%",width:"100%",objectFit:"contain"}} src={thumbnail} alt={`${title} photo unavailable`} />
         </Stack>
 
@@ -50,7 +51,9 @@ export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity,handle
             <Stack>
                 <Stack flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'}>
                     <Typography variant='h6' fontWeight={400}>{title}</Typography>
-                    <Checkbox onClick={(e)=>e.stopPropagation()} checked={isProductAlreadyinWishlist} onChange={(e)=>handleAddRemoveFromWishlist(e,id)} icon={<FavoriteBorder />} checkedIcon={<Favorite sx={{color:'red'}} />} />
+                    <motion.div whileHover={{scale:1.3,y:-10,zIndex:100}} whileTap={{scale:1}} transition={{duration:.4,type:"spring"}}>
+                        <Checkbox onClick={(e)=>e.stopPropagation()} checked={isProductAlreadyinWishlist} onChange={(e)=>handleAddRemoveFromWishlist(e,id)} icon={<FavoriteBorder />} checkedIcon={<Favorite sx={{color:'red'}} />} />
+                    </motion.div>
                 </Stack>
                 <Typography color={"text.secondary"}>{brand}</Typography>
             </Stack>
@@ -65,11 +68,14 @@ export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity,handle
                     //     </div>
                     // </button>
                     ''
-                    : <button onClick={(e)=>handleAddToCart(e)} style={{padding:"10px 15px",borderRadius:"3px",outline:"none",border:"none",cursor:"pointer",backgroundColor:"black",color:"white",fontSize:".9rem"}}>
+
+                    : 
+                    <motion.button whileHover={{scale:1.030}} whileTap={{scale:1}} onClick={(e)=>handleAddToCart(e)} style={{padding:"10px 15px",borderRadius:"3px",outline:"none",border:"none",cursor:"pointer",backgroundColor:"black",color:"white",fontSize:".9rem"}}>
                         <div style={{display:"flex",alignItems:"center",columnGap:".5rem"}}>
                             <p>Add To Cart</p>
                         </div>
-                    </button>:''
+                    </motion.button>
+                    :''
                 }
                 
             </Stack>
