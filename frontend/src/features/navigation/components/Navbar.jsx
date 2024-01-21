@@ -89,7 +89,7 @@ export const Navbar=()=> {
               ))}
             </Menu>
             <Typography variant='h6' fontWeight={300}>Hey👋, {userInfo?.name} </Typography>
-            <Button variant=''>{loggedInUser.isAdmin?"Admin":""}</Button>
+            {loggedInUser.isAdmin && <Button variant='contained'>Admin</Button>}
 
             {cartItems?.length>0 && <Badge  badgeContent={cartItems.length} color='error'>
               <IconButton onClick={()=>navigate("/cart")}>
