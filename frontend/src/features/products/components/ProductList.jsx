@@ -20,6 +20,7 @@ import {selectLoggedInUser} from '../../auth/AuthSlice'
 import {toast} from 'react-toastify'
 import {banner1} from '../../../assets'
 import { resetCartItemAddStatus, selectCartItemAddStatus } from '../../cart/CartSlice'
+import { motion } from 'framer-motion'
 
 
 const sortOptions=[
@@ -166,7 +167,9 @@ export const ProductList = () => {
                                 <FormGroup onChange={handleBrandFilters}>
                                     {
                                         brands?.map((brand)=>(
-                                            <FormControlLabel control={<Checkbox />} label={brand.name} value={brand._id} />
+                                            <motion.div whileHover={{x:10}} whileTap={{scale:0.9}}>
+                                                <FormControlLabel sx={{ml:1}} control={<Checkbox whileHover={{scale:1.1}} />} label={brand.name} value={brand._id} />
+                                            </motion.div>
                                         ))
                                     }
                                 </FormGroup>
@@ -185,7 +188,9 @@ export const ProductList = () => {
                                 <FormGroup onChange={handleCategoryFilters}>
                                     {
                                         categories?.map((category)=>(
-                                            <FormControlLabel control={<Checkbox />} key={category._id} label={category.name} value={category._id} />
+                                            <motion.div whileHover={{x:10}} whileTap={{scale:0.9}}>
+                                                <FormControlLabel control={<Checkbox />} key={category._id} label={category.name} value={category._id} />
+                                            </motion.div>
                                         ))
                                     }
                                 </FormGroup>
