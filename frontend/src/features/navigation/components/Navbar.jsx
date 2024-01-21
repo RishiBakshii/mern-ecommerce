@@ -15,6 +15,8 @@ import { selectUserInfo } from '../../user/UserSlice';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { selectCartItems } from '../../cart/CartSlice';
 import { selectLoggedInUser } from '../../auth/AuthSlice';
+import { selectWishlistItems } from '../../wishlist/WishlistSlice';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 
 
@@ -25,6 +27,8 @@ export const Navbar=()=> {
   const cartItems=useSelector(selectCartItems)
   const loggedInUser=useSelector(selectLoggedInUser)
   const navigate=useNavigate()
+
+  const wishlistItems=useSelector(selectWishlistItems)
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -90,12 +94,27 @@ export const Navbar=()=> {
             </Menu>
             <Typography variant='h6' fontWeight={300}>Hey👋, {userInfo?.name} </Typography>
             {loggedInUser.isAdmin && <Button variant='contained'>Admin</Button>}
+            <Stack sx={{flexDirection:"row",columnGap:"1rem",alignItems:"center",justifyContent:"center"}}>
 
-            {cartItems?.length>0 && <Badge  badgeContent={cartItems.length} color='error'>
+            
+            {
+            cartItems?.length>0 && 
+            <Badge  badgeContent={cartItems.length} color='error'>
               <IconButton onClick={()=>navigate("/cart")}>
                 <ShoppingCartOutlinedIcon />
                 </IconButton>
-            </Badge>}
+            </Badge>
+            }
+            
+            {
+              !loggedInUser?.isAdmin &&
+                  <Stack>
+                      <Badge badgeContent={wishlistItems?.length} color='error'>
+                          <IconButton component={Link} to={"/wishlist"}><FavoriteBorderIcon /></IconButton>
+                      </Badge>
+                  </Stack>
+            }
+            </Stack>
           </Stack>
 
         </Toolbar>

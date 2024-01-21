@@ -15,7 +15,6 @@ import { selectCategories } from '../../categories/CategoriesSlice'
 import Pagination from '@mui/material/Pagination';
 import { ITEMS_PER_PAGE } from '../../../constants'
 import {createWishlistItemAsync, deleteWishlistItemByIdAsync, resetWishlistItemAddStatus, resetWishlistItemDeleteStatus, selectWishlistItemAddStatus, selectWishlistItemDeleteStatus, selectWishlistItems} from '../../wishlist/WishlistSlice'
-import LoyaltyIcon from '@mui/icons-material/Loyalty';
 import { Link } from 'react-router-dom'
 import {selectLoggedInUser} from '../../auth/AuthSlice'
 import {toast} from 'react-toastify'
@@ -189,22 +188,7 @@ export const ProductList = () => {
             <Stack>
                 
                 <Stack flexDirection={'row'} justifyContent={'flex-end'} alignItems={'center'} columnGap={5}>
-                    
-                    {/* wishlist option */}
-                    {
-                        !loggedInUser?.isAdmin &&
-
-                        wishlistItems?.length>0?
-                    
-                    <Stack>
-                        <Badge badgeContent={wishlistItems?.length} color='info'>
-                            <IconButton component={Link} to={"/wishlist"}><LoyaltyIcon fontSize='large' sx={{color:"pink"}}/></IconButton>
-                        </Badge>
-                    </Stack>:''
-    
-                    }
-
-                
+                                    
                     {/* sort options */}
                     <Stack alignSelf={'flex-end'} width={'12rem'}>
                         <FormControl fullWidth>
