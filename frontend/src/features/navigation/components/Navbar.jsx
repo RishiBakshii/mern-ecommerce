@@ -42,7 +42,7 @@ export const Navbar=()=> {
   ];
 
   return (
-    <AppBar position="sticky">
+    <AppBar position="sticky" sx={{backgroundColor:"white",boxShadow:"none",color:"text.primary"}}>
         <Toolbar sx={{p:1,height:"4rem",display:"flex",justifyContent:"space-around"}}>
 
           <Typography variant="h6" noWrap component="a" href="/" sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none', }}>
@@ -93,7 +93,7 @@ export const Navbar=()=> {
 
             {cartItems?.length>0 && <Badge  badgeContent={cartItems.length} color='error'>
               <IconButton onClick={()=>navigate("/cart")}>
-                <ShoppingCartOutlinedIcon sx={{color:'white'}}/>
+                <ShoppingCartOutlinedIcon />
                 </IconButton>
             </Badge>}
           </Stack>
