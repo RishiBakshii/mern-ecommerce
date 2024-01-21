@@ -19,6 +19,8 @@ import { Link } from 'react-router-dom'
 import {selectLoggedInUser} from '../../auth/AuthSlice'
 import {toast} from 'react-toastify'
 import {banner1} from '../../../assets'
+import { resetCartItemAddStatus, selectCartItemAddStatus } from '../../cart/CartSlice'
+
 
 const sortOptions=[
     {name:"Price: low to high",sort:"price",order:"asc"},
@@ -39,6 +41,8 @@ export const ProductList = () => {
     const wishlistItems=useSelector(selectWishlistItems)
     const wishlistItemAddStatus=useSelector(selectWishlistItemAddStatus)
     const wishlistItemDeleteStatus=useSelector(selectWishlistItemDeleteStatus)
+
+    const cartItemAddStatus=useSelector(selectCartItemAddStatus)
 
     const dispatch=useDispatch()
 
@@ -117,6 +121,19 @@ export const ProductList = () => {
             dispatch(resetWishlistItemDeleteStatus())
         }
     },[wishlistItemDeleteStatus])
+
+    useEffect(()=>{
+        if(cartItemAddStatus==='fulfilled'){
+            toast.success("Product added to cart")
+        }
+        else if(cartItemAddStatus==='rejected'){
+            toast.error("Error adding product to cart, please try again later")
+        }
+        
+        return ()=>{
+            dispatch(resetCartItemAddStatus())
+        }
+    },[cartItemAddStatus])
 
 
   return (
