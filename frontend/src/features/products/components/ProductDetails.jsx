@@ -129,7 +129,7 @@ export const ProductDetails = () => {
     
 
   return (
-    <Stack sx={{justifyContent:'center',alignItems:'center'}}>
+    <Stack sx={{justifyContent:'center',alignItems:'center',mb:'2rem',rowGap:"2rem"}}>
 
         <Stack width={'88rem'} height={"50rem"} rowGap={5} mt={5} justifyContent={'center'} mb={5} flexDirection={"row"} columnGap={"5rem"}>
 

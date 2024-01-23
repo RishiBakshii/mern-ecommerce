@@ -1,4 +1,4 @@
-import { Avatar, Button, IconButton, Menu, MenuItem, Paper, Rating, Stack, TextField, Typography } from '@mui/material'
+import {Button, IconButton, Menu, MenuItem, Paper, Rating, Stack, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,13 +7,11 @@ import {deleteReviewByIdAsync, selectReviewStatus, updateReviewByIdAsync} from '
 import { useForm } from "react-hook-form"
 import {LoadingButton} from '@mui/lab'
 
-
 export const ReviewItem = ({id,username,userid,comment,rating,createdAt}) => {
 
   const dispatch=useDispatch()
   const loggedInUser=useSelector(selectLoggedInUser)
-  const reviewStatus=useSelector(selectReviewStatus)
-  const {register,handleSubmit,watch,formState: { errors }} = useForm()
+  const {register,handleSubmit,formState: { errors }} = useForm()
   const [edit,setEdit]=useState(false)
   const [editRating,setEditRating]=useState(rating)
 
@@ -37,23 +35,25 @@ export const ReviewItem = ({id,username,userid,comment,rating,createdAt}) => {
     setEdit(false)
   }
 
+  const isOwnReview=userid===loggedInUser?._id 
 
   return (
-    <Stack position={'relative'} component={Paper} p={2} rowGap={3}>
+    <Stack position={'relative'} p={2} rowGap={2} width={'100%'} component={Paper} borderRadius={'.8px'}>
 
         {/* user , rating and created at*/}
         <Stack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
 
             <Stack flexDirection={'row'} columnGap={2}>
-                <Avatar sx={{width:50,height:50}} src='none' alt={username}></Avatar>
                 <Stack> 
-                        <Typography variant='body2'>{username}</Typography>
-                        <Rating readOnly={!edit} onChange={(e)=>setEditRating(e.target.value)} value={edit?editRating:rating}/>
+                        <Typography variant='h6' fontSize={"1.1rem"} fontWeight={500}>{username}</Typography>
+                        <motiondiv>
+                            <Rating size={edit?'large':"small"} readOnly={!edit} onChange={(e)=>setEditRating(e.target.value)} value={edit?editRating:rating}/>
+                        </motiondiv>
                 </Stack>
             </Stack>
 
           {
-            userid===loggedInUser._id && (
+            isOwnReview && (
               <Stack sx={{position:'absolute',top:0,right:0}}>
 
               <IconButton aria-controls={open ? 'basic-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
@@ -68,7 +68,7 @@ export const ReviewItem = ({id,username,userid,comment,rating,createdAt}) => {
             )
           }
 
-            <Typography alignSelf={"flex-end"} justifySelf={'flex-end'} variant='body2'>{new Date(createdAt).toDateString()}</Typography>
+            <Typography alignSelf={"flex-end"} justifySelf={'flex-end'} color={'text.secondary'} fontWeight={400} fontSize={'.9rem'}>{new Date(createdAt).toDateString()}</Typography>
         </Stack>
 
         {/* review comment */}
@@ -76,13 +76,13 @@ export const ReviewItem = ({id,username,userid,comment,rating,createdAt}) => {
           {
             edit?(
               <Stack component={'form'} noValidate onSubmit={handleSubmit(handleUpdateReview)} rowGap={2}>
-                <TextField {...register("comment",{required:true,value:comment})}/>
-                <Stack flexDirection={'row'} alignSelf={'flex-end'} rowGap={1} justifyContent={'center'} alignItems={'center'}>
+                <TextField multiline rows={4} {...register("comment",{required:true,value:comment})}/>
+                <Stack flexDirection={'row'} alignSelf={'flex-end'} columnGap={1} justifyContent={'center'} alignItems={'center'}>
                   <LoadingButton size='small' type='submit' sx={{alignSelf:"flex-end"}} variant='contained'>Update</LoadingButton>
-                  <Button size='small' onClick={()=>setEdit(false)} color='error'>Cancel</Button>
+                  <Button variant='outlined' size='small' onClick={()=>setEdit(false)} color='error'>Cancel</Button>
                 </Stack>
               </Stack>
-            ):(<Typography>{comment}</Typography>)
+            ):(<Typography color='graytext'>{comment}</Typography>)
           }
             
         </Stack>
