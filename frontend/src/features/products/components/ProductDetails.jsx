@@ -14,8 +14,11 @@ import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined
 import CachedOutlinedIcon from '@mui/icons-material/CachedOutlined';
 import Favorite from '@mui/icons-material/Favorite'
 import { createWishlistItemAsync, deleteWishlistItemByIdAsync, resetWishlistItemAddStatus, resetWishlistItemDeleteStatus, selectWishlistItemAddStatus, selectWishlistItemDeleteStatus, selectWishlistItems } from '../../wishlist/WishlistSlice'
+import { useTheme } from '@mui/material'
+
 
 const SIZES=['XS','S','M','L','XL']
+const COLORS=['#020202','#F6F6F6','#B82222','#BEA9A9','#E2BB8D']
 
 export const ProductDetails = () => {
     const {id}=useParams()
@@ -26,8 +29,10 @@ export const ProductDetails = () => {
     const cartItemAddStatus=useSelector(selectCartItemAddStatus)
     const [quantity,setQuantity]=useState(1)
     const [selectedSize,setSelectedSize]=useState('')
+    const [selectedColorIndex,setSelectedColorIndex]=useState(-1)
     const reviews=useSelector(selectReviews)
     const [selectedImageIndex,setSelectedImageIndex]=useState(0)
+    const theme=useTheme()
 
     const wishlistItems=useSelector(selectWishlistItems)
 
@@ -187,11 +192,16 @@ export const ProductDetails = () => {
                 <Stack sx={{rowGap:"1.3rem"}}>
 
                     {/* colors */}
-                    <Stack flexDirection={'row'} alignItems={'center'} columnGap={'.2rem'}>
+                    <Stack flexDirection={'row'} alignItems={'center'} columnGap={'1rem'}>
                         <Typography>Colors: </Typography>
-                        <Stack flexDirection={'row'}>
-                            <Radio/>
-                            <Radio/>
+                        <Stack flexDirection={'row'} columnGap={".2rem"}>
+                            {
+                                COLORS.map((color,index)=>(
+                                    <div style={{backgroundColor:"white",border:selectedColorIndex===index?`1px solid ${theme.palette.primary.dark}`:"",width:"50px",height:"50px",display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"100%",}}>
+                                        <div onClick={()=>setSelectedColorIndex(index)} style={{width:"40px",height:"40px",border:color==='#F6F6F6'?"1px solid grayText":"",backgroundColor:color,borderRadius:"100%"}}></div>
+                                    </div>
+                                ))
+                            }
                         </Stack>
                     </Stack>
                     
