@@ -1,14 +1,16 @@
-import { Button, IconButton, Paper, Stack, Typography } from '@mui/material'
+import { Button, IconButton, Paper, Stack, Typography, useTheme } from '@mui/material'
 import React from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useDispatch } from 'react-redux';
 import { deleteCartItemByIdAsync, updateCartItemByIdAsync } from '../CartSlice';
+import { Link } from 'react-router-dom';
 
-export const CartItem = ({id,thumbnail,title,category,brand,price,quantity,stockQuantity}) => {
+export const CartItem = ({id,thumbnail,title,category,brand,price,quantity,stockQuantity,productId}) => {
 
 
     const dispatch=useDispatch()
+    const theme=useTheme()
 
     const handleAddQty=()=>{
         const update={_id:id,quantity:quantity+1}
@@ -35,12 +37,12 @@ export const CartItem = ({id,thumbnail,title,category,brand,price,quantity,stock
         {/* image and details */}
         <Stack  flexDirection={'row'} alignItems={'center'} columnGap={2}>
 
-            <Stack  width={'200px'} height={'200px'}>
+            <Stack width={'200px'} height={'200px'} component={Link} to={`/product-details/${productId}`}>
                 <img style={{height:"100%",objectFit:'contain'}} src={thumbnail} alt={`${title} image unavailabe`} />
             </Stack>
 
             <Stack>
-                <Typography variant='h6' fontWeight={500}>{title}</Typography>
+                <Typography component={Link} to={`/product-details/${productId}`} sx={{textDecoration:"none",color:theme.palette.primary.main}} variant='h6' fontWeight={500}>{title}</Typography>
                 <Typography variant='body2' color={'text.secondary'}>{brand}</Typography>
                 <Typography mt={1}>Quantity</Typography>
                 <Stack flexDirection={'row'} alignItems={'center'}>
