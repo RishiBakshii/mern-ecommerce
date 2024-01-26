@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { CartItem } from './CartItem'
-import { Button, Chip, Paper, Stack, Typography } from '@mui/material'
+import { Button, Chip, Paper, Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { resetCartItemRemoveStatus, selectCartItemRemoveStatus, selectCartItems } from '../CartSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
@@ -13,6 +13,9 @@ export const Cart = ({checkout}) => {
     const subtotal=items.reduce((acc,item)=>item.product.price*item.quantity+acc,0)
     const totalItems=items.reduce((acc,item)=>acc+item.quantity,0)
     const navigate=useNavigate()
+    const theme=useTheme()
+    const is900=useMediaQuery(theme.breakpoints.down(900))
+    const is660=useMediaQuery(theme.breakpoints.down(660))
 
     const cartItemRemoveStatus=useSelector(selectCartItemRemoveStatus)
     const dispatch=useDispatch()
@@ -39,10 +42,10 @@ export const Cart = ({checkout}) => {
   return (
     <Stack justifyContent={'flex-start'} alignItems={'center'} mb={'5rem'}>
 
-        <Stack p={4} width={'50rem'} rowGap={4}>
+        <Stack p={is660?1:4} width={is660?"auto":is900?'40rem':'50rem'} rowGap={4}>
 
             {/* cart items */}
-            <Stack>
+            <Stack rowGap={is660?'1rem':""}>
             {
                 items && items.map((item)=>(
                     <CartItem key={item._id} id={item._id} title={item.product.title} brand={item.product.brand.name} category={item.product.category.name} price={item.product.price} quantity={item.quantity} thumbnail={item.product.thumbnail} stockQuantity={item.product.stockQuantity} productId={item.product._id}/>
@@ -51,7 +54,7 @@ export const Cart = ({checkout}) => {
             </Stack>
             
             {/* subtotal */}
-            <Stack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
+            <Stack p={is660?1:0} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
 
                 {
                     checkout?(
@@ -90,7 +93,7 @@ export const Cart = ({checkout}) => {
                             </Stack>
 
                             <Stack>
-                                <Typography variant='h6' fontWeight={500}>${subtotal}</Typography>
+                                <Typography variant='h6'p paddingLeft={'1rem'} fontWeight={500}>${subtotal}</Typography>
                             </Stack>
                         </>
                     )
@@ -101,7 +104,7 @@ export const Cart = ({checkout}) => {
             {/* checkout or continue shopping */}
             {
             !checkout && 
-            <Stack rowGap={'1rem'}>
+            <Stack rowGap={'1rem'} p={is660?1:0}>
                     <Button variant='contained' component={Link} to='/checkout'>Checkout</Button>
                     {/* <Typography mt={2} component={Link} to={'/'} textAlign={'center'}>or continue shopping</Typography> */}
                     <motion.div style={{alignSelf:'center'}} whileHover={{y:2}}>
