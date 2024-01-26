@@ -72,15 +72,16 @@ export const UserProfile = () => {
         const address={...data,user:userInfo._id}
         dispatch(addAddressAsync(address))
         setAddAddress(false)
+        reset()
     }
 
   return (
     <Stack height={'calc(100vh - 4rem)'} justifyContent={'flex-start'} alignItems={'center'}>
 
-            <Stack component={Paper} elevation={1} width={'50rem'} p={2} mt={5}>
+            <Stack component={Paper} elevation={1} width={'50rem'} p={2} mt={5} rowGap={'2.5rem'}>
 
                     {/* user details - [name ,email ] */}
-                    <Stack bgcolor={theme.palette.primary.dark} p={1} rowGap={1} borderRadius={'.6rem'} color={'whitesmoke'} justifyContent={'center'} alignItems={'center'}>
+                    <Stack bgcolor={theme.palette.primary.light} color={theme.palette.primary.main} p={1} rowGap={1} borderRadius={'.6rem'} justifyContent={'center'} alignItems={'center'}>
                         <Avatar src='none' alt={userInfo?.name} sx={{width:70,height:70}}></Avatar>
                         <Typography>{userInfo?.name}</Typography>
                         <Typography>{userInfo?.email}</Typography>
@@ -88,7 +89,7 @@ export const UserProfile = () => {
 
 
                     {/* address section */}
-                    <Stack mt={5} justifyContent={'center'} alignItems={'center'}>
+                    <Stack justifyContent={'center'} alignItems={'center'}>
 
 
                         {/* heading and add button */}
@@ -154,7 +155,7 @@ export const UserProfile = () => {
                                         <Address key={address._id} id={address._id} city={address.city} country={address.country} phoneNumber={address.phoneNumber} postalCode={address.postalCode} state={address.state} street={address.street} type={address.type}/>
                                     ))
                                 ):(
-                                    <Typography textAlign={'center'} mt={2} variant='body2'>You have no address added</Typography>
+                                    <Typography textAlign={'center'} mt={2} variant='body2'>You have no added addresses</Typography>
                                 )
                             }      
                         </Stack>

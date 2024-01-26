@@ -28,7 +28,7 @@ export const Address = ({id,type,street,postalCode,country,phoneNumber,state,cit
 
 
   return (
-    <Stack width={'100%'} component={Paper} elevation={1} p={1}>
+    <Stack width={'100%'} p={1}>
                                         
         {/* address type */}
         <Stack color={'whitesmoke'} p={'.5rem'} borderRadius={'.2rem'} bgcolor={theme.palette.primary.main}>
@@ -107,7 +107,7 @@ export const Address = ({id,type,street,postalCode,country,phoneNumber,state,cit
                     edit?(
                         <Button size='small' onClick={()=>{setEdit(false);reset()}} color='error'>Cancel</Button>
                     ):(
-                        <LoadingButton loading={status==='pending'} size='small' onClick={handleRemoveAddress} color='error' >Remove</LoadingButton>
+                        <LoadingButton loading={status==='pending'} size='small' onClick={handleRemoveAddress} variant='outlined' color='error' >Remove</LoadingButton>
                     )
                 }
             </Stack>
