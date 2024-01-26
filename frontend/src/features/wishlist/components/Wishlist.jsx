@@ -12,6 +12,7 @@ import Lottie from 'lottie-react'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { useForm } from "react-hook-form"
 import {addToCartAsync, resetCartItemAddStatus, selectCartItemAddStatus, selectCartItems} from '../../cart/CartSlice'
+import { motion } from 'framer-motion';
 
 export const Wishlist = () => {
 
@@ -120,14 +121,16 @@ export const Wishlist = () => {
 
   return (
     // parent
-    <Stack justifyContent={'flex-start'} mt={5} mb={5} alignItems={'center'}>
+    <Stack justifyContent={'flex-start'} mt={5} mb={'14rem'} alignItems={'center'}>
 
         {/* main child */}
         <Stack width={'70rem'} rowGap={4}>
 
           {/* heading area and back button */}
           <Stack alignSelf={'flex-start'} flexDirection={'row'} columnGap={1} justifyContent={'center'} alignItems={'center'}>
+            <motion.div whileHover={{x:-5}}>
               <IconButton component={Link} to={'/'}><ArrowBackIcon fontSize='large'/></IconButton>
+            </motion.div>
               <Typography variant='h4' fontWeight={500}>Your wishlist</Typography>
           </Stack>
 
