@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 import { CartItem } from './CartItem'
-import { Button, Paper, Stack, Typography } from '@mui/material'
+import { Button, Chip, Paper, Stack, Typography } from '@mui/material'
 import { resetCartItemRemoveStatus, selectCartItemRemoveStatus, selectCartItems } from '../CartSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { SHIPPING, TAXES } from '../../../constants'
 import { toast } from 'react-toastify'
+import {motion} from 'framer-motion'
 
 export const Cart = ({checkout}) => {
     const items=useSelector(selectCartItems)
@@ -36,7 +37,7 @@ export const Cart = ({checkout}) => {
     },[cartItemRemoveStatus])
 
   return (
-    <Stack justifyContent={'flex-start'} alignItems={'center'}>
+    <Stack justifyContent={'flex-start'} alignItems={'center'} mb={'5rem'}>
 
         <Stack p={4} width={'50rem'} rowGap={4}>
 
@@ -100,9 +101,12 @@ export const Cart = ({checkout}) => {
             {/* checkout or continue shopping */}
             {
             !checkout && 
-            <Stack>
+            <Stack rowGap={'1rem'}>
                     <Button variant='contained' component={Link} to='/checkout'>Checkout</Button>
-                    <Typography mt={2} component={Link} to={'/'} textAlign={'center'}>or continue shopping</Typography>
+                    {/* <Typography mt={2} component={Link} to={'/'} textAlign={'center'}>or continue shopping</Typography> */}
+                    <motion.div style={{alignSelf:'center'}} whileHover={{y:2}}>
+                        <Chip sx={{cursor:"pointer",borderRadius:"8px"}} component={Link} to={'/'} label="or continue shopping" variant='outlined'/>
+                    </motion.div>
             </Stack>
             }
     
