@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { fetchProductByIdAsync, selectSelectedProduct } from '../ProductSlice'
-import { Box,Checkbox,Radio,Rating, Stack,Typography } from '@mui/material'
+import { Box,Checkbox,Radio,Rating, Stack,Typography, useMediaQuery,Button,Paper} from '@mui/material'
 import { addToCartAsync, resetCartItemAddStatus, selectCartItemAddStatus, selectCartItems } from '../../cart/CartSlice'
 import { selectLoggedInUser } from '../../auth/AuthSlice'
 import { fetchReviewsByProductIdAsync,selectReviews,} from '../../review/ReviewSlice'
@@ -15,14 +15,22 @@ import CachedOutlinedIcon from '@mui/icons-material/CachedOutlined';
 import Favorite from '@mui/icons-material/Favorite'
 import { createWishlistItemAsync, deleteWishlistItemByIdAsync, resetWishlistItemAddStatus, resetWishlistItemDeleteStatus, selectWishlistItemAddStatus, selectWishlistItemDeleteStatus, selectWishlistItems } from '../../wishlist/WishlistSlice'
 import { useTheme } from '@mui/material'
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import SwipeableViews from 'react-swipeable-views';
+import { autoPlay } from 'react-swipeable-views-utils';
+import MobileStepper from '@mui/material/MobileStepper';
 
 
 const SIZES=['XS','S','M','L','XL']
 const COLORS=['#020202','#F6F6F6','#B82222','#BEA9A9','#E2BB8D']
+const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+
 
 export const ProductDetails = () => {
     const {id}=useParams()
     const product=useSelector(selectSelectedProduct)
+    console.log(product);
     const loggedInUser=useSelector(selectLoggedInUser)
     const dispatch=useDispatch()
     const cartItems=useSelector(selectCartItems)
@@ -33,6 +41,11 @@ export const ProductDetails = () => {
     const reviews=useSelector(selectReviews)
     const [selectedImageIndex,setSelectedImageIndex]=useState(0)
     const theme=useTheme()
+    const is1420=useMediaQuery(theme.breakpoints.down(1420))
+    const is990=useMediaQuery(theme.breakpoints.down(990))
+    const is840=useMediaQuery(theme.breakpoints.down(840))
+    const is480=useMediaQuery(theme.breakpoints.down(480))
+    const is387=useMediaQuery(theme.breakpoints.down(387))
 
     const wishlistItems=useSelector(selectWishlistItems)
 
@@ -45,7 +58,6 @@ export const ProductDetails = () => {
 
     const wishlistItemAddStatus=useSelector(selectWishlistItemAddStatus)
     const wishlistItemDeleteStatus=useSelector(selectWishlistItemDeleteStatus)
-
     
     useEffect(()=>{
         if(id){
@@ -131,18 +143,33 @@ export const ProductDetails = () => {
             dispatch(deleteWishlistItemByIdAsync(wishlistItems[index]._id));
         }
     }
+
+    const [activeStep, setActiveStep] = React.useState(0);
+    const maxSteps = product?.images.length;
+
+    const handleNext = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    };
+
+    const handleBack = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    };
+
+    const handleStepChange = (step) => {
+        setActiveStep(step);
+    };
     
 
   return (
     <Stack sx={{justifyContent:'center',alignItems:'center',mb:'2rem',rowGap:"2rem"}}>
 
-        <Stack width={'88rem'} height={"50rem"} rowGap={5} mt={5} justifyContent={'center'} mb={5} flexDirection={"row"} columnGap={"5rem"}>
+        <Stack width={is480?"95vw":is1420?"auto":'88rem'} height={is840?"auto":"50rem"} rowGap={5} mt={is840?0:5} justifyContent={'center'} mb={5} flexDirection={is840?"column":"row"} columnGap={is990?"2rem":"5rem"}>
 
             {/* left stack (images) */}
             <Stack  sx={{flexDirection:"row",columnGap:"2.5rem",alignSelf:"flex-start",height:"100%"}}>
 
                 {/* image selection */}
-                <Stack sx={{display:"flex",rowGap:'1.5rem',height:"100%",overflowY:"scroll"}}>
+                {!is1420 && <Stack sx={{display:"flex",rowGap:'1.5rem',height:"100%",overflowY:"scroll"}}>
                     {
                         product && product.images.map((image,index)=>(
                             <motion.div  whileHover={{scale:1.1}} whileTap={{scale:1}} style={{width:"200px",cursor:"pointer"}} onClick={()=>setSelectedImageIndex(index)}>
@@ -150,19 +177,42 @@ export const ProductDetails = () => {
                             </motion.div>
                         ))
                     }
-                </Stack>
+                </Stack>}
                 
                 {/* selected image */}
-                <Stack sx={{alignSelf:"center"}}>
-                    <div style={{width:"100%"}}>
-                        <img style={{width:"100%",objectFit:"contain"}} src={product?.images[selectedImageIndex]} alt={`${product?.title} image`} />
-                    </div>
+                <Stack mt={is480?"2rem":'5rem'}>
+                    {
+                        is1420?
+                        <Stack width={is480?"100%":is990?'400px':"500px"} >
+                            <AutoPlaySwipeableViews width={'100%'} height={'100%'} axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={activeStep} onChangeIndex={handleStepChange} enableMouseEvents >
+                                {
+                                product?.images.map((image,index) => (
+                                <div key={index} style={{width:"100%",height:'100%'}}>
+                                    {
+                                    Math.abs(activeStep - index) <= 2 
+                                        ?
+                                        <Box component="img" sx={{width:'100%',objectFit:"contain",overflow:"hidden"}} src={image} alt={product?.title} />
+                                        :
+                                         null
+                                    }
+                                </div>
+                                ))
+                                }
+                            </AutoPlaySwipeableViews>
+
+                            <MobileStepper steps={maxSteps} position="static" activeStep={activeStep} nextButton={<Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1} >Next{theme.direction === 'rtl' ? (<KeyboardArrowLeft />) : (<KeyboardArrowRight />)}</Button>} backButton={<Button size="small" onClick={handleBack} disabled={activeStep === 0}>{theme.direction === 'rtl' ? (<KeyboardArrowRight />) : (<KeyboardArrowLeft />)}Back</Button>}/>
+                        </Stack>
+                        :
+                        <div style={{width:"100%"}}>
+                            <img style={{width:"100%",objectFit:"contain"}} src={product?.images[selectedImageIndex]} alt={`${product?.title} image`} />
+                        </div>
+                    }
                 </Stack>
 
             </Stack>
 
             {/* right stack - about product */}
-            <Stack rowGap={"1.5rem"} width={'25rem'}>
+            <Stack rowGap={"1.5rem"} width={is480?"100%":'25rem'}>
 
                 {/* title rating price */}
                 <Stack rowGap={".5rem"}>
@@ -174,7 +224,6 @@ export const ProductDetails = () => {
                     <Stack sx={{flexDirection:"row",columnGap:"1rem",alignItems:"center"}}>
                         <Rating value={averageRating} readOnly/>
                         <Typography>( {totalReviews===0?"No reviews":totalReviews===1?`${totalReviews} Review`:`${totalReviews} Reviews`} )</Typography>
-                        <div style={{backgroundColor:"green",height:"100%",width:"1px"}}></div>
                         <Typography color={product?.stock<=10?"error":product?.stock<=20?"orange":"green"}>{product?.stock<=10?`Only ${product?.stock} left`:product?.stock<=20?"Only few left":"In Stock"}</Typography>
                     </Stack>
 
@@ -192,9 +241,9 @@ export const ProductDetails = () => {
                 <Stack sx={{rowGap:"1.3rem"}}>
 
                     {/* colors */}
-                    <Stack flexDirection={'row'} alignItems={'center'} columnGap={'1rem'}>
+                    <Stack flexDirection={'row'} alignItems={'center'} columnGap={is387?'5px':'1rem'}>
                         <Typography>Colors: </Typography>
-                        <Stack flexDirection={'row'} columnGap={".2rem"}>
+                        <Stack flexDirection={'row'} columnGap={is387?"1px":".2rem"}>
                             {
                                 COLORS.map((color,index)=>(
                                     <div style={{backgroundColor:"white",border:selectedColorIndex===index?`1px solid ${theme.palette.primary.dark}`:"",width:"50px",height:"50px",display:"flex",justifyContent:"center",alignItems:"center",borderRadius:"100%",}}>
@@ -206,9 +255,9 @@ export const ProductDetails = () => {
                     </Stack>
                     
                     {/* size */}
-                    <Stack flexDirection={'row'} alignItems={'center'} columnGap={'1rem'}>
+                    <Stack flexDirection={'row'} alignItems={'center'} columnGap={is387?'5px':'1rem'}>
                         <Typography>Size: </Typography>
-                        <Stack flexDirection={'row'} columnGap={'1rem'}>
+                        <Stack flexDirection={'row'} columnGap={is387?"12px":"1rem"}>
                             {
                                 SIZES.map((size)=>(
                                     <motion.div onClick={()=>handleSizeSelect(size)} whileHover={{scale:1.050}} whileTap={{scale:1}} style={{border:selectedSize===size?'':"1px solid grayText",borderRadius:"8px",width:"30px",height:"30px",display:"flex",justifyContent:"center",alignItems:"center",cursor:"pointer",padding:"1.2rem",backgroundColor:selectedSize===size?"#DB4444":"whitesmoke",color:selectedSize===size?"white":""}}>
@@ -220,7 +269,7 @@ export const ProductDetails = () => {
                     </Stack>
 
                     {/* quantity , add to cart and wishlist */}
-                    <Stack flexDirection={"row"} columnGap={"1.5rem"} width={'100%'} >
+                    <Stack flexDirection={"row"} columnGap={is387?".3rem":"1.5rem"} width={'100%'} >
                         
                         {/* qunatity */}
                         <Stack flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'}>
@@ -236,7 +285,7 @@ export const ProductDetails = () => {
                         {/* add to cart */}
                         {
                             isProductAlreadyInCart?
-                            <button style={{padding:"10px 15px",fontSize:"1.050rem",backgroundColor:"black",color:"white",outline:"none",border:'none',borderRadius:"8px"}}>Already in Cart</button>
+                            <button style={{padding:"10px 15px",fontSize:"1.050rem",backgroundColor:"black",color:"white",outline:"none",border:'none',borderRadius:"8px"}}>In Cart</button>
                             :<motion.button whileHover={{scale:1.050}} whileTap={{scale:1}} onClick={handleAddToCart} style={{padding:"10px 15px",fontSize:"1.050rem",backgroundColor:"black",color:"white",outline:"none",border:'none',borderRadius:"8px"}}>Add To Cart</motion.button>
                         }
 
@@ -281,9 +330,9 @@ export const ProductDetails = () => {
         </Stack>
 
         {/* reviews */}
-        <Stack width={'88rem'}>
+        <Stack width={is1420?"auto":'88rem'}>
             <Reviews productId={id} averageRating={averageRating}/>       
-        </Stack>
+        </Stack> 
                 
     </Stack>
 

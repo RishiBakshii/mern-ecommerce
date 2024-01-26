@@ -49,7 +49,7 @@ export const theme = createTheme({
         fontSize: "2.3rem",
       },
       "@media (max-width:414px)": {
-        fontSize: "1.6rem",
+        fontSize: "2.2rem",
       },
     },
     h3: {  // -6 formula

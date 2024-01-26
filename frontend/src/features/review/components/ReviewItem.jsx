@@ -1,4 +1,4 @@
-import {Button, IconButton, Menu, MenuItem, Paper, Rating, Stack, TextField, Typography } from '@mui/material'
+import {Button, IconButton, Menu, MenuItem, Paper, Rating, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +14,8 @@ export const ReviewItem = ({id,username,userid,comment,rating,createdAt}) => {
   const {register,handleSubmit,formState: { errors }} = useForm()
   const [edit,setEdit]=useState(false)
   const [editRating,setEditRating]=useState(rating)
+  const theme=useTheme()
+  const is480=useMediaQuery(theme.breakpoints.down(480))
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -47,7 +49,7 @@ export const ReviewItem = ({id,username,userid,comment,rating,createdAt}) => {
                 <Stack> 
                         <Typography variant='h6' fontSize={"1.1rem"} fontWeight={500}>{username}</Typography>
                         <motiondiv>
-                            <Rating size={edit?'large':"small"} readOnly={!edit} onChange={(e)=>setEditRating(e.target.value)} value={edit?editRating:rating}/>
+                            <Rating size={edit?is480?'medium':'large':"small"} readOnly={!edit} onChange={(e)=>setEditRating(e.target.value)} value={edit?editRating:rating}/>
                         </motiondiv>
                 </Stack>
             </Stack>

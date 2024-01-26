@@ -1,5 +1,5 @@
-import { Button, IconButton, LinearProgress, Pagination, Rating, Stack, TextField, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { Button, IconButton, LinearProgress, Pagination, Rating, Stack, TextField, Typography, useMediaQuery } from '@mui/material'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createReviewAsync, resetReviewAddStatus, resetReviewDeleteStatus, resetReviewUpdateStatus, selectReviewAddStatus, selectReviewDeleteStatus, selectReviewStatus, selectReviewUpdateStatus, selectReviews } from '../ReviewSlice'
 import { ReviewItem } from './ReviewItem'
@@ -20,6 +20,9 @@ export const Reviews = ({productId,averageRating}) => {
     const {register,handleSubmit,reset,formState: { errors }} = useForm()
     const loggedInUser=useSelector(selectLoggedInUser)
     const reviewStatus=useSelector(selectReviewStatus)
+    const ref=useRef(null)
+    
+
 
     const reviewAddStatus=useSelector(selectReviewAddStatus)
     const reviewDeleteStatus=useSelector(selectReviewDeleteStatus)
@@ -27,7 +30,9 @@ export const Reviews = ({productId,averageRating}) => {
 
     const [writeReview,setWriteReview]=useState(false)
     const theme=useTheme()
-    
+
+    const is840=useMediaQuery(theme.breakpoints.down(840))
+    const is480=useMediaQuery(theme.breakpoints.down(480))
 
     useEffect(()=>{
 
@@ -94,7 +99,7 @@ export const Reviews = ({productId,averageRating}) => {
     
 
   return (
-        <Stack rowGap={5} alignSelf={"flex-start"}  width={'40rem'}>
+        <Stack rowGap={5} alignSelf={"flex-start"}  width={is480?"90vw":is840?"25rem":'40rem'}>
 
 
             <Stack>
@@ -145,7 +150,7 @@ export const Reviews = ({productId,averageRating}) => {
                 
                 <Stack rowGap={3} position={'relative'} component={'form'} noValidate onSubmit={handleSubmit(handleAddReview)}>
 
-                    <TextField {...register("comment",{required:true})} sx={{mt:4,width:"40rem"}}  multiline rows={6} fullWidth placeholder='Write a review...'/>
+                    <TextField id='reviewTextFeild' {...register("comment",{required:true})} sx={{mt:4,width:is840?"100%":"40rem"}}  multiline rows={6} fullWidth placeholder='Write a review...'/>
                     
                     <Stack>
                         <Typography gutterBottom variant='body2'>How much did you like the product?</Typography>
@@ -157,10 +162,10 @@ export const Reviews = ({productId,averageRating}) => {
                     <Stack flexDirection={'row'} alignSelf={'flex-end'} alignItems={'center'} columnGap={'.2rem'}>
                         <MotionConfig whileTap={{scale:1}} whileHover={{scale:1.050}}>
                             <motion.div>
-                                <LoadingButton sx={{textTransform:"none",fontSize:"1rem"}} loading={reviewStatus==='pending'} type='submit' variant='contained'>Add review</LoadingButton>
+                                <LoadingButton sx={{textTransform:"none",fontSize:is480?"":"1rem"}} size={is480?"small":""} loading={reviewStatus==='pending'} type='submit' variant='contained'>Add review</LoadingButton>
                             </motion.div>
                             <motion.div>
-                                <Button onClick={()=>setWriteReview(false)} color='error' variant='outlined' sx={{textTransform:"none",fontSize:"1rem"}}>Cancel</Button>
+                                <Button onClick={()=>setWriteReview(false)} color='error' size={is480?"small":""} variant='outlined' sx={{textTransform:"none",fontSize:is480?"":"1rem"}}>Cancel</Button>
                             </motion.div>
                         </MotionConfig>
                     </Stack>
@@ -168,11 +173,8 @@ export const Reviews = ({productId,averageRating}) => {
                 </Stack>
 
                 )
-                :<motion.div onClick={()=>{
-                    setWriteReview(!writeReview)
-                    setTimeout(() => {window.scrollTo({top:document.documentElement.scrollHeight})},1);
-                    }} whileHover={{scale:1.050}} whileTap={{scale:1}} style={{width:"fit-content"}}>
-                        <Button disableElevation size='large' variant='contained' sx={{color:theme.palette.primary.light,textTransform:"none",fontSize:"1rem",borderRadius:'6px'}}  startIcon={<CreateIcon/>}>Write a review</Button>
+                :<motion.div onClick={()=>setWriteReview(!writeReview)} whileHover={{scale:1.050}} whileTap={{scale:1}} style={{width:"fit-content"}}>
+                        <Button  disableElevation size={is480?"medium":'large'} variant='contained' sx={{color:theme.palette.primary.light,textTransform:"none",fontSize:"1rem",borderRadius:'6px'}}  startIcon={<CreateIcon/>}>Write a review</Button>
                 </motion.div>
             }
         </Stack>
