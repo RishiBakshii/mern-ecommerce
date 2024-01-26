@@ -2,12 +2,14 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOrderByUserIdAsync, selectOrders } from '../OrderSlice'
 import { selectLoggedInUser } from '../../auth/AuthSlice'
-import { Button, Paper, Stack, Typography } from '@mui/material'
+import { Button, IconButton, Paper, Stack, Typography } from '@mui/material'
 import {Link} from 'react-router-dom'
 import { addToCartAsync, resetCartItemAddStatus, selectCartItemAddStatus, selectCartItems } from '../../cart/CartSlice'
 import Lottie from 'lottie-react'
 import { noOrdersAnimation } from '../../../assets'
 import { toast } from 'react-toastify'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {motion} from 'framer-motion'
 
 export const UserOrders = () => {
 
@@ -52,10 +54,17 @@ export const UserOrders = () => {
 
         <Stack width={'60rem'} p={4}>
 
-        
-            <Stack>
-                <Typography variant='h4' gutterBottom fontWeight={500}>Order history</Typography>
-                <Typography color={'text.secondary'}>Check the status of recent orders, manage returns, and discover similar products.</Typography>
+            <Stack flexDirection={'row'} columnGap={2} >
+                
+                <motion.div whileHover={{x:-5}} style={{alignSelf:"center"}}>
+                    <IconButton component={Link} to={"/"}><ArrowBackIcon fontSize='large'/></IconButton>
+                </motion.div>
+
+                <Stack rowGap={1}>
+                    <Typography variant='h4' fontWeight={500}>Order history</Typography>
+                    <Typography color={'text.secondary'}>Check the status of recent orders, manage returns, and discover similar products.</Typography>
+                </Stack>
+
             </Stack>
 
 
@@ -85,7 +94,7 @@ export const UserOrders = () => {
                                     </Stack>
 
                                     <Stack>
-                                        <Typography>Quantity: {order.item.length}</Typography>
+                                        <Typography>Item: {order.item.length}</Typography>
                                     </Stack>
                                 </Stack>
 
