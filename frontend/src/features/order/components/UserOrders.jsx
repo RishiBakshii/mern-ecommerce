@@ -52,7 +52,7 @@ export const UserOrders = () => {
   return (
     <Stack justifyContent={'center'} alignItems={'center'}>
 
-        <Stack width={'60rem'} p={4}>
+        <Stack width={'60rem'} p={4} mb={'5rem'}>
 
             <Stack flexDirection={'row'} columnGap={2} >
                 
