@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOrderByUserIdAsync, selectOrders } from '../OrderSlice'
 import { selectLoggedInUser } from '../../auth/AuthSlice'
-import { Button, IconButton, Paper, Stack, Typography } from '@mui/material'
+import { Button, IconButton, Paper, Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
 import {Link} from 'react-router-dom'
 import { addToCartAsync, resetCartItemAddStatus, selectCartItemAddStatus, selectCartItems } from '../../cart/CartSlice'
 import Lottie from 'lottie-react'
@@ -11,12 +11,18 @@ import { toast } from 'react-toastify'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {motion} from 'framer-motion'
 
+
 export const UserOrders = () => {
 
     const dispatch=useDispatch()
     const loggedInUser=useSelector(selectLoggedInUser)
     const orders=useSelector(selectOrders)
     const cartItems=useSelector(selectCartItems)
+
+    const theme=useTheme()
+    const is1200=useMediaQuery(theme.breakpoints.down("1200"))
+    const is768=useMediaQuery(theme.breakpoints.down("768"))
+    const is480=useMediaQuery(theme.breakpoints.down("480"))
 
     const cartItemAddStatus=useSelector(selectCartItemAddStatus)
     
@@ -52,31 +58,33 @@ export const UserOrders = () => {
   return (
     <Stack justifyContent={'center'} alignItems={'center'}>
 
-        <Stack width={'60rem'} p={4} mb={'5rem'}>
+        <Stack width={is1200?"auto":"60rem"} p={is480?2:4} mb={'5rem'}>
 
             <Stack flexDirection={'row'} columnGap={2} >
-                
-                <motion.div whileHover={{x:-5}} style={{alignSelf:"center"}}>
+                {
+                    !is480 && <motion.div whileHover={{x:-5}} style={{alignSelf:"center"}}>
                     <IconButton component={Link} to={"/"}><ArrowBackIcon fontSize='large'/></IconButton>
                 </motion.div>
+                }
+ 
 
-                <Stack rowGap={1}>
+                <Stack rowGap={1} >
                     <Typography variant='h4' fontWeight={500}>Order history</Typography>
-                    <Typography color={'text.secondary'}>Check the status of recent orders, manage returns, and discover similar products.</Typography>
+                    <Typography sx={{wordWrap:"break-word"}} color={'text.secondary'}>Check the status of recent orders, manage returns, and discover similar products.</Typography>
                 </Stack>
 
             </Stack>
 
 
-            <Stack mt={5} rowGap={5} >
+            <Stack mt={5} rowGap={5}>
 
                     {
                         orders && orders.map((order)=>(
-                            <Stack p={2} component={Paper} elevation={1} rowGap={2}>
+                            <Stack p={is480?1:2} component={Paper} elevation={1} rowGap={2}>
                                 
                                 {/* upper */}
-                                <Stack flexDirection={'row'} justifyContent={'space-between'}>
-                                    <Stack flexDirection={'row'} columnGap={4}>
+                                <Stack flexDirection={'row'} rowGap={'1rem'}  justifyContent={'space-between'} flexWrap={'wrap'}>
+                                    <Stack flexDirection={'row'} columnGap={4} rowGap={'1rem'} flexWrap={'wrap'}>
                                         <Stack>
                                             <Typography>Order Number</Typography>
                                             <Typography color={'text.secondary'}>{order._id}</Typography>
@@ -104,8 +112,8 @@ export const UserOrders = () => {
                                     {
                                         order.item.map((product)=>(
                                             
-                                            <Stack mt={2} flexDirection={'row'} columnGap={4}>
-                                                <Stack width={'300px'}>
+                                            <Stack mt={2} flexDirection={'row'} rowGap={is768?'2rem':''} columnGap={4} flexWrap={is768?"wrap":"nowrap"}>
+                                                <Stack width={is480?'240px':'300px'} >
                                                     <img style={{width:"100%",height:"100%",objectFit:"contain"}} src={product.product.images[0]} alt="" />
                                                 </Stack>
 
@@ -122,7 +130,7 @@ export const UserOrders = () => {
 
                                                     <Typography color={'text.secondary'}>{product.product.description}</Typography>
 
-                                                    <Stack mt={2} alignSelf={'flex-end'} flexDirection={'row'} columnGap={2} >
+                                                    <Stack mt={2} alignSelf={is480?"flex-start":'flex-end'} flexDirection={'row'} columnGap={2} >
                                                         <Button size='small' component={Link} to={`/product-details/${product.product._id}`} variant='outlined'>View Product</Button>
                                                         {
                                                             cartItems.some((cartItem)=>cartItem.product._id===product.product._id)?
@@ -143,7 +151,7 @@ export const UserOrders = () => {
 
                                 {/* lower */}
                                 <Stack mt={2} flexDirection={'row'} justifyContent={'space-between'}>
-                                    <Typography>Status : {order.status}</Typography>
+                                    <Typography mb={2}>Status : {order.status}</Typography>
                                 </Stack>
                                     
                             </Stack>
