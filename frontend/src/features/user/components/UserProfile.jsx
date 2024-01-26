@@ -1,4 +1,4 @@
-import { Avatar, Button, Paper, Stack, Typography, useTheme ,TextField} from '@mui/material'
+import { Avatar, Button, Paper, Stack, Typography, useTheme ,TextField, useMediaQuery} from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectUserInfo } from '../UserSlice'
@@ -23,6 +23,9 @@ export const UserProfile = () => {
     const addressAddStatus=useSelector(selectAddressAddStatus)
     const addressUpdateStatus=useSelector(selectAddressUpdateStatus)
     const addressDeleteStatus=useSelector(selectAddressDeleteStatus)
+
+    const is900=useMediaQuery(theme.breakpoints.down(900))
+    const is480=useMediaQuery(theme.breakpoints.down(480))
 
 
     useEffect(()=>{
@@ -78,10 +81,10 @@ export const UserProfile = () => {
   return (
     <Stack height={'calc(100vh - 4rem)'} justifyContent={'flex-start'} alignItems={'center'}>
 
-            <Stack component={Paper} elevation={1} width={'50rem'} p={2} mt={5} rowGap={'2.5rem'}>
+            <Stack component={Paper} elevation={1} width={is480?'20rem':is900?'30rem':"50rem"} p={2} mt={is480?0:5} rowGap={is480?'1.5rem':'2.5rem'}>
 
                     {/* user details - [name ,email ] */}
-                    <Stack bgcolor={theme.palette.primary.light} color={theme.palette.primary.main} p={1} rowGap={1} borderRadius={'.6rem'} justifyContent={'center'} alignItems={'center'}>
+                    <Stack bgcolor={theme.palette.primary.light} color={theme.palette.primary.main} p={is480?0:1} rowGap={1} borderRadius={'.6rem'} justifyContent={'center'} alignItems={'center'}>
                         <Avatar src='none' alt={userInfo?.name} sx={{width:70,height:70}}></Avatar>
                         <Typography>{userInfo?.name}</Typography>
                         <Typography>{userInfo?.email}</Typography>
@@ -95,7 +98,7 @@ export const UserProfile = () => {
                         {/* heading and add button */}
                         <Stack flexDirection={'row'} alignItems={'center'} justifyContent={'center'} columnGap={1}>
                             <Typography variant='h6' fontWeight={400}>Manage addresses</Typography>
-                            <Button onClick={()=>setAddAddress(true)} variant='contained'>Add</Button>
+                            <Button onClick={()=>setAddAddress(true)} size={is480?'small':""} variant='contained'>Add</Button>
                         </Stack>
                         
                         {/* add address form - state dependent*/}
@@ -139,9 +142,9 @@ export const UserProfile = () => {
                                             <TextField {...register("city",{required:true})}/>
                                         </Stack>
 
-                                        <Stack flexDirection={'row'} alignSelf={'flex-end'} columnGap={2}>
-                                            <LoadingButton loading={status==='pending'} type='submit' variant='contained'>add</LoadingButton>
-                                            <Button color='error' onClick={()=>setAddAddress(false)} >cancel</Button>
+                                        <Stack flexDirection={'row'} alignSelf={'flex-end'} columnGap={is480?1:2}>
+                                            <LoadingButton loading={status==='pending'} type='submit' size={is480?"small":""} variant='contained'>add</LoadingButton>
+                                            <Button color='error' onClick={()=>setAddAddress(false)} variant={is480?"outlined":"text"} size={is480?"small":""} >cancel</Button>
                                         </Stack>
                                 </Stack>
                             ):('')

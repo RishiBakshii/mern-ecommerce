@@ -1,5 +1,5 @@
 import { LoadingButton } from '@mui/lab'
-import { Button, Paper, Stack, TextField, Typography, useTheme } from '@mui/material'
+import { Button, Paper, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import React, { useState } from 'react'
 import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,7 +14,8 @@ export const Address = ({id,type,street,postalCode,country,phoneNumber,state,cit
     const [open, setOpen] = useState(false);
     const status=useSelector(selectAddressStatus)
     const error=useSelector(selectAddressErrors)
-
+    
+    const is480=useMediaQuery(theme.breakpoints.down(480))
 
     const handleRemoveAddress=()=>{
         dispatch(deleteAddressByIdAsync(id))
@@ -28,7 +29,7 @@ export const Address = ({id,type,street,postalCode,country,phoneNumber,state,cit
 
 
   return (
-    <Stack width={'100%'} p={1}>
+    <Stack width={'100%'} p={is480?0:1}>
                                         
         {/* address type */}
         <Stack color={'whitesmoke'} p={'.5rem'} borderRadius={'.2rem'} bgcolor={theme.palette.primary.main}>
@@ -94,18 +95,18 @@ export const Address = ({id,type,street,postalCode,country,phoneNumber,state,cit
             }
 
             {/* action buttons */}
-            <Stack position={edit?"static":'absolute'} bottom={4} right={4} mt={4} flexDirection={'row'} alignSelf={'flex-end'} columnGap={1}>
+            <Stack position={is480?"static":edit?"static":'absolute'} bottom={4} right={4} mt={is480?2:4} flexDirection={'row'} alignSelf={is480?'flex-start':'flex-end'} columnGap={1}>
 
                 {/* if edit is true, then save changes button is shown instead of edit*/}
                 {
-                    edit?(<LoadingButton loading={status==='pending'} size='small' type='submit' color='success' variant='contained'>Save Changes</LoadingButton>
+                    edit?(<LoadingButton loading={status==='pending'} size='small' type='submit' variant='contained'>Save Changes</LoadingButton>
                     ):(<Button size='small' onClick={()=>setEdit(true)} variant='contained'>Edit</Button>)
                 }
 
                 {/* if edit is true then cancel button is shown instead of remove */}
                 {
                     edit?(
-                        <Button size='small' onClick={()=>{setEdit(false);reset()}} color='error'>Cancel</Button>
+                        <Button size='small' onClick={()=>{setEdit(false);reset()}} variant='outlined' color='error'>Cancel</Button>
                     ):(
                         <LoadingButton loading={status==='pending'} size='small' onClick={handleRemoveAddress} variant='outlined' color='error' >Remove</LoadingButton>
                     )
