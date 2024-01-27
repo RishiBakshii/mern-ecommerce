@@ -1,4 +1,4 @@
-import { Stack, TextField, Typography ,Button, Menu, MenuItem, Select, Grid, FormControl, Radio, Paper, IconButton, Box} from '@mui/material'
+import { Stack, TextField, Typography ,Button, Menu, MenuItem, Select, Grid, FormControl, Radio, Paper, IconButton, Box, useTheme, useMediaQuery} from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import React, { useEffect, useState } from 'react'
 import { Cart } from '../../cart/components/Cart'
@@ -28,6 +28,9 @@ export const Checkout = () => {
     const orderStatus=useSelector(selectOrderStatus)
     const currentOrder=useSelector(selectCurrentOrder)
     const orderTotal=cartItems.reduce((acc,item)=>(item.product.price*item.quantity)+acc,0)
+    const theme=useTheme()
+    const is960=useMediaQuery(theme.breakpoints.down(960))
+    const is480=useMediaQuery(theme.breakpoints.down(480))
     
     useEffect(()=>{
         if(addressStatus==='fulfilled'){
@@ -59,10 +62,10 @@ export const Checkout = () => {
     <Stack flexDirection={'row'}  justifyContent={'center'} flexWrap={'wrap'}>
 
         {/* left box */}
-        <Stack p={4} rowGap={4}>
+        <Stack p={is480?1:4} rowGap={4}>
             {/* heading */}
-            <Stack flexDirection={'row'} columnGap={1} alignItems={'center'}>
-                <IconButton component={Link} to={"/cart"}><ArrowBackIcon fontSize='large'/></IconButton>
+            <Stack flexDirection={'row'} columnGap={is480?0.3:1} alignItems={'center'}>
+                <IconButton component={Link} to={"/cart"}><ArrowBackIcon fontSize={is480?"medium":'large'}/></IconButton>
                 <Typography variant='h4'>Shipping Information</Typography>
             </Stack>
 
@@ -106,7 +109,7 @@ export const Checkout = () => {
 
                     <Stack flexDirection={'row'} alignSelf={'flex-end'} columnGap={1}>
                         <LoadingButton loading={status==='pending'} type='submit' variant='contained'>add</LoadingButton>
-                        <Button color='error' onClick={()=>reset()}>Reset</Button>
+                        <Button color='error' variant='outlined' onClick={()=>reset()}>Reset</Button>
                     </Stack>
             </Stack>
 
@@ -118,11 +121,11 @@ export const Checkout = () => {
                     <Typography variant='body2' color={'text.secondary'}>Choose from existing Addresses</Typography>
                 </Stack>
 
-                <Grid container gap={2} width={'50rem'}>
+                <Grid container gap={2} width={is960?"auto":'50rem'}>
                         {
                             addresses.map((address,index)=>(
                                 <FormControl item >
-                                    <Stack key={address._id} p={2} width={'20rem'} height={'14rem'} rowGap={2} component={Paper} elevation={1}>
+                                    <Stack key={address._id} p={2} width={is480?"90vw":is960?'auto':'20rem'} height={'14rem'} rowGap={2} component={Paper} elevation={1}>
 
                                         <Stack flexDirection={'row'} alignItems={'center'}>
                                             <Radio checked={selectedAddress===address} name='addressRadioGroup' value={selectedAddress} onChange={(e)=>setSelectedAddress(addresses[index])}/>
@@ -170,7 +173,7 @@ export const Checkout = () => {
         </Stack>
 
         {/* right box */}
-        <Stack mt={5}>
+        <Stack p={is480?1:''} mt={5} mb={2} alignSelf={'flex-start'}>
                 <Typography variant='h5' fontWeight={400}>Order summary</Typography>
                 <Cart checkout={true}/>
                 <Stack paddingLeft={4} paddingRight={4}>
