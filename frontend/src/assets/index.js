@@ -12,6 +12,9 @@ import facebookPng from './images/facebook.png'
 import twitterPng from './images/twitter.png'
 import instagramPng from './images/instagram.png'
 import linkedinPng from './images/linkedin.png'
+import banner2 from './images/banner2.jpg'
+import banner3 from './images/banner3.jpg'
+import banner4 from './images/banner4.jpg'
 
 export {
     ecommerceOutlookAnimation,
@@ -27,5 +30,8 @@ export {
     facebookPng,
     twitterPng,
     instagramPng,
-    linkedinPng
+    linkedinPng,
+    banner2,
+    banner3,
+    banner4
 }

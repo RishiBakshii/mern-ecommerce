@@ -1,4 +1,4 @@
-import { Badge, Box, Chip, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, Stack, Typography } from '@mui/material'
+import {FormControl, Grid, InputLabel, MenuItem, Select, Stack, Typography, useTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProductsAsync, selectProductTotalResults, selectProducts } from '../ProductSlice'
@@ -15,12 +15,12 @@ import { selectCategories } from '../../categories/CategoriesSlice'
 import Pagination from '@mui/material/Pagination';
 import { ITEMS_PER_PAGE } from '../../../constants'
 import {createWishlistItemAsync, deleteWishlistItemByIdAsync, resetWishlistItemAddStatus, resetWishlistItemDeleteStatus, selectWishlistItemAddStatus, selectWishlistItemDeleteStatus, selectWishlistItems} from '../../wishlist/WishlistSlice'
-import { Link } from 'react-router-dom'
 import {selectLoggedInUser} from '../../auth/AuthSlice'
 import {toast} from 'react-toastify'
-import {banner1} from '../../../assets'
+import {banner1, banner2, banner3, banner4} from '../../../assets'
 import { resetCartItemAddStatus, selectCartItemAddStatus } from '../../cart/CartSlice'
 import { motion } from 'framer-motion'
+import { ProductBanner } from './ProductBanner'
 
 
 const sortOptions=[
@@ -28,10 +28,14 @@ const sortOptions=[
     {name:"Price: high to low",sort:"price",order:"desc"},
 ]
 
+
+const bannerImages=[banner1,banner3,banner2,banner4]
+
 export const ProductList = () => {
     const [filters,setFilters]=useState({})
     const [page,setPage]=useState(1)
     const [sort,setSort]=useState(null)
+    const theme=useTheme()
 
     const brands=useSelector(selectBrands)
     const categories=useSelector(selectCategories)
@@ -136,7 +140,6 @@ export const ProductList = () => {
         }
     },[cartItemAddStatus])
 
-
   return (
     <Stack flexDirection={'row'} p={4} columnGap={2}>
 
@@ -202,8 +205,9 @@ export const ProductList = () => {
         
         <Stack flex={1} rowGap={4}>
 
-            <Stack sx={{width:"100%",height:"500px",flexDirection:"row",backgroundColor:"red"}}>
-                <img style={{height:"100%",width:"100%",objectFit:"cover"}} src={banner1} alt="Sale Banner" />
+            {/* banners section */}
+            <Stack sx={{width:"100%",height:"500px"}}>
+                <ProductBanner images={bannerImages}/>
             </Stack>
 
             {/* products */}
