@@ -219,9 +219,8 @@ export const ProductList = () => {
 
     </motion.div>
     
-    <Stack flexDirection={'row'} p={4} columnGap={2}>
+    <Stack mb={'3rem'}>
         
-        <Stack flex={1} rowGap={4}>
 
             {/* banners section */}
             <Stack sx={{width:"100%",height:"500px"}}>
@@ -229,11 +228,11 @@ export const ProductList = () => {
             </Stack>
 
             {/* products */}
-            <Stack>
-                
-                <Stack flexDirection={'row'} justifyContent={'flex-end'} alignItems={'center'} columnGap={5}>
+            <Stack rowGap={5}>
+
+                {/* sort options */}
+                <Stack flexDirection={'row'} mr={'2rem'} justifyContent={'flex-end'} alignItems={'center'} columnGap={5}>
                                     
-                    {/* sort options */}
                     <Stack alignSelf={'flex-end'} width={'12rem'}>
                         <FormControl fullWidth>
                                 <InputLabel id="sort-dropdown">Sort</InputLabel>
@@ -257,7 +256,7 @@ export const ProductList = () => {
                 </Stack>
 
                 {/* product grid */}
-                <Grid gap={2} container >
+                <Grid gap={2} container justifyContent={'center'} alignContent={'center'}>
                     {
                         products.map((product)=>(
                             <ProductCard key={product._id} id={product._id} title={product.title} thumbnail={product.thumbnail} brand={product.brand.name} price={product.price} handleAddRemoveFromWishlist={handleAddRemoveFromWishlist}/>
@@ -272,8 +271,6 @@ export const ProductList = () => {
                 </Stack>    
             
             </Stack>
-        
-        </Stack>
 
     </Stack>
 
