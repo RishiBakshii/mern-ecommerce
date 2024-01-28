@@ -1,6 +1,5 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -10,34 +9,41 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link, useNavigate } from 'react-router-dom';
 import { Badge, Button, Chip, Stack } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectUserInfo } from '../../user/UserSlice';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { selectCartItems } from '../../cart/CartSlice';
 import { selectLoggedInUser } from '../../auth/AuthSlice';
 import { selectWishlistItems } from '../../wishlist/WishlistSlice';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import TuneIcon from '@mui/icons-material/Tune';
+import { selectProductIsFilterOpen, toggleFilters } from '../../products/ProductSlice';
 
 
 
-export const Navbar=()=> {
+export const Navbar=({isProductList=false})=> {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const userInfo=useSelector(selectUserInfo)
   const cartItems=useSelector(selectCartItems)
   const loggedInUser=useSelector(selectLoggedInUser)
   const navigate=useNavigate()
+  const dispatch=useDispatch()
 
   const wishlistItems=useSelector(selectWishlistItems)
+  const isProductFilterOpen=useSelector(selectProductIsFilterOpen)
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
 
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleToggleFilters=()=>{
+    dispatch(toggleFilters())
+  }
 
   const settings = [
     {name:'Profile',to:loggedInUser?.isAdmin?"/admin/profile":"/profile"},
@@ -114,9 +120,12 @@ export const Navbar=()=> {
                       </Badge>
                   </Stack>
             }
+            {
+              isProductList && <IconButton onClick={handleToggleFilters}><TuneIcon sx={{color:isProductFilterOpen?"black":""}}/></IconButton>
+            }
+            
             </Stack>
           </Stack>
-
         </Toolbar>
     </AppBar>
   );

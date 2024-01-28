@@ -8,6 +8,7 @@ const initialState={
     productAddStatus:"idle",
     products:[],
     totalResults:0,
+    isFilterOpen:false,
     selectedProduct:null,
     errors:null,
     successMessage:null
@@ -59,6 +60,9 @@ const productSlice=createSlice({
         },
         resetProductAddStatus:(state)=>{
             state.productAddStatus='idle'
+        },
+        toggleFilters:(state)=>{
+            state.isFilterOpen=!state.isFilterOpen
         }
     },
     extraReducers:(builder)=>{
@@ -150,8 +154,9 @@ export const selectProductErrors=(state)=>state.ProductSlice.errors
 export const selectProductSuccessMessage=(state)=>state.ProductSlice.successMessage
 export const selectProductUpdateStatus=(state)=>state.ProductSlice.productUpdateStatus
 export const selectProductAddStatus=(state)=>state.ProductSlice.productAddStatus
+export const selectProductIsFilterOpen=(state)=>state.ProductSlice.isFilterOpen
 
 // exporting actions
-export const {clearProductSuccessMessage,clearProductErrors,clearSelectedProduct,resetProductStatus,resetProductUpdateStatus,resetProductAddStatus}=productSlice.actions
+export const {clearProductSuccessMessage,clearProductErrors,clearSelectedProduct,resetProductStatus,resetProductUpdateStatus,resetProductAddStatus,toggleFilters}=productSlice.actions
 
 export default productSlice.reducer

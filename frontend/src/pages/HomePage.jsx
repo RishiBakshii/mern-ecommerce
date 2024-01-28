@@ -18,7 +18,7 @@ export const HomePage = () => {
 
   return (
     <>
-    <Navbar/>
+    <Navbar isProductList={true}/>
     <ProductList/>
     </>
   )

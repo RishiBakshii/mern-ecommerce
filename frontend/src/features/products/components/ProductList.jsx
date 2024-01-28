@@ -1,7 +1,7 @@
-import {FormControl, Grid, InputLabel, MenuItem, Select, Stack, Typography, useTheme } from '@mui/material'
+import {FormControl, Grid, IconButton, InputLabel, MenuItem, Select, Stack, Typography, useTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchProductsAsync, selectProductTotalResults, selectProducts } from '../ProductSlice'
+import { fetchProductsAsync, selectProductIsFilterOpen, selectProductTotalResults, selectProducts, toggleFilters } from '../ProductSlice'
 import { ProductCard } from './ProductCard'
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -21,6 +21,7 @@ import {banner1, banner2, banner3, banner4} from '../../../assets'
 import { resetCartItemAddStatus, selectCartItemAddStatus } from '../../cart/CartSlice'
 import { motion } from 'framer-motion'
 import { ProductBanner } from './ProductBanner'
+import ClearIcon from '@mui/icons-material/Clear';
 
 
 const sortOptions=[
@@ -48,6 +49,8 @@ export const ProductList = () => {
     const wishlistItemDeleteStatus=useSelector(selectWishlistItemDeleteStatus)
 
     const cartItemAddStatus=useSelector(selectCartItemAddStatus)
+
+    const isProductFilterOpen=useSelector(selectProductIsFilterOpen)
 
     const dispatch=useDispatch()
 
@@ -140,68 +143,83 @@ export const ProductList = () => {
         }
     },[cartItemAddStatus])
 
-  return (
-    <Stack flexDirection={'row'} p={4} columnGap={2}>
+    const handleFilterClose=()=>{
+        dispatch(toggleFilters())
+    }
 
+  return (
+    <>
+    {/* filters side bar */}
+    <motion.div style={{position:"fixed",backgroundColor:"white",height:"100vh",padding:'1rem',overflowY:"scroll",width:"30rem",zIndex:500}}  variants={{show:{left:0},hide:{left:-500}}} initial={'hide'} transition={{ease:"easeInOut",duration:.7,type:"spring"}} animate={isProductFilterOpen===true?"show":"hide"}>
 
         {/* fitlers section */}
-        <Stack flex={.24} justifySelf={"flex-start"} >
-            
-            <Stack position={'fixed'} height={'100%'} sx={{overflowY:"scroll",scrollBehavior:"smooth"}}>
+        <Stack mb={'5rem'}  sx={{scrollBehavior:"smooth",overflowY:"scroll"}}>
 
+                
                     <Typography variant='h4'>New Arrivals</Typography>
 
-                    <Stack rowGap={2} mt={4} >
-                        <Typography sx={{cursor:"pointer"}} variant='body2'>Totes</Typography>
-                        <Typography sx={{cursor:"pointer"}} variant='body2'>Backpacks</Typography>
-                        <Typography sx={{cursor:"pointer"}} variant='body2'>Travel Bags</Typography>
-                        <Typography sx={{cursor:"pointer"}} variant='body2'>Hip Bags</Typography>
-                        <Typography sx={{cursor:"pointer"}} variant='body2'>Laptop Sleeves</Typography>
-                    </Stack>
 
-                    {/* brand filters */}
-                    <Stack mt={2}>
-                        <Accordion>
-                            <AccordionSummary expandIcon={<AddIcon />}  aria-controls="brand-filters" id="brand-filters" >
-                                    <Typography>Brands</Typography>
-                            </AccordionSummary>
+                        <IconButton onClick={handleFilterClose} style={{position:"absolute",top:15,right:15}}>
+                            <motion.div whileHover={{scale:1.1}} whileTap={{scale:0.9}}>
+                                <ClearIcon fontSize='medium'/>
+                            </motion.div>
+                        </IconButton>
 
-                            <AccordionDetails sx={{p:0}}>
-                                <FormGroup onChange={handleBrandFilters}>
-                                    {
-                                        brands?.map((brand)=>(
-                                            <motion.div whileHover={{x:10}} whileTap={{scale:0.9}}>
-                                                <FormControlLabel sx={{ml:1}} control={<Checkbox whileHover={{scale:1.1}} />} label={brand.name} value={brand._id} />
-                                            </motion.div>
-                                        ))
-                                    }
-                                </FormGroup>
-                            </AccordionDetails>
-                        </Accordion>
-                    </Stack>
 
-                    {/* category filters */}
-                    <Stack mt={2}>
-                        <Accordion>
-                            <AccordionSummary expandIcon={<AddIcon />}  aria-controls="category-filters" id="category-filters" >
-                                    <Typography>Category</Typography>
-                            </AccordionSummary>
+                <Stack rowGap={2} mt={4} >
+                    <Typography sx={{cursor:"pointer"}} variant='body2'>Totes</Typography>
+                    <Typography sx={{cursor:"pointer"}} variant='body2'>Backpacks</Typography>
+                    <Typography sx={{cursor:"pointer"}} variant='body2'>Travel Bags</Typography>
+                    <Typography sx={{cursor:"pointer"}} variant='body2'>Hip Bags</Typography>
+                    <Typography sx={{cursor:"pointer"}} variant='body2'>Laptop Sleeves</Typography>
+                </Stack>
 
-                            <AccordionDetails sx={{p:0}}>
-                                <FormGroup onChange={handleCategoryFilters}>
-                                    {
-                                        categories?.map((category)=>(
-                                            <motion.div whileHover={{x:10}} whileTap={{scale:0.9}}>
-                                                <FormControlLabel control={<Checkbox />} key={category._id} label={category.name} value={category._id} />
-                                            </motion.div>
-                                        ))
-                                    }
-                                </FormGroup>
-                            </AccordionDetails>
-                        </Accordion>
-                    </Stack>
-            </Stack>
+                {/* brand filters */}
+                <Stack mt={2}>
+                    <Accordion>
+                        <AccordionSummary expandIcon={<AddIcon />}  aria-controls="brand-filters" id="brand-filters" >
+                                <Typography>Brands</Typography>
+                        </AccordionSummary>
+
+                        <AccordionDetails sx={{p:0}}>
+                            <FormGroup onChange={handleBrandFilters}>
+                                {
+                                    brands?.map((brand)=>(
+                                        <motion.div style={{width:"fit-content"}} whileHover={{x:5}} whileTap={{scale:0.9}}>
+                                            <FormControlLabel sx={{ml:1}} control={<Checkbox whileHover={{scale:1.1}} />} label={brand.name} value={brand._id} />
+                                        </motion.div>
+                                    ))
+                                }
+                            </FormGroup>
+                        </AccordionDetails>
+                    </Accordion>
+                </Stack>
+
+                {/* category filters */}
+                <Stack mt={2}>
+                    <Accordion>
+                        <AccordionSummary expandIcon={<AddIcon />}  aria-controls="brand-filters" id="brand-filters" >
+                                <Typography>Category</Typography>
+                        </AccordionSummary>
+
+                        <AccordionDetails sx={{p:0}}>
+                            <FormGroup onChange={handleBrandFilters}>
+                                {
+                                    categories?.map((category)=>(
+                                        <motion.div style={{width:"fit-content"}} whileHover={{x:5}} whileTap={{scale:0.9}}>
+                                            <FormControlLabel sx={{ml:1}} control={<Checkbox whileHover={{scale:1.1}} />} label={category.name} value={category._id} />
+                                        </motion.div>
+                                    ))
+                                }
+                            </FormGroup>
+                        </AccordionDetails>
+                    </Accordion>
+                </Stack>
         </Stack>
+
+    </motion.div>
+    
+    <Stack flexDirection={'row'} p={4} columnGap={2}>
         
         <Stack flex={1} rowGap={4}>
 
@@ -258,5 +276,7 @@ export const ProductList = () => {
         </Stack>
 
     </Stack>
+
+    </>
   )
 }
