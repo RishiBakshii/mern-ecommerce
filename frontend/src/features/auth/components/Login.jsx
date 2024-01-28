@@ -20,10 +20,10 @@ export const Login = () => {
 
   useEffect(()=>{
     // this checks whether the user is logged in and is verified, if yes then redirects the user to homepage
-    if(loggedInUser?.isVerified){
+    if(loggedInUser && loggedInUser?.isVerified){
       navigate("/")
     }
-    else if(!loggedInUser?.isVerified){
+    else if(loggedInUser && !loggedInUser?.isVerified){
       navigate("/verify-otp")
     }
   },[loggedInUser])
