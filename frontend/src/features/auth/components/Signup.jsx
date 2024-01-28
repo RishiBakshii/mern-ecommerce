@@ -1,5 +1,5 @@
 import {FormHelperText, Stack, TextField, Typography ,Button,Box} from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Lottie from 'lottie-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form"
@@ -14,22 +14,12 @@ export const Signup = () => {
   const status=useSelector(selectAuthStatus)
   const error=useSelector(selectAuthErrors)
   const loggedInUser=useSelector(selectLoggedInUser)
-  const [showOtpInput,setShowOtpInput]=useState(false)
   const {register,handleSubmit,reset,formState: { errors }} = useForm()
   const navigate=useNavigate()
 
-
-
   useEffect(()=>{
-    /* this checks whether the loggedInUser is verified or not,
-    if verified and loggedIn then redirects the user to homepage,
-    if loggedIn but not verified then shows the Otp input box to the user
-    */
-    if(loggedInUser?.isVerified){
-      navigate("/")
-    }
-    else if(loggedInUser){
-      setShowOtpInput(true)
+    if(loggedInUser && !loggedInUser?.isVerified){
+      navigate("/verify-otp")
     }
   },[loggedInUser])
 
@@ -46,7 +36,6 @@ export const Signup = () => {
     /* It tracks the auth status, on being fullfilled it shows the message accordinly*/
     if(status==='fullfilled' && loggedInUser.isVerified===false){
       toast.success(`Welcome on board ${loggedInUser.name}, please verify the otp sent on your mail`)
-      setShowOtpInput(true)
       reset()
     }
     else if(status==='fullfilled' && loggedInUser.isVerified===true){
@@ -67,33 +56,14 @@ export const Signup = () => {
     dispatch(signupAsync(cred))
   }
 
-  // this function handles otp verifiction and dispatches the verifyOtp action with credentails that api requires
-  const handleOtpVerification=(data)=>{
-    const cred={...data,userId:loggedInUser._id}
-    dispatch(verifyOtpAsync(cred))
-  }
-
-
   return (
     <Stack width={'100vw'} height={'100vh'} flexDirection={'row'}>
         <Stack flex={1} justifyContent={'center'} >
           <Lottie animationData={ecommerceOutlookAnimation}/>
         </Stack>
 
-        <Stack>
-        </Stack>
-
         <Stack flex={1} justifyContent={'center'} alignItems={'center'}>
-          {
-            showOtpInput?(
-              <Stack component={'form'} noValidate flexDirection={'column'} rowGap={3} justifyContent="center" alignItems="center" onSubmit={handleSubmit(handleOtpVerification)}>
-                  <Typography variant='h3' sx={{wordBreak:"break-word"}} fontWeight={300}>Enter the Otp sent on mail</Typography>
-                  <TextField sx={{mt:3}} {...register("otp",{required:"Please enter a valid Otp"})} type='number' fullWidth variant='filled'/>
-                  {errors.otp && <FormHelperText sx={{fontSize:".9rem"}} error>{errors.otp.message}</FormHelperText>}
-                  <Button type='submit' fullWidth variant='contained'>Verify</Button>
-              </Stack>
-            ):(
-              <>
+
               <Stack flexDirection={'row'} justifyContent={'center'} alignItems={'center'}>
                   <Typography variant='h3' sx={{wordBreak:"break-word"}} fontWeight={300}>Shop Anything</Typography>
                   <Box width={'100px'}>
@@ -124,9 +94,7 @@ export const Signup = () => {
                     </Stack>
 
                 </Stack>
-            </>
-            )
-          }
+
 
         </Stack>
     </Stack>

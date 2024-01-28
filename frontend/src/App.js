@@ -1,5 +1,5 @@
 import {BrowserRouter as Router,Routes,Route, Navigate} from  'react-router-dom'
-import { LoginPage, SignupPage, ForgotPasswordPage, ResetPasswordPage, HomePage, ProductDetailsPage, CartPage, UserProfilePage, CheckoutPage, OrderSuccessPage, UserOrdersPage, ProductUpdatePage, AddProductPage, AdminOrdersPage, WishlistPage} from './pages';
+import { LoginPage, SignupPage, ForgotPasswordPage, ResetPasswordPage, HomePage, ProductDetailsPage, CartPage, UserProfilePage, CheckoutPage, OrderSuccessPage, UserOrdersPage, ProductUpdatePage, AddProductPage, AdminOrdersPage, WishlistPage, OtpVerificationPage} from './pages';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkAuthAsync, selectIsAuthChecked, selectLoggedInUser } from './features/auth/AuthSlice';
@@ -49,6 +49,7 @@ function App() {
         {/* public routes */}
         <Route exact path='/signup' element={<SignupPage/>}/>
         <Route exact path='/login' element={<LoginPage/>}/>
+        <Route exact path='/verify-otp' element={<OtpVerificationPage/>}/>
         <Route exact path='/forgot-password' element={<ForgotPasswordPage/>}/>
         <Route exact path='/reset-password/:userId/:passwordResetToken' element={<ResetPasswordPage/>}/>
 
