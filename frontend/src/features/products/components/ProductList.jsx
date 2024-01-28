@@ -203,7 +203,7 @@ export const ProductList = () => {
                         </AccordionSummary>
 
                         <AccordionDetails sx={{p:0}}>
-                            <FormGroup onChange={handleBrandFilters}>
+                            <FormGroup onChange={handleCategoryFilters}>
                                 {
                                     categories?.map((category)=>(
                                         <motion.div style={{width:"fit-content"}} whileHover={{x:5}} whileTap={{scale:0.9}}>
