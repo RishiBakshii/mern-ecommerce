@@ -24,17 +24,6 @@ exports.signup=async(req,res)=>{
         const createdUser=new User(req.body)
         await createdUser.save()
 
-        // generating otp
-        const otp=generateOTP()
-
-        // storing the otp in hashed format
-        const hashedOtp=await bcrypt.hash(otp,10)
-        const newOtp=new Otp({user:createdUser._id,otp:hashedOtp,expiresAt:Date.now() + parseInt(process.env.OTP_EXPIRATION_TIME)})
-        await newOtp.save()
-
-        // sending otp on email for verification
-        await sendMail(createdUser.email,`OTP Verification for Your MERN-AUTH-REDUX-TOOLKIT Account`,`Your One-Time Password (OTP) for account verification is: <b>${otp}</b>.</br>Do not share this OTP with anyone for security reasons`)
-
         res.status(201).json(sanitizeUser(createdUser))
 
     } catch (error) {
