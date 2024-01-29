@@ -241,7 +241,8 @@ exports.logout=async(req,res)=>{
 exports.checkAuth=async(req,res)=>{
     try {
         if(req.user){
-            return res.status(200).json(req.user)
+            const user=await User.findById(req.user._id)
+            return res.status(200).json(sanitizeUser(user))
         }
         res.sendStatus(401)
     } catch (error) {
