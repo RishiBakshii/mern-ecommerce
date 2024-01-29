@@ -23,7 +23,7 @@ export const OtpVerfication = () => {
         else if(loggedInUser && loggedInUser?.isVerified){
             navigate("/")
         }
-    },[])
+    },[loggedInUser])
 
     const handleSendOtp=()=>{
         const data={user:loggedInUser?._id}
@@ -44,7 +44,7 @@ export const OtpVerfication = () => {
             <Typography mt={4} variant='h5' fontWeight={500}>Verify Your Email Address</Typography>
 
             {
-                resendOtpStatus!=='fullfilled'?(
+                resendOtpStatus==='fullfilled'?(
                     <Stack width={'100%'} rowGap={'1rem'} component={'form'} noValidate onSubmit={handleSubmit(handleVerifyOtp)}>
                         <Stack rowGap={'1rem'}> 
                             <Stack>
