@@ -1,36 +1,20 @@
-import { Button, FormHelperText, IconButton, Paper, Stack, TextField, Typography } from '@mui/material'
-import React, { useEffect, useRef, useState } from 'react'
+import { Box, Button, FormHelperText, Paper, Stack, TextField, Typography } from '@mui/material'
+import React, { useEffect,useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectLoggedInUser, verifyOtpAsync } from '../AuthSlice'
-import { useForm } from 'react-hook-form'
+import { resendOtpAsync, selectLoggedInUser, selectResendOtpStatus, verifyOtpAsync } from '../AuthSlice'
 import { LoadingButton } from '@mui/lab'
-import { Link, useNavigate } from 'react-router-dom'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from 'react-router-dom'
+import { useForm } from "react-hook-form"
 
-const inputStyles={
-    border:"1px solid black",
-    width:"60px",
-    height:"60px",
-    textAlign:'center',
-    borderRadius:"4px",
-    fontSize:"1.2rem",
-}
 
 export const OtpVerfication = () => {
-
-    const {register,handleSubmit,reset,formState: { errors }} = useForm()
+    
+    const {register,handleSubmit,watch,formState: { errors }} = useForm()
     const dispatch=useDispatch()
     const loggedInUser=useSelector(selectLoggedInUser)
     const navigate=useNavigate()
-
-    const handleOtpVerification=(data)=>{
-        const cred={...data,userId:loggedInUser._id,otp:parseInt([data.otp0,data.otp1,data.otp2,data.otp3].join(''))}
-        delete cred.otp0
-        delete cred.otp1
-        delete cred.otp2
-        delete cred.otp3
-        dispatch(verifyOtpAsync(cred))
-    }
+    const resendOtpStatus=useSelector(selectResendOtpStatus)
+    const [otp,setOtp]=useState('')
 
     useEffect(()=>{
         if(!loggedInUser){
@@ -41,33 +25,48 @@ export const OtpVerfication = () => {
         }
     },[])
 
+    const handleSendOtp=()=>{
+        const data={user:loggedInUser?._id}
+        dispatch(resendOtpAsync(data))
+    }
+    
+    const handleVerifyOtp=(data)=>{
+        const cred={...data,userId:loggedInUser?._id}
+        dispatch(verifyOtpAsync(cred))
+    }
+
   return (
-    <Stack component={'form'} width={'100vw'} height={'100vh'} noValidate flexDirection={'column'} rowGap={3} justifyContent="center" alignItems="center" onSubmit={handleSubmit(handleOtpVerification)}>
+    <Stack width={'100vw'} height={'100vh'} noValidate flexDirection={'column'} rowGap={3} justifyContent="center" alignItems="center" >
 
         
-        <Stack component={Paper} elevation={1} position={'relative'} justifyContent={'center'} alignItems={'center'} p={'2rem'} rowGap={'3rem'}>
-            <IconButton component={Link} to={'/login'} sx={{position:"absolute",top:0,left:0}}><ArrowBackIcon fontSize='medium'/></IconButton>
+        <Stack component={Paper} elevation={1} position={'relative'} justifyContent={'center'} alignItems={'center'} p={'2rem'} rowGap={'2rem'}>
+            
             <Typography mt={4} variant='h5' fontWeight={500}>Verify Your Email Address</Typography>
 
-            <Stack rowGap={'1rem'}>
-                <Typography color={'GrayText'}>Enter the OTP code here</Typography>
-                <Stack flexDirection={'row'} columnGap={'4px'}>
-                    {
-                        [0,1,2,3].map((value)=>(
-                            <input style={inputStyles} maxLength="1" type="text" {...register(`otp${value}`,{required:"otp is required"})}/>
-                        ))
-                    }
+            {
+                resendOtpStatus!=='fullfilled'?(
+                    <Stack width={'100%'} rowGap={'1rem'} component={'form'} noValidate onSubmit={handleSubmit(handleVerifyOtp)}>
+                        <Stack rowGap={'1rem'}> 
+                            <Stack>
+                                <Typography  color={'GrayText'}>Enter the 4 digit OTP sent on</Typography>
+                                <Typography fontWeight={'600'} color={'GrayText'}>{loggedInUser?.email}</Typography>
+                            </Stack>
+                            <Stack>
+                                <TextField {...register("otp",{required:"OTP is required",minLength:{value:4,message:"Please enter a 4 digit OTP"}})} fullWidth type='number' />
+                                {errors?.otp && <FormHelperText sx={{color:"red"}}>{errors.otp.message}</FormHelperText>}
+                            </Stack>
+                       </Stack>
+                        <Button type='submit' fullWidth variant='contained'>Verify</Button>
+                    </Stack>
+                ):
+                <>
+                <Stack>
+                    <Typography color={'GrayText'}>We will send you a OTP on</Typography>
+                    <Typography fontWeight={'600'} color={'GrayText'}>{loggedInUser?.email}</Typography>
                 </Stack>
-            </Stack>
-
-            <Stack textAlign={'center'} rowGap={'1rem'}>
-                <Typography>Didn't receive an OTP?</Typography>
-                <Typography style={{cursor:"pointer"}} fontWeight={'600'}>Resend OTP?</Typography>
-            </Stack>
-
-            <LoadingButton type='submit' fullWidth variant='contained'>
-                Submit
-            </LoadingButton>
+                <LoadingButton onClick={handleSendOtp} loading={resendOtpStatus==='pending'} fullWidth variant='contained'>Get OTP</LoadingButton>
+                </>
+             }
 
         </Stack>
     </Stack>
