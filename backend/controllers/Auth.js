@@ -24,6 +24,19 @@ exports.signup=async(req,res)=>{
         const createdUser=new User(req.body)
         await createdUser.save()
 
+        // getting secure user info
+        const secureInfo=sanitizeUser(createdUser)
+
+        // generating jwt token
+        const token=generateToken(secureInfo)
+
+        // sending jwt token in the response cookies
+        res.cookie('token',token,{
+            sameSite:'Lax',
+            maxAge:new Date(Date.now() + (parseInt(process.env.COOKIE_EXPIRATION_DAYS * 24 * 60 * 60 * 1000))),
+            httpOnly:true
+        })
+
         res.status(201).json(sanitizeUser(createdUser))
 
     } catch (error) {
