@@ -33,7 +33,10 @@ export const OtpVerfication = () => {
     }
 
     useEffect(()=>{
-        if(loggedInUser?.isVerified){
+        if(!loggedInUser){
+            navigate('/login')
+        }
+        else if(loggedInUser && loggedInUser?.isVerified){
             navigate("/")
         }
     },[])
