@@ -119,7 +119,6 @@ exports.verifyOtp=async(req,res)=>{
 
 exports.resendOtp=async(req,res)=>{
     try {
-        const otp=generateOTP()
 
         const existingUser=await User.findById(req.body.user)
 
@@ -127,10 +126,13 @@ exports.resendOtp=async(req,res)=>{
             return res.status(404).json({"message":"User not found"})
         }
 
-        const newOtp=new Otp({user:req.body.user,otp,expiresAt:new Date()+parseInt(process.env.OTP_EXPIRATION_TIME)})
+        const otp=generateOTP()
+        const hashedOtp=await bcrypt.hash(otp,10)
+
+        const newOtp=new Otp({user:req.body.user,otp:hashedOtp,expiresAt:Date.now()+parseInt(process.env.OTP_EXPIRATION_TIME)})
         await newOtp.save()
 
-        await sendMail(existingUser.email,`OTP Verification for Your MERN-AUTH-REDUX-TOOLKIT Account`,`Your One-Time Password (OTP) for account verification is: <b>${newOtp.otp}</b>.</br>Do not share this OTP with anyone for security reasons`)
+        await sendMail(existingUser.email,`OTP Verification for Your MERN-AUTH-REDUX-TOOLKIT Account`,`Your One-Time Password (OTP) for account verification is: <b>${otp}</b>.</br>Do not share this OTP with anyone for security reasons`)
 
         res.status(201).json({'message':"OTP sent"})
     } catch (error) {
