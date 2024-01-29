@@ -1,9 +1,12 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
-import { checkAuth, forgotPassword, login, logout, resetPassword, signup, verifyOtp } from './AuthApi'
+import { checkAuth, forgotPassword, login, logout, resendOtp, resetPassword, signup, verifyOtp } from './AuthApi'
 
 const initialState={
     status:"idle",
     errors:null,
+    resendOtpStatus:"idle",
+    resendOtpSuccessMessage:null,
+    resendOtpError:null,
     loggedInUser:null,
     successMessage:null,
     isAuthChecked:false
@@ -23,7 +26,10 @@ export const verifyOtpAsync=createAsyncThunk('auth/verifyOtpAsync',async(cred)=>
     const res=await verifyOtp(cred)
     return res
 })
-
+export const resendOtpAsync=createAsyncThunk("auth/resendOtpAsync",async(cred)=>{
+    const res=await resendOtp(cred)
+    return res
+})
 export const forgotPasswordAsync=createAsyncThunk('auth/forgotPasswordAsync',async(cred)=>{
     const res=await forgotPassword(cred)
     return res
@@ -97,6 +103,18 @@ const authSlice=createSlice({
                 state.errors=action.error
             })
 
+            .addCase(resendOtpAsync.pending,(state)=>{
+                state.resendOtpStatus='pending'
+            })
+            .addCase(resendOtpAsync.fulfilled,(state,action)=>{
+                state.resendOtpStatus='fullfilled'
+                state.resendOtpSuccessMessage=action.payload
+            })
+            .addCase(resendOtpAsync.rejected,(state,action)=>{
+                state.resendOtpStatus='rejected'
+                state.resendOtpError=action.error
+            })
+
             .addCase(forgotPasswordAsync.pending,(state)=>{
                 state.status='pending'
             })
@@ -157,6 +175,9 @@ export const selectAuthErrors=(state)=>state.AuthSlice.errors
 export const selectLoggedInUser=(state)=>state.AuthSlice.loggedInUser
 export const selectAuthSuccessMessage=(state)=>state.AuthSlice.successMessage
 export const selectIsAuthChecked=(state)=>state.AuthSlice.isAuthChecked
+export const selectResendOtpStatus=(state)=>state.AuthSlice.resendOtpStatus
+export const selectResendOtpSuccessMessage=(state)=>state.AuthSlice.resendOtpSuccessMessage
+export const selectResendOtpError=(state)=>state.AuthSlice.resendOtpError
 
 // exporting reducers
 export const {clearAuthSuccessMessage,clearAuthErrors,resetAuthStatus}=authSlice.actions
