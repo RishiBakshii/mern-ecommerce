@@ -14,6 +14,9 @@ const initialState={
     loggedInUser:null,
     otpVerificationStatus:"idle",
     otpVerificationError:null,
+    forgotPasswordStatus:"idle",
+    forgotPasswordSuccessMessage:null,
+    forgotPasswordError:null,
     successMessage:null,
     isAuthChecked:false
 }
@@ -96,7 +99,17 @@ const authSlice=createSlice({
         },
         clearResendOtpSuccessMessage:(state)=>{
             state.resendOtpSuccessMessage=null
+        },
+        resetForgotPasswordStatus:(state)=>{
+            state.forgotPasswordStatus='idle'
+        },
+        clearForgotPasswordSuccessMessage:(state)=>{
+            state.forgotPasswordSuccessMessage=null
+        },
+        clearForgotPasswordError:(state)=>{
+            state.forgotPasswordError=null
         }
+
         
     },
     extraReducers:(builder)=>{
@@ -150,15 +163,15 @@ const authSlice=createSlice({
             })
 
             .addCase(forgotPasswordAsync.pending,(state)=>{
-                state.status='pending'
+                state.forgotPasswordStatus='pending'
             })
             .addCase(forgotPasswordAsync.fulfilled,(state,action)=>{
-                state.status='fullfilled'
-                state.successMessage=action.payload
+                state.forgotPasswordStatus='fullfilled'
+                state.forgotPasswordSuccessMessage=action.payload
             })
             .addCase(forgotPasswordAsync.rejected,(state,action)=>{
-                state.status='rejected'
-                state.errors=action.error
+                state.forgotPasswordStatus='rejected'
+                state.forgotPasswordError=action.error
             })
 
             .addCase(resetPasswordAsync.pending,(state)=>{
@@ -218,9 +231,12 @@ export const selectLoginStatus=(state)=>state.AuthSlice.loginStatus
 export const selectLoginError=(state)=>state.AuthSlice.loginError
 export const selectOtpVerificationStatus=(state)=>state.AuthSlice.otpVerificationStatus
 export const selectOtpVerificationError=(state)=>state.AuthSlice.otpVerificationError
+export const selectForgotPasswordStatus=(state)=>state.AuthSlice.forgotPasswordStatus
+export const selectForgotPasswordSuccessMessage=(state)=>state.AuthSlice.forgotPasswordSuccessMessage
+export const selectForgotPasswordError=(state)=>state.AuthSlice.forgotPasswordError
 
 // exporting reducers
-export const {clearAuthSuccessMessage,clearAuthErrors,resetAuthStatus,clearSignupError,resetSignupStatus,clearLoginError,resetLoginStatus,clearOtpVerificationError,resetOtpVerificationStatus,clearResendOtpError,clearResendOtpSuccessMessage,resetResendOtpStatus}=authSlice.actions
+export const {clearAuthSuccessMessage,clearAuthErrors,resetAuthStatus,clearSignupError,resetSignupStatus,clearLoginError,resetLoginStatus,clearOtpVerificationError,resetOtpVerificationStatus,clearResendOtpError,clearResendOtpSuccessMessage,resetResendOtpStatus,clearForgotPasswordError,clearForgotPasswordSuccessMessage,resetForgotPasswordStatus}=authSlice.actions
 
 export default authSlice.reducer
 
