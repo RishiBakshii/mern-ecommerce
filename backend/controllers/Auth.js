@@ -125,7 +125,7 @@ exports.resendOtp=async(req,res)=>{
         if(!existingUser){
             return res.status(404).json({"message":"User not found"})
         }
-        
+
         await Otp.deleteMany({user:existingUser._id})
 
         const otp=generateOTP()
@@ -154,6 +154,8 @@ exports.forgotPassword=async(req,res)=>{
             return res.status(404).json({message:"Provided email does not exists"})
         }
 
+        await PasswordResetToken.deleteMany({user:isExistingUser._id})
+
         // if user exists , generates a password reset token
         const passwordResetToken=generateToken(sanitizeUser(isExistingUser),true)
 
@@ -180,9 +182,6 @@ exports.forgotPassword=async(req,res)=>{
 
     } catch (error) {
         console.log(error);
-        if(newToken){
-            await PasswordResetToken.findByIdAndDelete(newToken._id)
-        }
         res.status(500).json({message:'Error occured while sending password reset mail'})
     }
 }
