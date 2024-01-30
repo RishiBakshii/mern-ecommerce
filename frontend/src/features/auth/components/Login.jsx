@@ -6,20 +6,20 @@ import { useForm } from "react-hook-form"
 import { ecommerceOutlookAnimation, shoppingBagAnimation} from '../../../assets'
 import {useDispatch,useSelector} from 'react-redux'
 import { LoadingButton } from '@mui/lab';
-import {selectAuthStatus,selectAuthErrors,selectLoggedInUser,verifyOtpAsync, clearAuthErrors, clearAuthSuccessMessage, loginAsync, resetAuthStatus} from '../AuthSlice'
+import {selectLoggedInUser,verifyOtpAsync, clearAuthErrors, clearAuthSuccessMessage, loginAsync, resetAuthStatus, selectLoginStatus, selectLoginError, clearLoginError, resetLoginStatus} from '../AuthSlice'
 import { toast } from 'react-toastify'
 
 export const Login = () => {
   const dispatch=useDispatch()
-  const status=useSelector(selectAuthStatus)
-  const error=useSelector(selectAuthErrors)
+  const status=useSelector(selectLoginStatus)
+  const error=useSelector(selectLoginError)
   const loggedInUser=useSelector(selectLoggedInUser)
   const {register,handleSubmit,reset,formState: { errors }} = useForm()
   const navigate=useNavigate()
 
-
+  
+  // handles user redirection
   useEffect(()=>{
-    // this checks whether the user is logged in and is verified, if yes then redirects the user to homepage
     if(loggedInUser && loggedInUser?.isVerified){
       navigate("/")
     }
@@ -28,35 +28,30 @@ export const Login = () => {
     }
   },[loggedInUser])
 
-
-  // it checks if there are errors in the auth state, if yes then toasts them and shows
+  // handles login error and toast them
   useEffect(()=>{
     if(error){
       toast.error(error.message)
     }
   },[error])
 
-  
+  // handles login status and dispatches reset actions to relevant states in cleanup
   useEffect(()=>{
-    /* It tracks the auth status, on being fullfilled it shows the message accordinly*/
     if(status==='fullfilled' && loggedInUser?.isVerified===true){
       toast.success(`Login successful`)
       reset()
     }
     return ()=>{
-      dispatch(clearAuthErrors())
-      dispatch(clearAuthSuccessMessage())
-      dispatch(resetAuthStatus())
+      dispatch(clearLoginError())
+      dispatch(resetLoginStatus())
     }
   },[status])
 
-  // this function handles login and dispatches the login action with credentails that api requires
   const handleLogin=(data)=>{
     const cred={...data}
     delete cred.confirmPassword
     dispatch(loginAsync(cred))
   }
-
 
   return (
     <Stack width={'100vw'} height={'100vh'} flexDirection={'row'}>
