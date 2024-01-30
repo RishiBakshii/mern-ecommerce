@@ -125,6 +125,8 @@ exports.resendOtp=async(req,res)=>{
         if(!existingUser){
             return res.status(404).json({"message":"User not found"})
         }
+        
+        await Otp.deleteMany({user:existingUser._id})
 
         const otp=generateOTP()
         const hashedOtp=await bcrypt.hash(otp,10)
