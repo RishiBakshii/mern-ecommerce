@@ -12,6 +12,8 @@ const initialState={
     loginStatus:"idle",
     loginError:null,
     loggedInUser:null,
+    otpVerificationStatus:"idle",
+    otpVerificationError:null,
     successMessage:null,
     isAuthChecked:false
 }
@@ -79,7 +81,14 @@ const authSlice=createSlice({
         },
         clearLoginError:(state)=>{
             state.loginError=null
-        }
+        },
+        resetOtpVerificationStatus:(state)=>{
+            state.otpVerificationStatus='idle'
+        },
+        clearOtpVerificationError:(state)=>{
+            state.otpVerificationError=null
+        },
+        
     },
     extraReducers:(builder)=>{
         builder
@@ -108,15 +117,15 @@ const authSlice=createSlice({
             })
 
             .addCase(verifyOtpAsync.pending,(state)=>{
-                state.status='pending'
+                state.otpVerificationStatus='pending'
             })
             .addCase(verifyOtpAsync.fulfilled,(state,action)=>{
-                state.status='fullfilled'
+                state.otpVerificationStatus='fullfilled'
                 state.loggedInUser=action.payload
             })
             .addCase(verifyOtpAsync.rejected,(state,action)=>{
-                state.status='rejected'
-                state.errors=action.error
+                state.otpVerificationStatus='rejected'
+                state.otpVerificationError=action.error
             })
 
             .addCase(resendOtpAsync.pending,(state)=>{
@@ -198,9 +207,11 @@ export const selectSignupStatus=(state)=>state.AuthSlice.signupStatus
 export const selectSignupError=(state)=>state.AuthSlice.signupError
 export const selectLoginStatus=(state)=>state.AuthSlice.loginStatus
 export const selectLoginError=(state)=>state.AuthSlice.loginError
+export const selectOtpVerificationStatus=(state)=>state.AuthSlice.otpVerificationStatus
+export const selectOtpVerificationError=(state)=>state.AuthSlice.otpVerificationError
 
 // exporting reducers
-export const {clearAuthSuccessMessage,clearAuthErrors,resetAuthStatus,clearSignupError,resetSignupStatus,clearLoginError,resetLoginStatus}=authSlice.actions
+export const {clearAuthSuccessMessage,clearAuthErrors,resetAuthStatus,clearSignupError,resetSignupStatus,clearLoginError,resetLoginStatus,clearOtpVerificationError,resetOtpVerificationStatus}=authSlice.actions
 
 export default authSlice.reducer
 
