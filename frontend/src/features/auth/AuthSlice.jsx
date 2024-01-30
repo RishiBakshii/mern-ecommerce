@@ -7,6 +7,8 @@ const initialState={
     resendOtpStatus:"idle",
     resendOtpSuccessMessage:null,
     resendOtpError:null,
+    signupStatus:"idle",
+    signupError:null,
     loggedInUser:null,
     successMessage:null,
     isAuthChecked:false
@@ -63,20 +65,26 @@ const authSlice=createSlice({
         },
         resetAuthStatus:(state)=>{
             state.status='idle'
+        },
+        resetSignupStatus:(state)=>{
+            state.signupStatus='idle'
+        },
+        clearSignupError:(state)=>{
+            state.signupError=null
         }
     },
     extraReducers:(builder)=>{
         builder
             .addCase(signupAsync.pending,(state)=>{
-                state.status='pending'
+                state.signupStatus='pending'
             })
             .addCase(signupAsync.fulfilled,(state,action)=>{
-                state.status='fullfilled'
+                state.signupStatus='fullfilled'
                 state.loggedInUser=action.payload
             })
             .addCase(signupAsync.rejected,(state,action)=>{
-                state.status='rejected'
-                state.errors=action.error
+                state.signupStatus='rejected'
+                state.signupError=action.error
             })
 
             .addCase(loginAsync.pending,(state)=>{
@@ -178,9 +186,11 @@ export const selectIsAuthChecked=(state)=>state.AuthSlice.isAuthChecked
 export const selectResendOtpStatus=(state)=>state.AuthSlice.resendOtpStatus
 export const selectResendOtpSuccessMessage=(state)=>state.AuthSlice.resendOtpSuccessMessage
 export const selectResendOtpError=(state)=>state.AuthSlice.resendOtpError
+export const selectSignupStatus=(state)=>state.AuthSlice.signupStatus
+export const selectSignupError=(state)=>state.AuthSlice.signupError
 
 // exporting reducers
-export const {clearAuthSuccessMessage,clearAuthErrors,resetAuthStatus}=authSlice.actions
+export const {clearAuthSuccessMessage,clearAuthErrors,resetAuthStatus,clearSignupError,resetSignupStatus}=authSlice.actions
 
 export default authSlice.reducer
 
