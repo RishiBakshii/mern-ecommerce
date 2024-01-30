@@ -88,6 +88,15 @@ const authSlice=createSlice({
         clearOtpVerificationError:(state)=>{
             state.otpVerificationError=null
         },
+        resetResendOtpStatus:(state)=>{
+            state.resendOtpStatus='idle'
+        },
+        clearResendOtpError:(state)=>{
+            state.resendOtpError=null
+        },
+        clearResendOtpSuccessMessage:(state)=>{
+            state.resendOtpSuccessMessage=null
+        }
         
     },
     extraReducers:(builder)=>{
@@ -211,7 +220,7 @@ export const selectOtpVerificationStatus=(state)=>state.AuthSlice.otpVerificatio
 export const selectOtpVerificationError=(state)=>state.AuthSlice.otpVerificationError
 
 // exporting reducers
-export const {clearAuthSuccessMessage,clearAuthErrors,resetAuthStatus,clearSignupError,resetSignupStatus,clearLoginError,resetLoginStatus,clearOtpVerificationError,resetOtpVerificationStatus}=authSlice.actions
+export const {clearAuthSuccessMessage,clearAuthErrors,resetAuthStatus,clearSignupError,resetSignupStatus,clearLoginError,resetLoginStatus,clearOtpVerificationError,resetOtpVerificationStatus,clearResendOtpError,clearResendOtpSuccessMessage,resetResendOtpStatus}=authSlice.actions
 
 export default authSlice.reducer
 
