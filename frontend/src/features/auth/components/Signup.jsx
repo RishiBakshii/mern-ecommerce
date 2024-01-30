@@ -1,4 +1,4 @@
-import {FormHelperText, Stack, TextField, Typography ,Button,Box} from '@mui/material'
+import {FormHelperText, Stack, TextField, Typography,Box} from '@mui/material'
 import React, { useEffect } from 'react'
 import Lottie from 'lottie-react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -6,17 +6,18 @@ import { useForm } from "react-hook-form"
 import { ecommerceOutlookAnimation, shoppingBagAnimation} from '../../../assets'
 import {useDispatch,useSelector} from 'react-redux'
 import { LoadingButton } from '@mui/lab';
-import {selectAuthStatus,selectAuthErrors,selectLoggedInUser, signupAsync, verifyOtpAsync, clearAuthErrors, clearAuthSuccessMessage, resetAuthStatus} from '../AuthSlice'
+import {selectLoggedInUser, signupAsync,selectSignupStatus, selectSignupError, clearSignupError, resetSignupStatus} from '../AuthSlice'
 import { toast } from 'react-toastify'
 
 export const Signup = () => {
   const dispatch=useDispatch()
-  const status=useSelector(selectAuthStatus)
-  const error=useSelector(selectAuthErrors)
+  const status=useSelector(selectSignupStatus)
+  const error=useSelector(selectSignupError)
   const loggedInUser=useSelector(selectLoggedInUser)
   const {register,handleSubmit,reset,formState: { errors }} = useForm()
   const navigate=useNavigate()
 
+  // handles user redirection
   useEffect(()=>{
     if(loggedInUser && !loggedInUser?.isVerified){
       navigate("/verify-otp")
@@ -27,7 +28,7 @@ export const Signup = () => {
   },[loggedInUser])
 
 
-  // it checks if there are errors in the auth state, if yes then toasts them and shows
+  // handles signup error and toast them
   useEffect(()=>{
     if(error){
       toast.error(error.message)
@@ -36,19 +37,13 @@ export const Signup = () => {
 
   
   useEffect(()=>{
-    /* It tracks the auth status, on being fullfilled it shows the message accordinly*/
-    if(status==='fullfilled' && loggedInUser.isVerified===false){
+    if(status==='fullfilled'){
       toast.success(`Welcome on board ${loggedInUser.name}, please verify the otp sent on your mail`)
       reset()
     }
-    else if(status==='fullfilled' && loggedInUser.isVerified===true){
-      toast.success(`Otp verification successful`)
-    }
-
     return ()=>{
-      dispatch(clearAuthErrors())
-      dispatch(clearAuthSuccessMessage())
-      dispatch(resetAuthStatus())
+      dispatch(clearSignupError())
+      dispatch(resetSignupStatus())
     }
   },[status])
 
