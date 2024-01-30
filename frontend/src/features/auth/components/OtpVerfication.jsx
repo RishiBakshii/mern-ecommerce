@@ -1,7 +1,7 @@
 import {Button, FormHelperText, Paper, Stack, TextField, Typography } from '@mui/material'
 import React, { useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { clearResendOtpError, clearResendOtpSuccessMessage, resendOtpAsync, resetResendOtpStatus, selectLoggedInUser, selectResendOtpError, selectResendOtpStatus, selectResendOtpSuccessMessage, verifyOtpAsync } from '../AuthSlice'
+import { clearOtpVerificationError, clearResendOtpError, clearResendOtpSuccessMessage, resendOtpAsync, resetOtpVerificationStatus, resetResendOtpStatus, selectLoggedInUser, selectOtpVerificationError, selectOtpVerificationStatus, selectResendOtpError, selectResendOtpStatus, selectResendOtpSuccessMessage, verifyOtpAsync } from '../AuthSlice'
 import { LoadingButton } from '@mui/lab'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form"
@@ -17,6 +17,8 @@ export const OtpVerfication = () => {
     const resendOtpStatus=useSelector(selectResendOtpStatus)
     const resendOtpError=useSelector(selectResendOtpError)
     const resendOtpSuccessMessage=useSelector(selectResendOtpSuccessMessage)
+    const otpVerificationStatus=useSelector(selectOtpVerificationStatus)
+    const otpVerificationError=useSelector(selectOtpVerificationError)
 
     // handles the redirection
     useEffect(()=>{
@@ -58,6 +60,25 @@ export const OtpVerfication = () => {
         }
     },[resendOtpSuccessMessage])
 
+    // handles error while verifying otp
+    useEffect(()=>{
+        if(otpVerificationError){
+            toast.error(otpVerificationError.message)
+        }
+        return ()=>{
+            dispatch(clearOtpVerificationError())
+        }
+    },[otpVerificationError])
+
+    useEffect(()=>{
+        if(otpVerificationStatus==='fullfilled'){
+            toast.success("Email verified! We are happy to have you here")
+            dispatch(resetResendOtpStatus())
+        }
+        return ()=>{
+            dispatch(resetOtpVerificationStatus())
+        }
+    },[otpVerificationStatus])
 
   return (
     <Stack width={'100vw'} height={'100vh'} noValidate flexDirection={'column'} rowGap={3} justifyContent="center" alignItems="center" >
@@ -80,7 +101,7 @@ export const OtpVerfication = () => {
                                 {errors?.otp && <FormHelperText sx={{color:"red"}}>{errors.otp.message}</FormHelperText>}
                             </Stack>
                        </Stack>
-                        <Button type='submit' fullWidth variant='contained'>Verify</Button>
+                        <LoadingButton loading={otpVerificationStatus==='pending'}  type='submit' fullWidth variant='contained'>Verify</LoadingButton>
                     </Stack>
                 ):
                 <>
