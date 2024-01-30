@@ -38,7 +38,7 @@ export const Signup = () => {
   
   useEffect(()=>{
     if(status==='fullfilled'){
-      toast.success(`Welcome on board ${loggedInUser.name}, please verify the otp sent on your mail`)
+      toast.success("Welcome! Verify your email to start shopping on mern-ecommerce.")
       reset()
     }
     return ()=>{
