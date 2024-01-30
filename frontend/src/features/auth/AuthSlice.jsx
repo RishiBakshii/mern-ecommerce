@@ -17,6 +17,9 @@ const initialState={
     forgotPasswordStatus:"idle",
     forgotPasswordSuccessMessage:null,
     forgotPasswordError:null,
+    resetPasswordStatus:"idle",
+    resetPasswordSuccessMessage:null,
+    resetPasswordError:null,
     successMessage:null,
     isAuthChecked:false
 }
@@ -108,6 +111,15 @@ const authSlice=createSlice({
         },
         clearForgotPasswordError:(state)=>{
             state.forgotPasswordError=null
+        },
+        resetResetPasswordStatus:(state)=>{
+            state.resetPasswordStatus='idle'
+        },
+        clearResetPasswordSuccessMessage:(state)=>{
+            state.resetPasswordSuccessMessage=null
+        },
+        clearResetPasswordError:(state)=>{
+            state.resetPasswordError=null
         }
 
         
@@ -175,15 +187,15 @@ const authSlice=createSlice({
             })
 
             .addCase(resetPasswordAsync.pending,(state)=>{
-                state.status='pending'
+                state.resetPasswordStatus='pending'
             })
             .addCase(resetPasswordAsync.fulfilled,(state,action)=>{
-                state.status='fullfilled'
-                state.successMessage=action.payload
+                state.resetPasswordStatus='fullfilled'
+                state.resetPasswordSuccessMessage=action.payload
             })
             .addCase(resetPasswordAsync.rejected,(state,action)=>{
-                state.status='rejected'
-                state.errors=action.error
+                state.resetPasswordStatus='rejected'
+                state.resetPasswordError=action.error
             })
 
             .addCase(logoutAsync.pending,(state)=>{
@@ -234,9 +246,12 @@ export const selectOtpVerificationError=(state)=>state.AuthSlice.otpVerification
 export const selectForgotPasswordStatus=(state)=>state.AuthSlice.forgotPasswordStatus
 export const selectForgotPasswordSuccessMessage=(state)=>state.AuthSlice.forgotPasswordSuccessMessage
 export const selectForgotPasswordError=(state)=>state.AuthSlice.forgotPasswordError
+export const selectResetPasswordStatus=(state)=>state.AuthSlice.resetPasswordStatus
+export const selectResetPasswordSuccessMessage=(state)=>state.AuthSlice.resetPasswordSuccessMessage
+export const selectResetPasswordError=(state)=>state.AuthSlice.resetPasswordError
 
 // exporting reducers
-export const {clearAuthSuccessMessage,clearAuthErrors,resetAuthStatus,clearSignupError,resetSignupStatus,clearLoginError,resetLoginStatus,clearOtpVerificationError,resetOtpVerificationStatus,clearResendOtpError,clearResendOtpSuccessMessage,resetResendOtpStatus,clearForgotPasswordError,clearForgotPasswordSuccessMessage,resetForgotPasswordStatus}=authSlice.actions
+export const {clearAuthSuccessMessage,clearAuthErrors,resetAuthStatus,clearSignupError,resetSignupStatus,clearLoginError,resetLoginStatus,clearOtpVerificationError,resetOtpVerificationStatus,clearResendOtpError,clearResendOtpSuccessMessage,resetResendOtpStatus,clearForgotPasswordError,clearForgotPasswordSuccessMessage,resetForgotPasswordStatus,clearResetPasswordError,clearResetPasswordSuccessMessage,resetResetPasswordStatus}=authSlice.actions
 
 export default authSlice.reducer
 
