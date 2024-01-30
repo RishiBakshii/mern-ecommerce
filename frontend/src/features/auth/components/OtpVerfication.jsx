@@ -1,21 +1,24 @@
-import { Box, Button, FormHelperText, Paper, Stack, TextField, Typography } from '@mui/material'
-import React, { useEffect,useState } from 'react'
+import {Button, FormHelperText, Paper, Stack, TextField, Typography } from '@mui/material'
+import React, { useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { resendOtpAsync, selectLoggedInUser, selectResendOtpStatus, verifyOtpAsync } from '../AuthSlice'
+import { clearResendOtpError, clearResendOtpSuccessMessage, resendOtpAsync, resetResendOtpStatus, selectLoggedInUser, selectResendOtpError, selectResendOtpStatus, selectResendOtpSuccessMessage, verifyOtpAsync } from '../AuthSlice'
 import { LoadingButton } from '@mui/lab'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form"
+import {toast} from 'react-toastify'
 
 
 export const OtpVerfication = () => {
     
-    const {register,handleSubmit,watch,formState: { errors }} = useForm()
+    const {register,handleSubmit,formState: { errors }} = useForm()
     const dispatch=useDispatch()
     const loggedInUser=useSelector(selectLoggedInUser)
     const navigate=useNavigate()
     const resendOtpStatus=useSelector(selectResendOtpStatus)
-    const [otp,setOtp]=useState('')
+    const resendOtpError=useSelector(selectResendOtpError)
+    const resendOtpSuccessMessage=useSelector(selectResendOtpSuccessMessage)
 
+    // handles the redirection
     useEffect(()=>{
         if(!loggedInUser){
             navigate('/login')
@@ -34,6 +37,27 @@ export const OtpVerfication = () => {
         const cred={...data,userId:loggedInUser?._id}
         dispatch(verifyOtpAsync(cred))
     }
+
+    // handles resend otp error
+    useEffect(()=>{
+        if(resendOtpError){
+            toast.error(resendOtpError.message)
+        }
+        return ()=>{
+            dispatch(clearResendOtpError())
+        }
+    },[resendOtpError])
+
+    // handles resend otp success message
+    useEffect(()=>{
+        if(resendOtpSuccessMessage){
+            toast.success(resendOtpSuccessMessage.message)
+        }
+        return ()=>{
+            dispatch(clearResendOtpSuccessMessage())
+        }
+    },[resendOtpSuccessMessage])
+
 
   return (
     <Stack width={'100vw'} height={'100vh'} noValidate flexDirection={'column'} rowGap={3} justifyContent="center" alignItems="center" >
