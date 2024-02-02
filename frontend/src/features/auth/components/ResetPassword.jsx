@@ -1,9 +1,9 @@
-import { Button, FormHelperText, Paper, Stack, TextField, Typography } from '@mui/material'
+import { FormHelperText, Paper, Stack, TextField, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from 'react-redux'
-import { clearAuthErrors, clearAuthSuccessMessage, resetPasswordAsync, selectAuthErrors, selectAuthStatus, selectAuthSuccessMessage } from '../AuthSlice'
+import {clearResetPasswordError, clearResetPasswordSuccessMessage, resetPasswordAsync, resetResetPasswordStatus, selectResetPasswordError, selectResetPasswordStatus, selectResetPasswordSuccessMessage } from '../AuthSlice'
 import { LoadingButton } from '@mui/lab'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
@@ -11,36 +11,42 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 export const ResetPassword = () => {
     const {register,handleSubmit,reset,formState: { errors }} = useForm()
     const dispatch=useDispatch()
-    const status=useSelector(selectAuthStatus)
-    const error=useSelector(selectAuthErrors)
-    const successMessage=useSelector(selectAuthSuccessMessage)
+    const status=useSelector(selectResetPasswordStatus)
+    const error=useSelector(selectResetPasswordError)
+    const successMessage=useSelector(selectResetPasswordSuccessMessage)
     const {userId,passwordResetToken}=useParams()
     const navigate=useNavigate()
 
     useEffect(()=>{
         if(error){
             toast.error(error.message)
-            reset()
+        }
+        return ()=>{
+            dispatch(clearResetPasswordError())
         }
     },[error])
 
     useEffect(()=>{
         if(status==='fullfilled'){
-            toast.success(successMessage.message)
-            reset()
+            toast.success(successMessage?.message)
             navigate("/login")
         }
-
         return ()=>{
-            dispatch(clearAuthErrors())
-            dispatch(clearAuthSuccessMessage())
+            dispatch(clearResetPasswordSuccessMessage())
         }
     },[status])
+
+    useEffect(()=>{
+        return ()=>{
+            dispatch(resetResetPasswordStatus())
+        }
+    },[])
 
     const handleResetPassword=async(data)=>{
         const cred={...data,userId:userId,token:passwordResetToken}
         delete cred.confirmPassword
         dispatch(resetPasswordAsync(cred))
+        reset()
     }
 
   return (
