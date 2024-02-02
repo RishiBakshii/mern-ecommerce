@@ -1,9 +1,9 @@
-import { Button, FormHelperText, Paper, Stack, TextField, Typography } from '@mui/material'
+import { FormHelperText, Paper, Stack, TextField, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from 'react-redux'
-import { forgotPasswordAsync, selectAuthErrors, selectAuthStatus, selectAuthSuccessMessage } from '../AuthSlice'
+import { clearForgotPasswordError, clearForgotPasswordSuccessMessage, forgotPasswordAsync,resetForgotPasswordStatus,selectForgotPasswordError, selectForgotPasswordStatus, selectForgotPasswordSuccessMessage } from '../AuthSlice'
 import { LoadingButton } from '@mui/lab'
 import { Link } from 'react-router-dom'
 
@@ -11,34 +11,38 @@ import { Link } from 'react-router-dom'
 export const ForgotPassword = () => {
     const {register,handleSubmit,reset,formState: { errors }} = useForm()
     const dispatch=useDispatch()
-    const status=useSelector(selectAuthStatus)
-    const error=useSelector(selectAuthErrors)
-    const successMessage=useSelector(selectAuthSuccessMessage)
+    const status=useSelector(selectForgotPasswordStatus)
+    const error=useSelector(selectForgotPasswordError)
+    const successMessage=useSelector(selectForgotPasswordSuccessMessage)
 
     useEffect(()=>{
         if(error){
-            toast.error(error.message)
-            reset()
+            toast.error(error?.message)
+        }
+        return ()=>{
+            dispatch(clearForgotPasswordError())
         }
     },[error])
 
     useEffect(()=>{
         if(status==='fullfilled'){
-            toast.success(successMessage.message)
-            reset()
+            toast.success(successMessage?.message)
+        }
+        return ()=>{
+            dispatch(resetForgotPasswordStatus())
+            dispatch(clearForgotPasswordSuccessMessage())
         }
     },[status])
 
     const handleForgotPassword=async(data)=>{
         dispatch(forgotPasswordAsync(data))
+        reset()
     }
 
   return (
     <Stack width={'100vw'} height={'100vh'} justifyContent={'center'} alignItems={'center'}>
 
         <Stack>
-
-        
         <Stack component={Paper} elevation={2}>
             <Stack component={'form'} width={'30rem'} p={2} rowGap={2} noValidate onSubmit={handleSubmit(handleForgotPassword)}>
                     <Stack>
