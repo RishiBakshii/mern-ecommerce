@@ -29,10 +29,15 @@ export const ForgotPassword = () => {
             toast.success(successMessage?.message)
         }
         return ()=>{
-            dispatch(resetForgotPasswordStatus())
             dispatch(clearForgotPasswordSuccessMessage())
         }
     },[status])
+
+    useEffect(()=>{
+        return ()=>{
+            dispatch(resetForgotPasswordStatus())
+        }
+    },[])
 
     const handleForgotPassword=async(data)=>{
         dispatch(forgotPasswordAsync(data))
