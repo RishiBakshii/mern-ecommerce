@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {clearResetPasswordError, clearResetPasswordSuccessMessage, resetPasswordAsync, resetResetPasswordStatus, selectResetPasswordError, selectResetPasswordStatus, selectResetPasswordSuccessMessage } from '../AuthSlice'
 import { LoadingButton } from '@mui/lab'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-
+import {MotionConfig,motion} from 'framer-motion'
 
 export const ResetPassword = () => {
     const {register,handleSubmit,reset,formState: { errors }} = useForm()
@@ -54,20 +54,36 @@ export const ResetPassword = () => {
 
         <Stack>
 
-        
-        <Stack component={Paper} elevation={2}>
-            <Stack component={'form'} width={'30rem'} p={2} rowGap={2} noValidate onSubmit={handleSubmit(handleResetPassword)}>
-                <Typography variant='h4'>Reset Password</Typography>
+            <Stack component={Paper} elevation={2}>
+                <Stack component={'form'} width={'30rem'} p={'1rem'} rowGap={'1rem'} noValidate onSubmit={handleSubmit(handleResetPassword)}>
 
-                    <TextField sx={{mt:1}} {...register("password",{required:"Please enter a password",pattern:{value:/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,message:`at least 8 characters, must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number, Can contain special characters`}})} placeholder='New Password'/>
-                    {errors.password && <FormHelperText error>{errors.password.message}</FormHelperText>}
-                    
-                    <TextField sx={{mt:1}} {...register("confirmPassword",{required:"Please Confirm the password",validate:(value,formValues)=>value===formValues.password || "Passwords dosen't match"})} placeholder='Confirm New Password'/>
-                    {errors.confirmPassword && <FormHelperText error>{errors.confirmPassword.message}</FormHelperText>}
-                    <LoadingButton loading={status==='pending'} type='submit' variant='contained'>Reset Password</LoadingButton>
+                        <Stack rowGap={'.3rem'}>
+                            <Typography variant='h4' fontWeight={600}>Reset Password</Typography>
+                            <Typography color={'GrayText'}>Please enter and confirm new password</Typography>
+                        </Stack>
+                        
+                        <Stack rowGap={'.5rem'}>
+                            <MotionConfig whileHover={{y:-2}}>
+
+                                <motion.div>
+                                    <TextField type='password' fullWidth sx={{mt:1}} {...register("password",{required:"Please enter a password",pattern:{value:/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,message:`at least 8 characters, must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number, Can contain special characters`}})} placeholder='New Password'/>
+                                    {errors.password && <FormHelperText sx={{mt:1}} error>{errors.password.message}</FormHelperText>}
+                                </motion.div>
+                                
+                                <motion.div>
+                                    <TextField type='password' fullWidth sx={{mt:1}} {...register("confirmPassword",{required:"Please Confirm the password",validate:(value,formValues)=>value===formValues.password || "Passwords dosen't match"})} placeholder='Confirm New Password'/>
+                                    {errors.confirmPassword && <FormHelperText sx={{mt:1}} error>{errors.confirmPassword.message}</FormHelperText>}
+                                </motion.div>
+                                
+                            </MotionConfig>
+                        </Stack>
+
+                        <motion.div whileHover={{scale:1.020}} whileTap={{scale:1}}>
+                            <LoadingButton sx={{height:"2.5rem"}} fullWidth loading={status==='pending'} type='submit' variant='contained'>Reset Password</LoadingButton>
+                        </motion.div>
+                </Stack>
             </Stack>
-        </Stack>
-        <Typography mt={2} textAlign={'left'} to={'/login'} variant='body2' component={Link}>Go back to Login</Typography>
+
         </Stack>
     </Stack>
   )
