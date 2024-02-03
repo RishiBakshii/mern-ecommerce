@@ -20,6 +20,8 @@ export const ProductUpdate = () => {
     const productUpdateStatus=useSelector(selectProductUpdateStatus)
     const navigate=useNavigate()
 
+    console.log(selectedProduct);
+
     useEffect(()=>{
         if(id){
             dispatch(fetchProductByIdAsync(id))
@@ -54,21 +56,23 @@ export const ProductUpdate = () => {
   return (
     <Stack justifyContent={'center'} alignItems={'center'} flexDirection={'row'} >
         
-
+        {
+            selectedProduct &&
+        
         <Stack width={'60rem'} rowGap={4} mt={6} mb={6} component={'form'} noValidate onSubmit={handleSubmit(handleProductUpdate)}> 
             
             {/* feild area */}
             <Stack rowGap={3}>
                 <Stack>
                     <Typography variant='h6' fontWeight={400} gutterBottom>Title</Typography>
-                    <TextField {...register("title",{required:'Title is required',value:selectedProduct?.title})}/>
+                    <TextField {...register("title",{required:'Title is required',value:selectedProduct.title})}/>
                 </Stack> 
 
                 <Stack flexDirection={'row'} >
 
                     <FormControl fullWidth>
                         <InputLabel id="brand-selection">Brand</InputLabel>
-                        <Select defaultValue={selectedProduct?.brand._id} {...register("brand",{required:"Brand is required"})} labelId="brand-selection" label="Brand">
+                        <Select defaultValue={selectedProduct.brand._id} {...register("brand",{required:"Brand is required"})} labelId="brand-selection" label="Brand">
                             
                             {
                                 brands.map((brand)=>(
@@ -82,7 +86,7 @@ export const ProductUpdate = () => {
 
                     <FormControl fullWidth>
                         <InputLabel id="category-selection">Category</InputLabel>
-                        <Select defaultValue={selectedProduct?.category._id} {...register("category",{required:"category is required"})} labelId="category-selection" label="Category">
+                        <Select defaultValue={selectedProduct.category._id} {...register("category",{required:"category is required"})} labelId="category-selection" label="Category">
                             
                             {
                                 categories.map((category)=>(
@@ -98,27 +102,27 @@ export const ProductUpdate = () => {
 
                 <Stack>
                     <Typography variant='h6' fontWeight={400}  gutterBottom>Description</Typography>
-                    <TextField multiline rows={4} {...register("description",{required:"Description is required",value:selectedProduct?.description})}/>
+                    <TextField multiline rows={4} {...register("description",{required:"Description is required",value:selectedProduct.description})}/>
                 </Stack>
 
                 <Stack flexDirection={'row'}>
                     <Stack flex={1}>
                         <Typography variant='h6' fontWeight={400}  gutterBottom>Price</Typography>
-                        <TextField type='number' {...register("price",{required:"Price is required",value:selectedProduct?.price})}/>
+                        <TextField type='number' {...register("price",{required:"Price is required",value:selectedProduct.price})}/>
                     </Stack>
                     <Stack flex={1}>
                         <Typography variant='h6' fontWeight={400}  gutterBottom>Discount Percentage</Typography>
-                        <TextField type='number' {...register("discountPercentage",{required:"discount percentage is required",value:selectedProduct?.discountPercentage})}/>
+                        <TextField type='number' {...register("discountPercentage",{required:"discount percentage is required",value:selectedProduct.discountPercentage})}/>
                     </Stack>
                 </Stack>
 
                 <Stack>
                     <Typography variant='h6'  fontWeight={400} gutterBottom>Stock Quantity</Typography>
-                    <TextField type='number' {...register("stockQuantity",{required:"Stock Quantity is required",value:selectedProduct?.stockQuantity})}/>
+                    <TextField type='number' {...register("stockQuantity",{required:"Stock Quantity is required",value:selectedProduct.stockQuantity})}/>
                 </Stack>
                 <Stack>
                     <Typography variant='h6'  fontWeight={400} gutterBottom>Thumbnail</Typography>
-                    <TextField {...register("thumbnail",{required:"Thumbnail is required",value:selectedProduct?.thumbnail})}/>
+                    <TextField {...register("thumbnail",{required:"Thumbnail is required",value:selectedProduct.thumbnail})}/>
                 </Stack>
 
                 <Stack>
@@ -126,7 +130,7 @@ export const ProductUpdate = () => {
 
                     <Stack rowGap={2}>
                         {
-                            selectedProduct?.images.map((image,index)=>(
+                            selectedProduct.images.map((image,index)=>(
                                 <TextField {...register(`image${index}`,{required:"Image is required",value:image})}/>
                             ))
                         }
@@ -145,6 +149,7 @@ export const ProductUpdate = () => {
 
 
         </Stack>
+        }
 
     </Stack>
   )
