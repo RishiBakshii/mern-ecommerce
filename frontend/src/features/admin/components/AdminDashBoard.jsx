@@ -1,4 +1,4 @@
-import { Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Pagination, Select, Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Accordion from '@mui/material/Accordion';
@@ -11,10 +11,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { selectCategories } from '../../categories/CategoriesSlice'
 import { ProductCard } from '../../products/components/ProductCard'
-import { deleteProductByIdAsync, fetchProductsAsync, selectProductIsFilterOpen, selectProducts, toggleFilters, undeleteProductByIdAsync } from '../../products/ProductSlice';
+import { deleteProductByIdAsync, fetchProductsAsync, selectProductIsFilterOpen, selectProductTotalResults, selectProducts, toggleFilters, undeleteProductByIdAsync } from '../../products/ProductSlice';
 import { Link } from 'react-router-dom';
 import {motion} from 'framer-motion'
 import ClearIcon from '@mui/icons-material/Clear';
+import { ITEMS_PER_PAGE } from '../../../constants';
 
 const sortOptions=[
     {name:"Price: low to high",sort:"price",order:"asc"},
@@ -27,12 +28,13 @@ export const AdminDashBoard = () => {
     const brands=useSelector(selectBrands)
     const categories=useSelector(selectCategories)
     const [sort,setSort]=useState(null)
+    const [page,setPage]=useState(1)
     const products=useSelector(selectProducts)
     const dispatch=useDispatch()
     const theme=useTheme()
     const is500=useMediaQuery(theme.breakpoints.down(500))
     const isProductFilterOpen=useSelector(selectProductIsFilterOpen)
-
+    const totalResults=useSelector(selectProductTotalResults)
     
     const is1200=useMediaQuery(theme.breakpoints.down(1200))
     const is800=useMediaQuery(theme.breakpoints.down(800))
@@ -41,13 +43,18 @@ export const AdminDashBoard = () => {
     const is488=useMediaQuery(theme.breakpoints.down(488))
 
     useEffect(()=>{
+        setPage(1)
+    },[totalResults])
+
+    useEffect(()=>{
         const finalFilters={...filters}
 
+        finalFilters['pagination']={page:page,limit:ITEMS_PER_PAGE}
         finalFilters['sort']=sort
 
         dispatch(fetchProductsAsync(finalFilters))
         
-    },[filters,sort])
+    },[filters,sort,page])
 
     const handleBrandFilters=(e)=>{
 
@@ -203,6 +210,12 @@ export const AdminDashBoard = () => {
                 ))
             }
         </Grid>
+
+        <Stack alignSelf={is488?'center':'flex-end'} mr={is488?0:5} rowGap={2} p={is488?1:0}>
+            <Pagination size={is488?'medium':'large'} page={page}  onChange={(e,page)=>setPage(page)} count={Math.ceil(totalResults/ITEMS_PER_PAGE)} variant="outlined" shape="rounded" />
+            <Typography textAlign={'center'}>Showing {(page-1)*ITEMS_PER_PAGE+1} to {page*ITEMS_PER_PAGE>totalResults?totalResults:page*ITEMS_PER_PAGE} of {totalResults} results</Typography>
+        </Stack>    
+            
     
     </Stack> 
     </>
