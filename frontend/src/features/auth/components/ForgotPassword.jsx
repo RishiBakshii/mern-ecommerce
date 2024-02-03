@@ -1,4 +1,4 @@
-import { FormHelperText, Paper, Stack, TextField, Typography, useTheme } from '@mui/material'
+import { FormHelperText, Paper, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import React, { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useForm } from "react-hook-form"
@@ -15,6 +15,7 @@ export const ForgotPassword = () => {
     const error=useSelector(selectForgotPasswordError)
     const successMessage=useSelector(selectForgotPasswordSuccessMessage)
     const theme=useTheme()
+    const is500=useMediaQuery(theme.breakpoints.down(500))
 
     useEffect(()=>{
         if(error){
@@ -50,7 +51,7 @@ export const ForgotPassword = () => {
 
         <Stack rowGap={'1rem'}>
             <Stack component={Paper} elevation={2}>
-                <Stack component={'form'} width={'30rem'} p={'1.5rem'} rowGap={'1rem'} noValidate onSubmit={handleSubmit(handleForgotPassword)}>
+                <Stack component={'form'} width={is500?"95vw":'30rem'} p={is500?"1rem":'1.5rem'} rowGap={'1rem'} noValidate onSubmit={handleSubmit(handleForgotPassword)}>
                         
                         <Stack rowGap={'.4rem'}>
                             <Typography variant='h5' fontWeight={600}>{status==='fullfilled'?"Email has been sent!":"Forgot Your Password?"}</Typography>
