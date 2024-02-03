@@ -1,4 +1,4 @@
-import { Button, Grid, IconButton, Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { Button, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Accordion from '@mui/material/Accordion';
@@ -16,21 +16,38 @@ import { Link } from 'react-router-dom';
 import {motion} from 'framer-motion'
 import ClearIcon from '@mui/icons-material/Clear';
 
+const sortOptions=[
+    {name:"Price: low to high",sort:"price",order:"asc"},
+    {name:"Price: high to low",sort:"price",order:"desc"},
+]
+
 export const AdminDashBoard = () => {
 
     const [filters,setFilters]=useState({})
     const brands=useSelector(selectBrands)
     const categories=useSelector(selectCategories)
+    const [sort,setSort]=useState(null)
     const products=useSelector(selectProducts)
     const dispatch=useDispatch()
     const theme=useTheme()
     const is500=useMediaQuery(theme.breakpoints.down(500))
     const isProductFilterOpen=useSelector(selectProductIsFilterOpen)
+
     
+    const is1200=useMediaQuery(theme.breakpoints.down(1200))
+    const is800=useMediaQuery(theme.breakpoints.down(800))
+    const is700=useMediaQuery(theme.breakpoints.down(700))
+    const is600=useMediaQuery(theme.breakpoints.down(600))
+    const is488=useMediaQuery(theme.breakpoints.down(488))
 
     useEffect(()=>{
-        dispatch(fetchProductsAsync(filters))
-    },[filters])
+        const finalFilters={...filters}
+
+        finalFilters['sort']=sort
+
+        dispatch(fetchProductsAsync(finalFilters))
+        
+    },[filters,sort])
 
     const handleBrandFilters=(e)=>{
 
@@ -52,7 +69,6 @@ export const AdminDashBoard = () => {
         const filterArray = Array.from(filterSet);
         setFilters({...filters,category:filterArray})
     }
-
 
     const handleProductDelete=(productId)=>{
         dispatch(deleteProductByIdAsync(productId))
@@ -138,7 +154,34 @@ export const AdminDashBoard = () => {
 
     </motion.div>
 
-    <Stack flexDirection={'row'} p={4} columnGap={2}>
+    <Stack rowGap={5} mt={is600?2:5} mb={'3rem'}>
+
+        {/* sort options */}
+        <Stack flexDirection={'row'} mr={'2rem'} justifyContent={'flex-end'} alignItems={'center'} columnGap={5}>
+
+            <Stack alignSelf={'flex-end'} width={'12rem'}>
+                <FormControl fullWidth>
+                        <InputLabel id="sort-dropdown">Sort</InputLabel>
+                        <Select
+                            variant='standard'
+                            labelId="sort-dropdown"
+                            label="Sort"
+                            onChange={(e)=>setSort(e.target.value)}
+                            value={sort}
+                        >
+                            <MenuItem bgcolor='text.secondary' value={null}>Reset</MenuItem>
+                            {
+                                sortOptions.map((option)=>(
+                                    <MenuItem key={option} value={option}>{option.name}</MenuItem>
+                                ))
+                            }
+                        </Select>
+                </FormControl>
+            </Stack>
+
+        </Stack>
+        
+     
         <Grid gap={2} container flex={1} justifyContent={'center'} alignContent={"center"}>
             {
                 products.map((product)=>(
@@ -160,7 +203,8 @@ export const AdminDashBoard = () => {
                 ))
             }
         </Grid>
-    </Stack>
+    
+    </Stack> 
     </>
   )
 }
