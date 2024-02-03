@@ -5,7 +5,7 @@ import { AdminDashBoard } from '../features/admin/components/AdminDashBoard'
 export const AdminDashboardPage = () => {
   return (
     <>
-    <Navbar/>
+    <Navbar isProductList={true}/>
     <AdminDashBoard/>
     </>
   )

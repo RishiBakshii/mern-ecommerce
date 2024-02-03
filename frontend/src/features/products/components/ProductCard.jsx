@@ -1,5 +1,5 @@
-import { Button, FormHelperText, IconButton, Paper, Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
-import React, { useEffect } from 'react'
+import { FormHelperText, Paper, Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
@@ -7,11 +7,10 @@ import Checkbox from '@mui/material/Checkbox';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectWishlistItems } from '../../wishlist/WishlistSlice';
 import { selectLoggedInUser } from '../../auth/AuthSlice';
-import { addToCartAsync, selectCartItemAddStatus, selectCartItems } from '../../cart/CartSlice';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import {AnimatePresence, color, motion} from 'framer-motion'
+import { addToCartAsync,selectCartItems } from '../../cart/CartSlice';
+import {motion} from 'framer-motion'
 
-export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity,handleAddRemoveFromWishlist,isWishlistCard}) => {
+export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity,handleAddRemoveFromWishlist,isWishlistCard,isAdminCard}) => {
 
 
     const navigate=useNavigate()
@@ -42,7 +41,7 @@ export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity,handle
     {
 
     isProductAlreadyinWishlist!==-1 ?
-    <Stack  component={isWishlistCard?"":Paper} elevation={1} p={2} width={is488?"280px":is568?"240px":is700?'280px':'340px'} height={is488?"340px":is568?"300px":is700?"340px":'400px'}  sx={{cursor:"pointer"}} onClick={()=>navigate(`/product-details/${id}`)}>
+    <Stack  component={isAdminCard?"":isWishlistCard?"":Paper} elevation={1} p={2} width={is488?"280px":is568?"240px":is700?'280px':'340px'} height={is488?"340px":is568?"300px":is700?"340px":'400px'}  sx={{cursor:"pointer"}} onClick={()=>navigate(`/product-details/${id}`)}>
 
         {/* image display */}
         <Stack flex={4} height={is488?"140px":is568?"100px":is700?"140px":'200px'} width={is488?"240px":is568?"200px":is700?"240px":"300px"} justifyContent={'center'} alignItems={'center'}>
@@ -55,9 +54,12 @@ export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity,handle
             <Stack>
                 <Stack flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'}>
                     <Typography variant='h6' fontWeight={400}>{title}</Typography>
+                    {
+                    !isAdminCard && 
                     <motion.div whileHover={{scale:1.3,y:-10,zIndex:100}} whileTap={{scale:1}} transition={{duration:.4,type:"spring"}}>
                         <Checkbox onClick={(e)=>e.stopPropagation()} checked={isProductAlreadyinWishlist} onChange={(e)=>handleAddRemoveFromWishlist(e,id)} icon={<FavoriteBorder />} checkedIcon={<Favorite sx={{color:'red'}} />} />
                     </motion.div>
+                    }
                 </Stack>
                 <Typography color={"text.secondary"}>{brand}</Typography>
             </Stack>
@@ -73,7 +75,8 @@ export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity,handle
                     // </button>
                     ''
 
-                    : 
+                    :
+                    !isAdminCard &&
                     <motion.button  whileHover={{scale:1.030}} whileTap={{scale:1}} onClick={(e)=>handleAddToCart(e)} style={{padding:"10px 15px",borderRadius:"3px",outline:"none",border:"none",cursor:"pointer",backgroundColor:"black",color:"white",fontSize:is568?".8rem":".9rem"}}>
                         <div style={{display:"flex",alignItems:"center",columnGap:".5rem"}}>
                             <p>Add To Cart</p>
