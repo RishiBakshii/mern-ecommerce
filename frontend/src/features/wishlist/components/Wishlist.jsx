@@ -1,4 +1,4 @@
-import { Box, Button, Grid, IconButton, Paper, Stack, TextField, Typography } from '@mui/material'
+import { Box, Button, Grid, IconButton, Paper, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {useDispatch,useSelector} from 'react-redux'
 import { createWishlistItemAsync, deleteWishlistItemByIdAsync, resetWishlistItemAddStatus, resetWishlistItemDeleteStatus, resetWishlistItemUpdateStatus, selectWishlistItemAddStatus, selectWishlistItemDeleteStatus, selectWishlistItemUpdateStatus, selectWishlistItems, updateWishlistItemByIdAsync } from '../WishlistSlice'
@@ -29,6 +29,12 @@ export const Wishlist = () => {
   const [editValue,setEditValue]=useState('')
   const {register,handleSubmit,watch,formState: { errors }} = useForm()
 
+  const theme=useTheme()
+  const is1130=useMediaQuery(theme.breakpoints.down(1130))
+  const is490=useMediaQuery(theme.breakpoints.down(490))
+  const is700=useMediaQuery(theme.breakpoints.down(700))
+  const is568=useMediaQuery(theme.breakpoints.down(568))
+  const is488=useMediaQuery(theme.breakpoints.down(488))
   
   const handleAddRemoveFromWishlist=(e,productId)=>{
     if(e.target.checked){
@@ -121,10 +127,10 @@ export const Wishlist = () => {
 
   return (
     // parent
-    <Stack justifyContent={'flex-start'} mt={5} mb={'14rem'} alignItems={'center'}>
+    <Stack justifyContent={'flex-start'} mt={is488?2:5} mb={'14rem'} alignItems={'center'}>
 
         {/* main child */}
-        <Stack width={'70rem'} rowGap={4}>
+        <Stack width={is1130?"100vw":'70rem'} rowGap={is488?0:4}>
 
           {/* heading area and back button */}
           <Stack alignSelf={'flex-start'} flexDirection={'row'} columnGap={1} justifyContent={'center'} alignItems={'center'}>
@@ -139,16 +145,16 @@ export const Wishlist = () => {
 
             {
               wishlistItems?.length===0?(
-                <Stack width={'40rem'} alignSelf={'center'} justifyContent={'center'} alignItems={'center'}>
+                <Stack width={is490?"20rem":is1130?"30rem":'40rem'}  alignSelf={'center'} justifyContent={'center'} alignItems={'center'}>
                   <Lottie animationData={emptyWishlistAnimation}/>
                   <Typography variant='h6' fontWeight={300}>You have no items in your wishlist</Typography>
                 </Stack>
               ):
             
-              <Grid container gap={3} justifyContent={'center'}>
+              <Grid container gap={is1130?1:3} justifyContent={is1130?"space-evenly":'center'} alignContent={'center'}>
                 {
                   wishlistItems.map((item,index)=>(
-                    <Stack component={Paper} elevation={1} >
+                    <Stack component={Paper} elevation={1} width={is488?"280px":is568?"240px":is700?'280px':'340px'}>
 
                       <ProductCard item key={item._id} brand={item.product.brand.name} id={item.product._id} price={item.product.price} stockQuantity={item.product.stockQuantity} thumbnail={item.product.thumbnail} title={item.product.title} handleAddRemoveFromWishlist={handleAddRemoveFromWishlist} isWishlistCard={true}/>
                       
@@ -174,8 +180,8 @@ export const Wishlist = () => {
 
                             </Stack>
                           ):
-                          <Box width={'300px'}>
-                            <Typography sx={{wordWrap:"break-word"}}>{item.note?item.note:"You can add a note here"}</Typography>
+                          <Box>
+                            <Typography sx={{wordWrap:"break-word",color:item.note?'text.primary':'GrayText'}}>{item.note?item.note:"You can add a note here"}</Typography>
                           </Box>
                         }
 
