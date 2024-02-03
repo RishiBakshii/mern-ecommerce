@@ -236,8 +236,13 @@ export const ProductDetails = () => {
                     <Typography>{product?.description}</Typography>
                     <hr />
                 </Stack>
+                
 
                 {/* color, size and add-to-cart */}
+
+                {
+                    !loggedInUser?.isAdmin &&
+                
                 <Stack sx={{rowGap:"1.3rem"}}>
 
                     {/* colors */}
@@ -298,6 +303,8 @@ export const ProductDetails = () => {
                     </Stack>
 
                 </Stack>
+                
+                }
 
 
                 {/* product perks */}

@@ -144,10 +144,8 @@ export const Reviews = ({productId,averageRating}) => {
             
             {   
                 // add review form
-                !loggedInUser?.isAdmin && writeReview?
-                
+                writeReview?
                 (
-                
                 <Stack rowGap={3} position={'relative'} component={'form'} noValidate onSubmit={handleSubmit(handleAddReview)}>
 
                     <TextField id='reviewTextFeild' {...register("comment",{required:true})} sx={{mt:4,width:is840?"100%":"40rem"}}  multiline rows={6} fullWidth placeholder='Write a review...'/>
@@ -171,11 +169,12 @@ export const Reviews = ({productId,averageRating}) => {
                     </Stack>
 
                 </Stack>
-
                 )
-                :<motion.div onClick={()=>setWriteReview(!writeReview)} whileHover={{scale:1.050}} whileTap={{scale:1}} style={{width:"fit-content"}}>
+                :
+                !loggedInUser?.isAdmin?
+                <motion.div onClick={()=>setWriteReview(!writeReview)} whileHover={{scale:1.050}} whileTap={{scale:1}} style={{width:"fit-content"}}>
                         <Button  disableElevation size={is480?"medium":'large'} variant='contained' sx={{color:theme.palette.primary.light,textTransform:"none",fontSize:"1rem",borderRadius:'6px'}}  startIcon={<CreateIcon/>}>Write a review</Button>
-                </motion.div>
+                </motion.div>:""
             }
         </Stack>
   )
