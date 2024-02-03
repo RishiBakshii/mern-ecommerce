@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate} from 'react-router-dom'
 import { addProductAsync, resetProductAddStatus, selectProductAddStatus,updateProductByIdAsync } from '../../products/ProductSlice'
-import { Button, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material'
+import { Button, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { useForm } from "react-hook-form"
 import { selectBrands } from '../../brands/BrandSlice'
 import { selectCategories } from '../../categories/CategoriesSlice'
@@ -17,6 +17,9 @@ export const AddProduct = () => {
     const categories=useSelector(selectCategories)
     const productAddStatus=useSelector(selectProductAddStatus)
     const navigate=useNavigate()
+    const theme=useTheme()
+    const is1100=useMediaQuery(theme.breakpoints.down(1100))
+    const is480=useMediaQuery(theme.breakpoints.down(480))
 
     useEffect(()=>{
         if(productAddStatus==='fullfilled'){
@@ -49,7 +52,7 @@ export const AddProduct = () => {
     <Stack justifyContent={'center'} alignItems={'center'} flexDirection={'row'} >
         
 
-        <Stack width={'60rem'} rowGap={4} mt={6} mb={6} component={'form'} noValidate onSubmit={handleSubmit(handleAddProduct)}> 
+        <Stack width={is1100?"95vw":"60rem"} rowGap={4} mt={6} mb={6} component={'form'} noValidate onSubmit={handleSubmit(handleAddProduct)}> 
             
             {/* feild area */}
             <Stack rowGap={3}>
@@ -101,7 +104,7 @@ export const AddProduct = () => {
                         <TextField type='number' {...register("price",{required:"Price is required"})}/>
                     </Stack>
                     <Stack flex={1}>
-                        <Typography variant='h6' fontWeight={400}  gutterBottom>Discount Percentage</Typography>
+                        <Typography variant='h6' fontWeight={400}  gutterBottom>Discount {is480?"%":"Percentage"}</Typography>
                         <TextField type='number' {...register("discountPercentage",{required:"discount percentage is required"})}/>
                     </Stack>
                 </Stack>
@@ -131,13 +134,11 @@ export const AddProduct = () => {
 
             </Stack>
 
-
             {/* action area */}
-            <Stack flexDirection={'row'} alignSelf={'flex-end'} columnGap={2}>
-                <Button size='large' variant='contained' type='submit'>Add Product</Button>
-                <Button size='large' variant='outlined' color='error' component={Link} to={'/admin/dashboard'}>Cancel</Button>
+            <Stack flexDirection={'row'} alignSelf={'flex-end'} columnGap={is480?1:2}>
+                <Button size={is480?'medium':'large'} variant='contained' type='submit'>Add Product</Button>
+                <Button size={is480?'medium':'large'} variant='outlined' color='error' component={Link} to={'/admin/dashboard'}>Cancel</Button>
             </Stack>
-
 
         </Stack>
 
