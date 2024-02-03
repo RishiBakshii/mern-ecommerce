@@ -1,4 +1,4 @@
-import { FormHelperText, Paper, Stack, TextField, Typography } from '@mui/material'
+import { FormHelperText, Paper, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import React, { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useForm } from "react-hook-form"
@@ -16,6 +16,8 @@ export const ResetPassword = () => {
     const successMessage=useSelector(selectResetPasswordSuccessMessage)
     const {userId,passwordResetToken}=useParams()
     const navigate=useNavigate()
+    const theme=useTheme()
+    const is500=useMediaQuery(theme.breakpoints.down(500))
 
     useEffect(()=>{
         if(error){
@@ -55,7 +57,7 @@ export const ResetPassword = () => {
         <Stack>
 
             <Stack component={Paper} elevation={2}>
-                <Stack component={'form'} width={'30rem'} p={'1rem'} rowGap={'1rem'} noValidate onSubmit={handleSubmit(handleResetPassword)}>
+                <Stack component={'form'} width={is500?"95vw":'30rem'} p={'1rem'} rowGap={'1rem'} noValidate onSubmit={handleSubmit(handleResetPassword)}>
 
                         <Stack rowGap={'.3rem'}>
                             <Typography variant='h4' fontWeight={600}>Reset Password</Typography>
