@@ -48,6 +48,7 @@ export const Navbar=({isProductList=false})=> {
   }
 
   const settings = [
+    {name:"Home",to:"/"},
     {name:'Profile',to:loggedInUser?.isAdmin?"/admin/profile":"/profile"},
     {name:loggedInUser?.isAdmin?'Orders':'My orders',to:loggedInUser?.isAdmin?"/admin/orders":"/orders"},
     {name:'Logout',to:"/logout"},
