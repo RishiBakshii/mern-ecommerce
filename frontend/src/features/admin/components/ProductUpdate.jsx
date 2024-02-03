@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { fetchProductByIdAsync,resetProductUpdateStatus, selectProductUpdateStatus, selectSelectedProduct, updateProductByIdAsync } from '../../products/ProductSlice'
-import { Button, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material'
+import { Button, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { useForm } from "react-hook-form"
 import { selectBrands } from '../../brands/BrandSlice'
 import { selectCategories } from '../../categories/CategoriesSlice'
@@ -19,8 +19,10 @@ export const ProductUpdate = () => {
     const categories=useSelector(selectCategories)
     const productUpdateStatus=useSelector(selectProductUpdateStatus)
     const navigate=useNavigate()
+    const theme=useTheme()
+    const is1100=useMediaQuery(theme.breakpoints.down(1100))
+    const is480=useMediaQuery(theme.breakpoints.down(480))
 
-    console.log(selectedProduct);
 
     useEffect(()=>{
         if(id){
@@ -59,7 +61,7 @@ export const ProductUpdate = () => {
         {
             selectedProduct &&
         
-        <Stack width={'60rem'} rowGap={4} mt={6} mb={6} component={'form'} noValidate onSubmit={handleSubmit(handleProductUpdate)}> 
+        <Stack width={is1100?"95vw":"60rem"} rowGap={4} mt={6} mb={6} component={'form'} noValidate onSubmit={handleSubmit(handleProductUpdate)}> 
             
             {/* feild area */}
             <Stack rowGap={3}>
@@ -111,14 +113,14 @@ export const ProductUpdate = () => {
                         <TextField type='number' {...register("price",{required:"Price is required",value:selectedProduct.price})}/>
                     </Stack>
                     <Stack flex={1}>
-                        <Typography variant='h6' fontWeight={400}  gutterBottom>Discount Percentage</Typography>
+                        <Typography variant='h6' fontWeight={400}  gutterBottom>Discount {is480?"%":"Percentage"}</Typography>
                         <TextField type='number' {...register("discountPercentage",{required:"discount percentage is required",value:selectedProduct.discountPercentage})}/>
                     </Stack>
                 </Stack>
 
                 <Stack>
                     <Typography variant='h6'  fontWeight={400} gutterBottom>Stock Quantity</Typography>
-                    <TextField type='number' {...register("stockQuantity",{required:"Stock Quantity is required",value:selectedProduct.stockQuantity})}/>
+                    <TextField type='number' {...register("stockQuantity",{required:"Stock Quantity is required",value:selectedProduct.stock})}/>
                 </Stack>
                 <Stack>
                     <Typography variant='h6'  fontWeight={400} gutterBottom>Thumbnail</Typography>
@@ -142,9 +144,9 @@ export const ProductUpdate = () => {
 
 
             {/* action area */}
-            <Stack flexDirection={'row'} alignSelf={'flex-end'} columnGap={2}>
-                <Button size='large' variant='contained' type='submit'>Update</Button>
-                <Button size='large' variant='outlined' color='error' component={Link} to={'/admin/dashboard'}>Cancel</Button>
+            <Stack flexDirection={'row'} alignSelf={'flex-end'} columnGap={is480?1:2}>
+                <Button size={is480?'medium':'large'} variant='contained' type='submit'>Update</Button>
+                <Button size={is480?'medium':'large'} variant='outlined' color='error' component={Link} to={'/admin/dashboard'}>Cancel</Button>
             </Stack>
 
 
