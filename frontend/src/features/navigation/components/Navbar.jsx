@@ -8,7 +8,7 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link, useNavigate } from 'react-router-dom';
-import { Badge, Button, Chip, Stack } from '@mui/material';
+import { Badge, Button, Chip, Stack, useMediaQuery, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserInfo } from '../../user/UserSlice';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -29,6 +29,8 @@ export const Navbar=({isProductList=false})=> {
   const loggedInUser=useSelector(selectLoggedInUser)
   const navigate=useNavigate()
   const dispatch=useDispatch()
+  const theme=useTheme()
+  const is480=useMediaQuery(theme.breakpoints.down(480))
 
   const wishlistItems=useSelector(selectWishlistItems)
   const isProductFilterOpen=useSelector(selectProductIsFilterOpen)
@@ -98,7 +100,7 @@ export const Navbar=({isProductList=false})=> {
                 </MenuItem>
               ))}
             </Menu>
-            <Typography variant='h6' fontWeight={300}>Hey👋, {userInfo?.name} </Typography>
+            <Typography variant='h6' fontWeight={300}>{is480?`${userInfo?.name.toString().split(" ")[0]}`:`Hey👋, ${userInfo?.name}`}</Typography>
             {loggedInUser.isAdmin && <Button variant='contained'>Admin</Button>}
             <Stack sx={{flexDirection:"row",columnGap:"1rem",alignItems:"center",justifyContent:"center"}}>
 
