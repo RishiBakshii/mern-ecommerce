@@ -1,13 +1,14 @@
-import {FormHelperText, Stack, TextField, Typography ,Button,Box} from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import {Box, FormHelperText, Stack, TextField, Typography, useTheme } from '@mui/material'
+import React, { useEffect } from 'react'
 import Lottie from 'lottie-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form"
 import { ecommerceOutlookAnimation, shoppingBagAnimation} from '../../../assets'
 import {useDispatch,useSelector} from 'react-redux'
 import { LoadingButton } from '@mui/lab';
-import {selectLoggedInUser,verifyOtpAsync, clearAuthErrors, clearAuthSuccessMessage, loginAsync, resetAuthStatus, selectLoginStatus, selectLoginError, clearLoginError, resetLoginStatus} from '../AuthSlice'
+import {selectLoggedInUser,loginAsync,selectLoginStatus, selectLoginError, clearLoginError, resetLoginStatus} from '../AuthSlice'
 import { toast } from 'react-toastify'
+import {MotionConfig, motion} from 'framer-motion'
 
 export const Login = () => {
   const dispatch=useDispatch()
@@ -16,6 +17,7 @@ export const Login = () => {
   const loggedInUser=useSelector(selectLoggedInUser)
   const {register,handleSubmit,reset,formState: { errors }} = useForm()
   const navigate=useNavigate()
+  const theme=useTheme()
 
   
   // handles user redirection
@@ -54,32 +56,50 @@ export const Login = () => {
   }
 
   return (
-    <Stack width={'100vw'} height={'100vh'} flexDirection={'row'}>
-        <Stack flex={1} justifyContent={'center'} >
+    <Stack width={'100vw'} height={'100vh'} flexDirection={'row'} sx={{overflowY:"hidden"}}>
+        
+
+        <Stack bgcolor={'black'} flex={1} justifyContent={'center'} >
           <Lottie animationData={ecommerceOutlookAnimation}/>
         </Stack>
 
         <Stack flex={1} justifyContent={'center'} alignItems={'center'}>
               <Stack flexDirection={'row'} justifyContent={'center'} alignItems={'center'}>
-                  <Typography variant='h3' sx={{wordBreak:"break-word"}} fontWeight={300}>Shop Anything</Typography>
-                  <Box width={'100px'}>
-                    <Lottie animationData={shoppingBagAnimation} ></Lottie>
-                  </Box>
+                <Stack rowGap={'.4rem'}>
+                  <Typography variant='h2' sx={{wordBreak:"break-word"}} fontWeight={600}>Mern Shop</Typography>
+                  <Typography alignSelf={'flex-end'} color={'GrayText'} variant='body2'>- Shop Anything</Typography>
+                </Stack>
               </Stack>
 
                 <Stack mt={4} spacing={2} width={'28rem'} component={'form'} noValidate onSubmit={handleSubmit(handleLogin)}>
 
-                    <TextField {...register("email",{required:"Email is required",pattern:{value:/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g,message:"Enter a valid email"}})} placeholder='Email'/>
-                    {errors.email && <FormHelperText error>{errors.email.message}</FormHelperText>}
+                    <motion.div whileHover={{y:-5}}>
+                      <TextField fullWidth {...register("email",{required:"Email is required",pattern:{value:/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g,message:"Enter a valid email"}})} placeholder='Email'/>
+                      {errors.email && <FormHelperText sx={{mt:1}} error>{errors.email.message}</FormHelperText>}
+                    </motion.div>
+
                     
-                    <TextField {...register("password",{required:"Password is required"})} placeholder='Password'/>
-                    {errors.password && <FormHelperText error>{errors.password.message}</FormHelperText>}
+                    <motion.div whileHover={{y:-5}}>
+                      <TextField type='password' fullWidth {...register("password",{required:"Password is required"})} placeholder='Password'/>
+                      {errors.password && <FormHelperText sx={{mt:1}} error>{errors.password.message}</FormHelperText>}
+                    </motion.div>
                     
-                    <LoadingButton loading={status==='pending'} type='submit' variant='contained'>Login</LoadingButton>
+                    <motion.div whileHover={{scale:1.020}} whileTap={{scale:1}}>
+                      <LoadingButton fullWidth  sx={{height:'2.5rem'}} loading={status==='pending'} type='submit' variant='contained'>Login</LoadingButton>
+                    </motion.div>
 
                     <Stack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
-                      <Typography to={'/forgot-password'} component={Link}>Forgot password</Typography>
-                      <Typography to={'/signup'} component={Link}>Create new Account?</Typography>
+
+                      <MotionConfig whileHover={{x:2}} whileTap={{scale:1.050}}>
+                          <motion.div>
+                              <Typography sx={{textDecoration:"none",color:"text.primary"}} to={'/forgot-password'} component={Link}>Forgot password</Typography>
+                          </motion.div>
+
+                          <motion.div>
+                            <Typography sx={{textDecoration:"none",color:"text.primary"}} to={'/signup'} component={Link}>Don't have an account? <span style={{color:theme.palette.primary.dark}}>Register</span></Typography>
+                          </motion.div>
+                      </MotionConfig>
+
                     </Stack>
 
                 </Stack>
