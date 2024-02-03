@@ -22,6 +22,7 @@ export const UserOrders = () => {
     const theme=useTheme()
     const is1200=useMediaQuery(theme.breakpoints.down("1200"))
     const is768=useMediaQuery(theme.breakpoints.down("768"))
+    const is660=useMediaQuery(theme.breakpoints.down(660))
     const is480=useMediaQuery(theme.breakpoints.down("480"))
 
     const cartItemAddStatus=useSelector(selectCartItemAddStatus)
@@ -161,13 +162,13 @@ export const UserOrders = () => {
 
                     {
                     !orders.length && 
-                        <Stack alignSelf={'center'} rowGap={2}>
+                        <Stack mt={is480?'2rem':0} alignSelf={'center'} rowGap={2}>
 
-                            <Stack width={'30rem'} height={'30rem'}>
+                            <Stack width={is660?"auto":'30rem'} height={is660?"auto":'30rem'}>
                                 <Lottie animationData={noOrdersAnimation}/>
                             </Stack>
 
-                            <Typography variant='h5' >oh! Looks like you haven't been shopping lately</Typography>
+                            <Typography textAlign={'center'} alignSelf={'center'} variant='h6' >oh! Looks like you haven't been shopping lately</Typography>
 
                         </Stack>
                     }
