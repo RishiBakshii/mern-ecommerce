@@ -1,4 +1,4 @@
-import {FormHelperText, Stack, TextField, Typography,Box, useTheme} from '@mui/material'
+import {FormHelperText, Stack, TextField, Typography,Box, useTheme, useMediaQuery} from '@mui/material'
 import React, { useEffect } from 'react'
 import Lottie from 'lottie-react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -18,6 +18,8 @@ export const Signup = () => {
   const {register,handleSubmit,reset,formState: { errors }} = useForm()
   const navigate=useNavigate()
   const theme=useTheme()
+  const is900=useMediaQuery(theme.breakpoints.down(900))
+  const is480=useMediaQuery(theme.breakpoints.down(480))
 
   // handles user redirection
   useEffect(()=>{
@@ -58,9 +60,15 @@ export const Signup = () => {
 
   return (
     <Stack width={'100vw'} height={'100vh'} flexDirection={'row'} sx={{overflowY:"hidden"}}>
+
+      {
+        !is900 &&
+
         <Stack bgcolor={'black'} flex={1} justifyContent={'center'} >
           <Lottie animationData={ecommerceOutlookAnimation}/>
         </Stack>
+        
+        }
 
         <Stack flex={1} justifyContent={'center'} alignItems={'center'}>
 
@@ -72,7 +80,7 @@ export const Signup = () => {
 
               </Stack>
 
-                <Stack mt={4} spacing={2} width={'28rem'} component={'form'} noValidate onSubmit={handleSubmit(handleSignup)}>
+                <Stack mt={4} spacing={2} width={is480?"95vw":'28rem'} component={'form'} noValidate onSubmit={handleSubmit(handleSignup)}>
 
                     <MotionConfig whileHover={{y:-5}}>
 
@@ -102,10 +110,10 @@ export const Signup = () => {
                       <LoadingButton sx={{height:'2.5rem'}} fullWidth loading={status==='pending'} type='submit' variant='contained'>Signup</LoadingButton>
                     </motion.div>
 
-                    <Stack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
+                    <Stack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} flexWrap={'wrap-reverse'}>
                         <MotionConfig whileHover={{x:2}} whileTap={{scale:1.050}}>
                             <motion.div>
-                                <Typography sx={{textDecoration:"none",color:"text.primary"}} to={'/forgot-password'} component={Link}>Forgot password</Typography>
+                                <Typography mr={'1.5rem'} sx={{textDecoration:"none",color:"text.primary"}} to={'/forgot-password'} component={Link}>Forgot password</Typography>
                             </motion.div>
 
                             <motion.div>
