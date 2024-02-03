@@ -1,4 +1,4 @@
-import {FormControl, Grid, IconButton, InputLabel, MenuItem, Select, Stack, Typography, useTheme } from '@mui/material'
+import {FormControl, Grid, IconButton, InputLabel, MenuItem, Select, Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProductsAsync, selectProductIsFilterOpen, selectProductTotalResults, selectProducts, toggleFilters } from '../ProductSlice'
@@ -37,6 +37,12 @@ export const ProductList = () => {
     const [page,setPage]=useState(1)
     const [sort,setSort]=useState(null)
     const theme=useTheme()
+    const is1200=useMediaQuery(theme.breakpoints.down(1200))
+    const is800=useMediaQuery(theme.breakpoints.down(800))
+    const is700=useMediaQuery(theme.breakpoints.down(700))
+    const is600=useMediaQuery(theme.breakpoints.down(600))
+    const is500=useMediaQuery(theme.breakpoints.down(500))
+    const is488=useMediaQuery(theme.breakpoints.down(488))
 
     const brands=useSelector(selectBrands)
     const categories=useSelector(selectCategories)
@@ -150,7 +156,7 @@ export const ProductList = () => {
   return (
     <>
     {/* filters side bar */}
-    <motion.div style={{position:"fixed",backgroundColor:"white",height:"100vh",padding:'1rem',overflowY:"scroll",width:"30rem",zIndex:500}}  variants={{show:{left:0},hide:{left:-500}}} initial={'hide'} transition={{ease:"easeInOut",duration:.7,type:"spring"}} animate={isProductFilterOpen===true?"show":"hide"}>
+    <motion.div style={{position:"fixed",backgroundColor:"white",height:"100vh",padding:'1rem',overflowY:"scroll",width:is500?"100vw":"30rem",zIndex:500}}  variants={{show:{left:0},hide:{left:-500}}} initial={'hide'} transition={{ease:"easeInOut",duration:.7,type:"spring"}} animate={isProductFilterOpen===true?"show":"hide"}>
 
         {/* fitlers section */}
         <Stack mb={'5rem'}  sx={{scrollBehavior:"smooth",overflowY:"scroll"}}>
@@ -223,12 +229,16 @@ export const ProductList = () => {
         
 
             {/* banners section */}
-            <Stack sx={{width:"100%",height:"500px"}}>
+            {
+                !is600 && 
+            
+            <Stack sx={{width:"100%",height:is800?"300px":is1200?"400px":"500px"}}>
                 <ProductBanner images={bannerImages}/>
             </Stack>
+            }
 
             {/* products */}
-            <Stack rowGap={5}>
+            <Stack rowGap={5} mt={is600?2:0}>
 
                 {/* sort options */}
                 <Stack flexDirection={'row'} mr={'2rem'} justifyContent={'flex-end'} alignItems={'center'} columnGap={5}>
@@ -256,7 +266,7 @@ export const ProductList = () => {
                 </Stack>
 
                 {/* product grid */}
-                <Grid gap={2} container justifyContent={'center'} alignContent={'center'}>
+                <Grid gap={is700?1:2} container justifyContent={is700?'space-evenly':'center'} alignContent={'center'}>
                     {
                         products.map((product)=>(
                             <ProductCard key={product._id} id={product._id} title={product.title} thumbnail={product.thumbnail} brand={product.brand.name} price={product.price} handleAddRemoveFromWishlist={handleAddRemoveFromWishlist}/>
@@ -265,8 +275,8 @@ export const ProductList = () => {
                 </Grid>
                 
                 {/* pagination */}
-                <Stack alignSelf={'flex-end'} mr={5} rowGap={2}>
-                    <Pagination size='large' page={page}  onChange={(e,page)=>setPage(page)} count={Math.ceil(totalResults/ITEMS_PER_PAGE)} variant="outlined" shape="rounded" />
+                <Stack alignSelf={is488?'center':'flex-end'} mr={is488?0:5} rowGap={2} p={is488?1:0}>
+                    <Pagination size={is488?'medium':'large'} page={page}  onChange={(e,page)=>setPage(page)} count={Math.ceil(totalResults/ITEMS_PER_PAGE)} variant="outlined" shape="rounded" />
                     <Typography textAlign={'center'}>Showing {(page-1)*ITEMS_PER_PAGE+1} to {page*ITEMS_PER_PAGE>totalResults?totalResults:page*ITEMS_PER_PAGE} of {totalResults} results</Typography>
                 </Stack>    
             

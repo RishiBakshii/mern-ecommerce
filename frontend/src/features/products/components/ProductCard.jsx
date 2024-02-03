@@ -1,4 +1,4 @@
-import { Button, FormHelperText, IconButton, Paper, Stack, Typography } from '@mui/material'
+import { Button, FormHelperText, IconButton, Paper, Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
@@ -20,6 +20,10 @@ export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity,handle
     const cartItems=useSelector(selectCartItems)
     const dispatch=useDispatch()
     let isProductAlreadyinWishlist=-1
+    const theme=useTheme()
+    const is700=useMediaQuery(theme.breakpoints.down(700))
+    const is568=useMediaQuery(theme.breakpoints.down(568))
+    const is488=useMediaQuery(theme.breakpoints.down(488))
 
     isProductAlreadyinWishlist=wishlistItems.some((item)=>item.product._id===id)
 
@@ -38,10 +42,10 @@ export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity,handle
     {
 
     isProductAlreadyinWishlist!==-1 ?
-    <Stack  component={isWishlistCard?"":Paper} elevation={1} p={2} width={'340px'} height={'400px'}  sx={{cursor:"pointer"}} onClick={()=>navigate(`/product-details/${id}`)}>
+    <Stack  component={isWishlistCard?"":Paper} elevation={1} p={2} width={is488?"280px":is568?"240px":is700?'280px':'340px'} height={is488?"340px":is568?"300px":is700?"340px":'400px'}  sx={{cursor:"pointer"}} onClick={()=>navigate(`/product-details/${id}`)}>
 
         {/* image display */}
-        <Stack flex={4} height={'200px'} width={"300px"} justifyContent={'center'} alignItems={'center'}>
+        <Stack flex={4} height={is488?"140px":is568?"100px":is700?"140px":'200px'} width={is488?"240px":is568?"200px":is700?"240px":"300px"} justifyContent={'center'} alignItems={'center'}>
             <img style={{height:"100%",width:"100%",objectFit:"contain"}} src={thumbnail} alt={`${title} photo unavailable`} />
         </Stack>
 
@@ -70,7 +74,7 @@ export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity,handle
                     ''
 
                     : 
-                    <motion.button whileHover={{scale:1.030}} whileTap={{scale:1}} onClick={(e)=>handleAddToCart(e)} style={{padding:"10px 15px",borderRadius:"3px",outline:"none",border:"none",cursor:"pointer",backgroundColor:"black",color:"white",fontSize:".9rem"}}>
+                    <motion.button  whileHover={{scale:1.030}} whileTap={{scale:1}} onClick={(e)=>handleAddToCart(e)} style={{padding:"10px 15px",borderRadius:"3px",outline:"none",border:"none",cursor:"pointer",backgroundColor:"black",color:"white",fontSize:is568?".8rem":".9rem"}}>
                         <div style={{display:"flex",alignItems:"center",columnGap:".5rem"}}>
                             <p>Add To Cart</p>
                         </div>
