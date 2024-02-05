@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { fetchProductByIdAsync,resetProductUpdateStatus, selectProductUpdateStatus, selectSelectedProduct, updateProductByIdAsync } from '../../products/ProductSlice'
+import { clearSelectedProduct, fetchProductByIdAsync,resetProductUpdateStatus, selectProductUpdateStatus, selectSelectedProduct, updateProductByIdAsync } from '../../products/ProductSlice'
 import { Button, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { useForm } from "react-hook-form"
 import { selectBrands } from '../../brands/BrandSlice'
@@ -43,6 +43,12 @@ export const ProductUpdate = () => {
             dispatch(resetProductUpdateStatus())
         }
     },[productUpdateStatus])
+
+    useEffect(()=>{
+        return ()=>{
+            dispatch(clearSelectedProduct())
+        }
+    },[])
 
     const handleProductUpdate=(data)=>{
         const productUpdate={...data,_id:selectedProduct._id,images:[data?.image0,data?.image1,data?.image2,data?.image3]}
