@@ -92,6 +92,10 @@ export const ProductList = () => {
         finalFilters['pagination']={page:page,limit:ITEMS_PER_PAGE}
         finalFilters['sort']=sort
 
+        if(!loggedInUser?.isAdmin){
+            finalFilters['user']=true
+        }
+
         dispatch(fetchProductsAsync(finalFilters))
         
     },[filters,page,sort])
