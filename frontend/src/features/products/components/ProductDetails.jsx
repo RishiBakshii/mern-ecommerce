@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { fetchProductByIdAsync, selectSelectedProduct } from '../ProductSlice'
+import { clearSelectedProduct, fetchProductByIdAsync, selectSelectedProduct } from '../ProductSlice'
 import { Box,Checkbox,Radio,Rating, Stack,Typography, useMediaQuery,Button,Paper} from '@mui/material'
 import { addToCartAsync, resetCartItemAddStatus, selectCartItemAddStatus, selectCartItems } from '../../cart/CartSlice'
 import { selectLoggedInUser } from '../../auth/AuthSlice'
@@ -109,6 +109,12 @@ export const ProductDetails = () => {
             dispatch(resetWishlistItemDeleteStatus())
         }
     },[wishlistItemDeleteStatus])
+
+    useEffect(()=>{
+        return ()=>{
+            dispatch(clearSelectedProduct())
+        }
+    },[])
 
     const handleAddToCart=()=>{
         const item={user:loggedInUser._id,product:id,quantity}
