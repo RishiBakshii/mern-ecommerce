@@ -30,6 +30,10 @@ export const fetchProducts=async(filters)=>{
     if(filters.sort){
         queryString+=`sort=${filters.sort.sort}&order=${filters.sort.order}&`
     }
+
+    if(filters.user){
+        queryString+=`user=${filters.user}&`
+    }
     
     try {
         const res=await axiosi.get(`/products?${queryString}`)
