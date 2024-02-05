@@ -27,6 +27,10 @@ exports.getAll = async (req, res) => {
             filter.category={$in:req.query.category}
         }
 
+        if(req.query.user){
+            filter['isDeleted']=false
+        }
+
         if(req.query.sort){
             sort[req.query.sort]=req.query.order?req.query.order==='asc'?1:-1:1
         }
