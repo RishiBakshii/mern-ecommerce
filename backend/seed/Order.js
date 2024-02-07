@@ -15,7 +15,7 @@ const orders = [
             "Samsung Galaxy Book S (2020) Laptop With Intel Lakefield Chip, 8GB of RAM Launched",
           price: 1499,
           discountPercentage: 4.15,
-          stock: 50,
+          stockQuantity: 50,
           brand: { _id: "65a7e20102e12c44f59943db", name: "Samsung" },
           category: "65a7e24602e12c44f599442d",
           thumbnail: "https://cdn.dummyjson.com/product-images/7/thumbnail.jpg",
@@ -65,7 +65,7 @@ const orders = [
             "L'OrÃ©al Paris introduces Hyaluron Expert Replumping Serum formulated with 1.5% Hyaluronic Acid",
           price: 19,
           discountPercentage: 13.31,
-          stock: 110,
+          stockQuantity: 110,
           brand: {
             _id: "65a7e20102e12c44f59943e6",
             name: "L'Oreal Paris",
@@ -94,7 +94,7 @@ const orders = [
             "Tea tree oil contains a number of compounds, including terpinen-4-ol, that have been shown to kill certain bacteria,",
           price: 12,
           discountPercentage: 4.09,
-          stock: 78,
+          stockQuantity: 78,
           brand: { _id: "65a7e20102e12c44f59943e7", name: "Hemani Tea" },
           category: "65a7e24602e12c44f599442f",
           thumbnail:
@@ -142,7 +142,7 @@ const orders = [
             "American Vintage Wood Pendant Light Farmhouse Antique Hanging Lamp Lampara Colgante",
           price: 46,
           discountPercentage: 8.84,
-          stock: 138,
+          stockQuantity: 138,
           brand: { _id: "65a7e20102e12c44f5994425", name: "Ifei Home" },
           category: "65a7e24602e12c44f599443f",
           thumbnail:
@@ -193,7 +193,7 @@ const orders = [
             "Ratttan Outdoor furniture Set Waterproof  Rattan Sofa for Coffe Cafe",
           price: 50,
           discountPercentage: 15.59,
-          stock: 30,
+          stockQuantity: 30,
           brand: {
             _id: "65a7e20102e12c44f59943f6",
             name: "Ratttan Outdoor",
@@ -245,7 +245,7 @@ const orders = [
             "Metal Ceramic Flower Chandelier Home Lighting American Vintage Hanging Lighting Pendant Lamp",
           price: 35,
           discountPercentage: 10.94,
-          stock: 146,
+          stockQuantity: 146,
           brand: { _id: "65a7e20102e12c44f5994425", name: "Ifei Home" },
           category: "65a7e24602e12c44f599443f",
           thumbnail:

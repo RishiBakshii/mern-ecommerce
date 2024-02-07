@@ -129,7 +129,7 @@ export const ProductDetails = () => {
     }
     
     const handleIncreaseQty=()=>{
-        if(quantity<20 && quantity<product.stock){
+        if(quantity<20 && quantity<product.stockQuantity){
             setQuantity(quantity+1)
         }
     }
@@ -230,7 +230,7 @@ export const ProductDetails = () => {
                     <Stack sx={{flexDirection:"row",columnGap:"1rem",alignItems:"center"}}>
                         <Rating value={averageRating} readOnly/>
                         <Typography>( {totalReviews===0?"No reviews":totalReviews===1?`${totalReviews} Review`:`${totalReviews} Reviews`} )</Typography>
-                        <Typography color={product?.stock<=10?"error":product?.stock<=20?"orange":"green"}>{product?.stock<=10?`Only ${product?.stock} left`:product?.stock<=20?"Only few left":"In Stock"}</Typography>
+                        <Typography color={product?.stockQuantity<=10?"error":product?.stockQuantity<=20?"orange":"green"}>{product?.stockQuantity<=10?`Only ${product?.stockQuantity} left`:product?.stockQuantity<=20?"Only few left":"In Stock"}</Typography>
                     </Stack>
 
                     {/* price */}
