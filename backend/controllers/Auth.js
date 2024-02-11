@@ -34,7 +34,8 @@ exports.signup=async(req,res)=>{
         res.cookie('token',token,{
             sameSite:'Lax',
             maxAge:new Date(Date.now() + (parseInt(process.env.COOKIE_EXPIRATION_DAYS * 24 * 60 * 60 * 1000))),
-            httpOnly:true
+            httpOnly:true,
+            secure:process.env.PRODUCTION==='true'?true:false
         })
 
         res.status(201).json(sanitizeUser(createdUser))
@@ -63,7 +64,8 @@ exports.login=async(req,res)=>{
             res.cookie('token',token,{
                 sameSite:'Lax',
                 maxAge:new Date(Date.now() + (parseInt(process.env.COOKIE_EXPIRATION_DAYS * 24 * 60 * 60 * 1000))),
-                httpOnly:true
+                httpOnly:true,
+                secure:process.env.PRODUCTION==='true'?true:false
             })
             return res.status(200).json(sanitizeUser(existingUser))
         }
