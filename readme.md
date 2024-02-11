@@ -60,7 +60,7 @@ npm install
 
 
 ### Environment Variables
-
+**Backend**
 - Create a `.env` file in the `backend` directory.
 - Add the following variables with appropriate values
 ```bash
@@ -82,6 +82,17 @@ COOKIE_EXPIRATION_DAYS="30"    # Days
 
 # Secret key for jwt security
 SECRET_KEY="your-secret-key"
+
+# Environment (production/development)
+PRODUCTION="false" # Initially set to false for development
+```
+
+**Frontend**
+- Create a `.env` file in the `frontend` directory
+- Add the following variable:
+```bash
+# Backend URL (adjust if needed)
+REACT_APP_BASE_URL="http://localhost:8000" 
 ```
 
 **Important**
