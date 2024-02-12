@@ -7,6 +7,7 @@ const initialState={
     reviewAddStatus:"idle",
     reviewDeleteStatus:"idle",
     reviewUpdateStatus:"idle",
+    reviewFetchStatus:"idle",
     reviews:[],
     errors:null,
     successMessage:null
@@ -44,6 +45,9 @@ const reviewSlice=createSlice({
         },
         resetReviewUpdateStatus:(state)=>{
             state.reviewUpdateStatus='idle'
+        },
+        resetReviewFetchStatus:(state)=>{
+            state.reviewFetchStatus='idle'
         }
     },
     extraReducers:(builder)=>{
@@ -61,14 +65,14 @@ const reviewSlice=createSlice({
             })
 
             .addCase(fetchReviewsByProductIdAsync.pending,(state)=>{
-                state.status='pending'
+                state.reviewFetchStatus='pending'
             })
             .addCase(fetchReviewsByProductIdAsync.fulfilled,(state,action)=>{
-                state.status='fulfilled'
+                state.reviewFetchStatus='fulfilled'
                 state.reviews=action.payload
             })
             .addCase(fetchReviewsByProductIdAsync.rejected,(state,action)=>{
-                state.status='rejected'
+                state.reviewFetchStatus='rejected'
                 state.errors=action.error
             })
 
@@ -108,8 +112,9 @@ export const selectReviewSuccessMessage=(state)=>state.ReviewSlice.successMessag
 export const selectReviewAddStatus=(state)=>state.ReviewSlice.reviewAddStatus
 export const selectReviewDeleteStatus=(state)=>state.ReviewSlice.reviewDeleteStatus
 export const selectReviewUpdateStatus=(state)=>state.ReviewSlice.reviewUpdateStatus
+export const selectReviewFetchStatus=(state)=>state.ReviewSlice.reviewFetchStatus
 
 // exporting actions
-export const {resetReviewAddStatus,resetReviewDeleteStatus,resetReviewUpdateStatus}=reviewSlice.actions
+export const {resetReviewAddStatus,resetReviewDeleteStatus,resetReviewUpdateStatus,resetReviewFetchStatus}=reviewSlice.actions
 
 export default reviewSlice.reducer
