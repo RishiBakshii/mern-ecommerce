@@ -86,6 +86,13 @@ export const ProductList = () => {
     }
 
     useEffect(()=>{
+        window.scrollTo({
+            top:0,
+            behavior:"instant"
+        })
+    },[])
+
+    useEffect(()=>{
         setPage(1)
     },[totalResults])
 
