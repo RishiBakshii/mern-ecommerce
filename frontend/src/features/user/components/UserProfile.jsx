@@ -27,6 +27,13 @@ export const UserProfile = () => {
     const is900=useMediaQuery(theme.breakpoints.down(900))
     const is480=useMediaQuery(theme.breakpoints.down(480))
 
+    useEffect(()=>{
+        window.scrollTo({
+            top:0,
+            behavior:"instant"
+        })
+    },[])
+
 
     useEffect(()=>{
         if(addressAddStatus==='fulfilled'){
