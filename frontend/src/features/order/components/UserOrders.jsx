@@ -27,6 +27,12 @@ export const UserOrders = () => {
 
     const cartItemAddStatus=useSelector(selectCartItemAddStatus)
     
+    useEffect(()=>{
+        window.scrollTo({
+            top:0,
+            behavior:"instant"
+        })
+    },[])
 
     useEffect(()=>{
         dispatch(getOrderByUserIdAsync(loggedInUser?._id))
