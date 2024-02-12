@@ -21,6 +21,13 @@ export const Cart = ({checkout}) => {
     const dispatch=useDispatch()
 
     useEffect(()=>{
+        window.scrollTo({
+            top:0,
+            behavior:"instant"
+        })
+    },[])
+
+    useEffect(()=>{
         if(items.length===0){
             navigate("/")
         }
