@@ -49,6 +49,13 @@ export const Wishlist = () => {
   } 
 
   useEffect(()=>{
+    window.scrollTo({
+        top:0,
+        behavior:"instant"
+    })
+  },[])
+
+  useEffect(()=>{
     if(wishlistItemAddStatus==='fulfilled'){
         toast.success("Product added to wishlist")
     }
