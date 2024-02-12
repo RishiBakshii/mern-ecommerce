@@ -6,6 +6,7 @@ const initialState={
     status:"idle",
     productUpdateStatus:'idle',
     productAddStatus:"idle",
+    productFetchStatus:"idle",
     products:[],
     totalResults:0,
     isFilterOpen:false,
@@ -63,6 +64,9 @@ const productSlice=createSlice({
         },
         toggleFilters:(state)=>{
             state.isFilterOpen=!state.isFilterOpen
+        },
+        resetProductFetchStatus:(state)=>{
+            state.productFetchStatus='idle'
         }
     },
     extraReducers:(builder)=>{
@@ -80,27 +84,27 @@ const productSlice=createSlice({
             })
 
             .addCase(fetchProductsAsync.pending,(state)=>{
-                state.status='pending'
+                state.productFetchStatus='pending'
             })
             .addCase(fetchProductsAsync.fulfilled,(state,action)=>{
-                state.status='fullfilled'
+                state.productFetchStatus='fullfilled'
                 state.products=action.payload.data
                 state.totalResults=action.payload.totalResults
             })
             .addCase(fetchProductsAsync.rejected,(state,action)=>{
-                state.status='rejected'
+                state.productFetchStatus='rejected'
                 state.errors=action.error
             })
 
             .addCase(fetchProductByIdAsync.pending,(state)=>{
-                state.status='pending'
+                state.productFetchStatus='pending'
             })
             .addCase(fetchProductByIdAsync.fulfilled,(state,action)=>{
-                state.status='fullfilled'
+                state.productFetchStatus='fullfilled'
                 state.selectedProduct=action.payload
             })
             .addCase(fetchProductByIdAsync.rejected,(state,action)=>{
-                state.status='rejected'
+                state.productFetchStatus='rejected'
                 state.errors=action.error
             })
 
@@ -155,8 +159,9 @@ export const selectProductSuccessMessage=(state)=>state.ProductSlice.successMess
 export const selectProductUpdateStatus=(state)=>state.ProductSlice.productUpdateStatus
 export const selectProductAddStatus=(state)=>state.ProductSlice.productAddStatus
 export const selectProductIsFilterOpen=(state)=>state.ProductSlice.isFilterOpen
+export const selectProductFetchStatus=(state)=>state.ProductSlice.productFetchStatus
 
 // exporting actions
-export const {clearProductSuccessMessage,clearProductErrors,clearSelectedProduct,resetProductStatus,resetProductUpdateStatus,resetProductAddStatus,toggleFilters}=productSlice.actions
+export const {clearProductSuccessMessage,clearProductErrors,clearSelectedProduct,resetProductStatus,resetProductUpdateStatus,resetProductAddStatus,toggleFilters,resetProductFetchStatus}=productSlice.actions
 
 export default productSlice.reducer
