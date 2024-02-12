@@ -68,12 +68,18 @@ export const ProductDetails = () => {
     const wishlistItemDeleteStatus=useSelector(selectWishlistItemDeleteStatus)
     
     useEffect(()=>{
+        window.scrollTo({
+            top:0,
+            behavior:"instant"
+        })
+    },[])
+    
+    useEffect(()=>{
         if(id){
             dispatch(fetchProductByIdAsync(id))
             dispatch(fetchReviewsByProductIdAsync(id))
         }
     },[id])
-
 
     useEffect(()=>{
 
