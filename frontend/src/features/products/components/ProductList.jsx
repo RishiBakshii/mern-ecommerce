@@ -38,6 +38,7 @@ export const ProductList = () => {
     const [page,setPage]=useState(1)
     const [sort,setSort]=useState(null)
     const theme=useTheme()
+    const is1248=useMediaQuery(theme.breakpoints.down(1248))
     const is1200=useMediaQuery(theme.breakpoints.down(1200))
     const is800=useMediaQuery(theme.breakpoints.down(800))
     const is700=useMediaQuery(theme.breakpoints.down(700))
@@ -293,7 +294,7 @@ export const ProductList = () => {
                     </Stack>
 
                     {/* product grid */}
-                    <Grid gap={is700?1:2} container justifyContent={is700?'space-evenly':'center'} alignContent={'center'}>
+                    <Grid gap={is700?1:2} container justifyContent={is1248?'center':'center'} alignContent={'center'}>
                         {
                             products.map((product)=>(
                                 <ProductCard key={product._id} id={product._id} title={product.title} thumbnail={product.thumbnail} brand={product.brand.name} price={product.price} handleAddRemoveFromWishlist={handleAddRemoveFromWishlist}/>
