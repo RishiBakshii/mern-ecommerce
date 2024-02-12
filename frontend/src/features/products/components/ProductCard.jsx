@@ -47,7 +47,7 @@ export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity,handle
     {
 
     isProductAlreadyinWishlist!==-1 ?
-    <Stack component={isAdminCard?"":isWishlistCard?"":Paper} elevation={1} p={2} width={is408?'auto':is488?"200px":is608?"240px":is752?"300px":is932?'240px':is1410?'300px':'340px'} sx={{cursor:"pointer"}} onClick={()=>navigate(`/product-details/${id}`)}>
+    <Stack component={isAdminCard?"":isWishlistCard?"":is408?'':Paper} mt={is408?2:0} elevation={1} p={2} width={is408?'auto':is488?"200px":is608?"240px":is752?"300px":is932?'240px':is1410?'300px':'340px'} sx={{cursor:"pointer"}} onClick={()=>navigate(`/product-details/${id}`)}>
 
         {/* image display */}
         <Stack>
