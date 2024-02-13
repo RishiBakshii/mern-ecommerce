@@ -15,7 +15,6 @@ export const Cart = ({checkout}) => {
     const navigate=useNavigate()
     const theme=useTheme()
     const is900=useMediaQuery(theme.breakpoints.down(900))
-    const is660=useMediaQuery(theme.breakpoints.down(660))
 
     const cartItemRemoveStatus=useSelector(selectCartItemRemoveStatus)
     const dispatch=useDispatch()
@@ -47,12 +46,12 @@ export const Cart = ({checkout}) => {
     },[cartItemRemoveStatus])
 
   return (
-    <Stack justifyContent={'flex-start'} alignItems={'center'} mb={'5rem'}>
+    <Stack justifyContent={'flex-start'} alignItems={'center'} mb={'5rem'} >
 
-        <Stack p={is660?1:4} width={is660?"auto":is900?'40rem':'50rem'} rowGap={4}>
+        <Stack width={is900?'auto':'50rem'} mt={'3rem'} paddingLeft={2} paddingRight={2} rowGap={4} >
 
             {/* cart items */}
-            <Stack rowGap={is660?'1rem':""}>
+            <Stack rowGap={2}>
             {
                 items && items.map((item)=>(
                     <CartItem key={item._id} id={item._id} title={item.product.title} brand={item.product.brand.name} category={item.product.category.name} price={item.product.price} quantity={item.quantity} thumbnail={item.product.thumbnail} stockQuantity={item.product.stockQuantity} productId={item.product._id}/>
@@ -61,7 +60,7 @@ export const Cart = ({checkout}) => {
             </Stack>
             
             {/* subtotal */}
-            <Stack p={is660?1:0} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
+            <Stack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
 
                 {
                     checkout?(
@@ -96,11 +95,11 @@ export const Cart = ({checkout}) => {
                             <Stack>
                                 <Typography variant='h6' fontWeight={500}>Subtotal</Typography>
                                 <Typography>Total items in cart {totalItems}</Typography>
-                                <Typography color={'text.secondary'}>Shipping and taxes will be calculated at checkout.</Typography>
+                                <Typography variant='body1' color={'text.secondary'}>Shipping and taxes will be calculated at checkout.</Typography>
                             </Stack>
 
                             <Stack>
-                                <Typography variant='h6'p paddingLeft={'1rem'} fontWeight={500}>${subtotal}</Typography>
+                                <Typography variant='h6' fontWeight={500}>${subtotal}</Typography>
                             </Stack>
                         </>
                     )
@@ -111,12 +110,9 @@ export const Cart = ({checkout}) => {
             {/* checkout or continue shopping */}
             {
             !checkout && 
-            <Stack rowGap={'1rem'} p={is660?1:0}>
-                    <Button variant='contained' component={Link} to='/checkout'>Checkout</Button>
-                    {/* <Typography mt={2} component={Link} to={'/'} textAlign={'center'}>or continue shopping</Typography> */}
-                    <motion.div style={{alignSelf:'center'}} whileHover={{y:2}}>
-                        <Chip sx={{cursor:"pointer",borderRadius:"8px"}} component={Link} to={'/'} label="or continue shopping" variant='outlined'/>
-                    </motion.div>
+            <Stack rowGap={'1rem'}>
+                <Button variant='contained' component={Link} to='/checkout'>Checkout</Button>
+                <motion.div style={{alignSelf:'center'}} whileHover={{y:2}}><Chip sx={{cursor:"pointer",borderRadius:"8px"}} component={Link} to={'/'} label="or continue shopping" variant='outlined'/></motion.div>
             </Stack>
             }
     

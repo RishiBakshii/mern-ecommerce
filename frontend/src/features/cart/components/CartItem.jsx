@@ -11,8 +11,9 @@ export const CartItem = ({id,thumbnail,title,category,brand,price,quantity,stock
 
     const dispatch=useDispatch()
     const theme=useTheme()
-    const is660=useMediaQuery(theme.breakpoints.down(660))
+    const is900=useMediaQuery(theme.breakpoints.down(900))
     const is480=useMediaQuery(theme.breakpoints.down(480))
+    const is552=useMediaQuery(theme.breakpoints.down(552))
 
     const handleAddQty=()=>{
         const update={_id:id,quantity:quantity+1}
@@ -34,16 +35,16 @@ export const CartItem = ({id,thumbnail,title,category,brand,price,quantity,stock
 
 
   return (
-    <Stack mt={is660?0:1} p={is660?1:2} flexDirection={'row'} width={'100%'} component={Paper} justifyContent={'space-between'} alignItems={'center'}>
+    <Stack bgcolor={'white'} component={is900?'':Paper} p={is900?0:2} elevation={1}  flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
         
         {/* image and details */}
-        <Stack  flexDirection={is480?"column":'row'} alignItems={'center'} columnGap={2}>
+        <Stack flexDirection={'row'} rowGap={'1rem'} alignItems={'center'} columnGap={2} flexWrap={'wrap'}>
 
-            <Stack width={'200px'} height={'200px'} component={Link} to={`/product-details/${productId}`}>
-                <img style={{height:"100%",width:"100%",objectFit:'contain'}} src={thumbnail} alt={`${title} image unavailabe`} />
+            <Stack width={is552?"auto":'200px'} height={is552?"auto":'200px'} component={Link} to={`/product-details/${productId}`}>
+                <img style={{width:"100%",height:is552?"auto":"100%",aspectRatio:is552?1/1:'',objectFit:'contain'}} src={thumbnail} alt={`${title} image unavailabe`} />
             </Stack>
 
-            <Stack alignSelf={is480?"flex-start":""}>
+            <Stack alignSelf={''}>
                 <Typography component={Link} to={`/product-details/${productId}`} sx={{textDecoration:"none",color:theme.palette.primary.main}} variant='h6' fontWeight={500}>{title}</Typography>
                 <Typography variant='body2' color={'text.secondary'}>{brand}</Typography>
                 <Typography mt={1}>Quantity</Typography>
@@ -56,9 +57,9 @@ export const CartItem = ({id,thumbnail,title,category,brand,price,quantity,stock
         </Stack>
 
         {/* price and remove button */}
-        <Stack justifyContent={'space-evenly'} alignSelf={is480?"flex-end":""} height={'100%'} rowGap={'1rem'} alignItems={'flex-end'}>
+        <Stack justifyContent={'space-evenly'} alignSelf={is552?'flex-end':''} height={'100%'} rowGap={'1rem'} alignItems={'flex-end'}>
             <Typography variant='body2'>${price}</Typography>
-            <Button size={is480?'small':""} onClick={handleProductRemove} variant='contained'>Remove</Button>
+            <Button size={is480?"small":""} onClick={handleProductRemove} variant='contained'>Remove</Button>
         </Stack>
     </Stack>
   )
