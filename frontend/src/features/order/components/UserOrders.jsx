@@ -66,7 +66,8 @@ export const UserOrders = () => {
     <Stack justifyContent={'center'} alignItems={'center'}>
 
         <Stack width={is1200?"auto":"60rem"} p={is480?2:4} mb={'5rem'}>
-
+            
+            {/* heading and navigation */}
             <Stack flexDirection={'row'} columnGap={2} >
                 {
                     !is480 && <motion.div whileHover={{x:-5}} style={{alignSelf:"center"}}>
@@ -82,12 +83,13 @@ export const UserOrders = () => {
 
             </Stack>
 
-
+            {/* orders */}
             <Stack mt={5} rowGap={5}>
 
+                    {/* orders mapping */}
                     {
                         orders && orders.map((order)=>(
-                            <Stack p={is480?1:2} component={Paper} elevation={1} rowGap={2}>
+                            <Stack p={is480?0:2} component={is480?"":Paper} elevation={1} rowGap={2}>
                                 
                                 {/* upper */}
                                 <Stack flexDirection={'row'} rowGap={'1rem'}  justifyContent={'space-between'} flexWrap={'wrap'}>
@@ -120,8 +122,9 @@ export const UserOrders = () => {
                                         order.item.map((product)=>(
                                             
                                             <Stack mt={2} flexDirection={'row'} rowGap={is768?'2rem':''} columnGap={4} flexWrap={is768?"wrap":"nowrap"}>
-                                                <Stack width={is480?'240px':'300px'} >
-                                                    <img style={{width:"100%",height:"100%",objectFit:"contain"}} src={product.product.images[0]} alt="" />
+                                                
+                                                <Stack>
+                                                    <img style={{width:"100%",aspectRatio:is480?3/2:1/1,objectFit:"contain"}} src={product.product.images[0]} alt="" />
                                                 </Stack>
 
                                                 <Stack rowGap={1} width={'100%'}>
@@ -165,10 +168,11 @@ export const UserOrders = () => {
                         ))
 
                     }
-
+                    
+                    {/* no orders animation */}
                     {
                     !orders.length && 
-                        <Stack mt={is480?'2rem':0} alignSelf={'center'} rowGap={2}>
+                        <Stack mt={is480?'2rem':0} mb={'7rem'} alignSelf={'center'} rowGap={2}>
 
                             <Stack width={is660?"auto":'30rem'} height={is660?"auto":'30rem'}>
                                 <Lottie animationData={noOrdersAnimation}/>
