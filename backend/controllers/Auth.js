@@ -234,7 +234,12 @@ exports.resetPassword=async(req,res)=>{
 
 exports.logout=async(req,res)=>{
     try {
-        res.clearCookie("token")
+        res.cookie('token',{
+            maxAge:0,
+            sameSite:process.env.PRODUCTION==='true'?"None":'Lax',
+            httpOnly:true,
+            secure:process.env.PRODUCTION==='true'?true:false
+        })
         res.status(200).json({message:'Logout successful'})
     } catch (error) {
         console.log(error);
