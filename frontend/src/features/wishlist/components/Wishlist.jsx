@@ -31,10 +31,8 @@ export const Wishlist = () => {
 
   const theme=useTheme()
   const is1130=useMediaQuery(theme.breakpoints.down(1130))
-  const is490=useMediaQuery(theme.breakpoints.down(490))
-  const is700=useMediaQuery(theme.breakpoints.down(700))
-  const is568=useMediaQuery(theme.breakpoints.down(568))
-  const is488=useMediaQuery(theme.breakpoints.down(488))
+  const is642=useMediaQuery(theme.breakpoints.down(642))
+  const is480=useMediaQuery(theme.breakpoints.down(480))
   
   const handleAddRemoveFromWishlist=(e,productId)=>{
     if(e.target.checked){
@@ -134,77 +132,78 @@ export const Wishlist = () => {
 
   return (
     // parent
-    <Stack justifyContent={'flex-start'} mt={is488?2:5} mb={'14rem'} alignItems={'center'}>
+    <Stack justifyContent={'flex-start'} mt={is480?3:5} mb={'14rem'} alignItems={'center'}>
 
         {/* main child */}
-        <Stack width={is1130?"100vw":'70rem'} rowGap={is488?0:4}>
+        <Stack width={is1130?"auto":'70rem'} rowGap={is480?2:4}>
 
-          {/* heading area and back button */}
-          <Stack alignSelf={'flex-start'} flexDirection={'row'} columnGap={1} justifyContent={'center'} alignItems={'center'}>
-            <motion.div whileHover={{x:-5}}>
-              <IconButton component={Link} to={'/'}><ArrowBackIcon fontSize='large'/></IconButton>
-            </motion.div>
-              <Typography variant='h4' fontWeight={500}>Your wishlist</Typography>
-          </Stack>
+            {/* heading area and back button */}
+            <Stack alignSelf={'flex-start'} flexDirection={'row'} columnGap={1} justifyContent={'center'} alignItems={'center'}>
+                <motion.div whileHover={{x:-5}}>
+                  <IconButton component={Link} to={'/'}><ArrowBackIcon fontSize={is480?'medium':'large'}/></IconButton>
+                </motion.div>
+                <Typography variant='h4' fontWeight={500}>Your wishlist</Typography>
+            </Stack>
 
-          {/* product grid */}
-          <Stack>
+            {/* product grid */}
+            <Stack >
 
-            {
-              wishlistItems?.length===0?(
-                <Stack width={is490?"20rem":is1130?"30rem":'40rem'}  alignSelf={'center'} justifyContent={'center'} alignItems={'center'}>
-                  <Lottie animationData={emptyWishlistAnimation}/>
-                  <Typography variant='h6' fontWeight={300}>You have no items in your wishlist</Typography>
-                </Stack>
-              ):
-            
-              <Grid container gap={is1130?1:3} justifyContent={is1130?"space-evenly":'center'} alignContent={'center'}>
-                {
-                  wishlistItems.map((item,index)=>(
-                    <Stack component={Paper} elevation={1} width={is488?"280px":is568?"240px":is700?'280px':'340px'}>
+              {
+                wishlistItems?.length===0?(
+                  // empty wishlist animation
+                  <Stack minHeight={'60vh'} width={is642?'auto':'40rem'} justifySelf={'center'}  alignSelf={'center'} justifyContent={'center'} alignItems={'center'}>
+                    <Lottie animationData={emptyWishlistAnimation}/>
+                    <Typography variant='h6' fontWeight={300}>You have no items in your wishlist</Typography>
+                  </Stack>
+                ):
+                // wishlist grid
+                <Grid container gap={1} justifyContent={'center'} alignContent={'center'}>
+                  {
+                    wishlistItems.map((item,index)=>(
+                      <Stack component={is480?"":Paper} elevation={1} >
 
-                      <ProductCard item key={item._id} brand={item.product.brand.name} id={item.product._id} price={item.product.price} stockQuantity={item.product.stockQuantity} thumbnail={item.product.thumbnail} title={item.product.title} handleAddRemoveFromWishlist={handleAddRemoveFromWishlist} isWishlistCard={true}/>
-                      
-                      <Stack p={2}>
+                          <ProductCard item key={item._id} brand={item.product.brand.name} id={item.product._id} price={item.product.price} stockQuantity={item.product.stockQuantity} thumbnail={item.product.thumbnail} title={item.product.title} handleAddRemoveFromWishlist={handleAddRemoveFromWishlist} isWishlistCard={true}/>
+                        
+                        <Stack paddingLeft={2} paddingRight={2} paddingBottom={2}>
 
-                        {/* note heading and icon */}
-                        <Stack flexDirection={'row'} alignItems={'center'}>
-                          <Typography variant='h6' fontWeight={400}>Note</Typography>
-                          <IconButton onClick={()=>handleEdit(index)} ><EditOutlinedIcon/></IconButton>
-                        </Stack>
+                          {/* note heading and icon */}
+                          <Stack flexDirection={'row'} alignItems={'center'}>
+                            <Typography variant='h6' fontWeight={400}>Note</Typography>
+                            <IconButton onClick={()=>handleEdit(index)} ><EditOutlinedIcon/></IconButton>
+                          </Stack>
 
-                        {
-                          editIndex===index?(
+                          {
+                            editIndex===index?(
 
-                            <Stack rowGap={2}>
-                              
-                              <TextField multiline rows={4} value={editValue} onChange={(e)=>setEditValue(e.target.value)}/>
-                              
-                              <Stack flexDirection={'row'} alignSelf={'flex-end'} columnGap={1}>
-                                  <Button onClick={()=>handleNoteUpdate(item._id)} size='small' variant='contained'>Update</Button>
-                                  <Button onClick={()=>setEditIndex(-1)} size='small' variant='outlined' color='error'>Cancel</Button>
+                              <Stack rowGap={2}>
+                                
+                                <TextField multiline rows={4} value={editValue} onChange={(e)=>setEditValue(e.target.value)}/>
+                                
+                                <Stack flexDirection={'row'} alignSelf={'flex-end'} columnGap={1}>
+                                    <Button onClick={()=>handleNoteUpdate(item._id)} size='small' variant='contained'>Update</Button>
+                                    <Button onClick={()=>setEditIndex(-1)} size='small' variant='outlined' color='error'>Cancel</Button>
+                                </Stack>
+
                               </Stack>
+                            ):
+                            <Box>
+                              <Typography sx={{wordWrap:"break-word",color:item.note?'text.primary':'GrayText'}}>{item.note?item.note:"Add a custom note here"}</Typography>
+                            </Box>
+                          }
 
-                            </Stack>
-                          ):
-                          <Box>
-                            <Typography sx={{wordWrap:"break-word",color:item.note?'text.primary':'GrayText'}}>{item.note?item.note:"You can add a note here"}</Typography>
-                          </Box>
-                        }
-
-                        {
-                          cartItems.some((cartItem)=>cartItem.product._id===item.product._id)?
-                          <Button sx={{mt:4}} size='small' variant='outlined' component={Link} to={'/cart'}>Already in cart</Button>:<Button sx={{mt:4}} size='small' onClick={()=>handleAddToCart(item.product._id)} variant='outlined'>Buy</Button>
-                        }
-                        
-                        
+                          {
+                            cartItems.some((cartItem)=>cartItem.product._id===item.product._id)?
+                            <Button sx={{mt:4}} size='small' variant='outlined' component={Link} to={'/cart'}>Already in cart</Button>:<Button sx={{mt:4}} size='small' onClick={()=>handleAddToCart(item.product._id)} variant='outlined'>Add To Cart</Button>
+                          }
+                          
+                          
+                        </Stack>
                       </Stack>
-                    </Stack>
-                  ))
-                }
-              </Grid>
-            }
-          </Stack>
+                    ))
+                  }
+                </Grid>
+              }
+            </Stack>
         
         </Stack>
         
