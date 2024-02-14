@@ -5,6 +5,7 @@ import { createOrder, getAllOrders, getOrderByUserId, updateOrderById } from './
 const initialState={
     status:"idle",
     orderUpdateStatus:"idle",
+    orderFetchStatus:"idle",
     orders:[],
     currentOrder:null,
     errors:null,
@@ -40,6 +41,9 @@ const orderSlice=createSlice({
         },
         resetOrderUpdateStatus:(state)=>{
             state.orderUpdateStatus='idle'
+        },
+        resetOrderFetchStatus:(state)=>{
+            state.orderFetchStatus='idle'
         }
     },
     extraReducers:(builder)=>{
@@ -58,26 +62,26 @@ const orderSlice=createSlice({
             })
 
             .addCase(getAllOrdersAsync.pending,(state)=>{
-                state.status='pending'
+                state.orderFetchStatus='pending'
             })
             .addCase(getAllOrdersAsync.fulfilled,(state,action)=>{
-                state.status='fulfilled'
+                state.orderFetchStatus='fulfilled'
                 state.orders=action.payload
             })
             .addCase(getAllOrdersAsync.rejected,(state,action)=>{
-                state.status='rejected'
+                state.orderFetchStatus='rejected'
                 state.errors=action.error
             })
 
             .addCase(getOrderByUserIdAsync.pending,(state)=>{
-                state.status='pending'
+                state.orderFetchStatus='pending'
             })
             .addCase(getOrderByUserIdAsync.fulfilled,(state,action)=>{
-                state.status='fulfilled'
+                state.orderFetchStatus='fulfilled'
                 state.orders=action.payload
             })
             .addCase(getOrderByUserIdAsync.rejected,(state,action)=>{
-                state.status='rejected'
+                state.orderFetchStatus='rejected'
                 state.errors=action.error
             })
 
@@ -97,7 +101,7 @@ const orderSlice=createSlice({
 })
 
 // exporting reducers
-export const {resetCurrentOrder,resetOrderUpdateStatus}=orderSlice.actions
+export const {resetCurrentOrder,resetOrderUpdateStatus,resetOrderFetchStatus}=orderSlice.actions
 
 // exporting selectors
 export const selectOrderStatus=(state)=>state.OrderSlice.status
@@ -106,5 +110,6 @@ export const selectOrdersErrors=(state)=>state.OrderSlice.errors
 export const selectOrdersSuccessMessage=(state)=>state.OrderSlice.successMessage
 export const selectCurrentOrder=(state)=>state.OrderSlice.currentOrder
 export const selectOrderUpdateStatus=(state)=>state.OrderSlice.orderUpdateStatus
+export const selectOrderFetchStatus=(state)=>state.OrderSlice.orderFetchStatus
 
 export default orderSlice.reducer
