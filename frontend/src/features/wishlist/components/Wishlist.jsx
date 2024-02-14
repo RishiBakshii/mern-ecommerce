@@ -62,9 +62,6 @@ export const Wishlist = () => {
         toast.error("Error adding product to wishlist, please try again later")
     }
 
-    return ()=>{
-        dispatch(resetWishlistItemAddStatus())
-    }
 
   },[wishlistItemAddStatus])
 
@@ -76,9 +73,6 @@ export const Wishlist = () => {
         toast.error("Error removing product from wishlist, please try again later")
     }
 
-    return ()=>{
-        dispatch(resetWishlistItemDeleteStatus())
-    }
   },[wishlistItemDeleteStatus])
 
 
@@ -93,9 +87,6 @@ export const Wishlist = () => {
     setEditIndex(-1)
     setEditValue("")
 
-    return ()=>{
-      dispatch(resetWishlistItemUpdateStatus())
-    }
   },[wishlistItemUpdateStatus])
 
   useEffect(()=>{
@@ -106,10 +97,6 @@ export const Wishlist = () => {
 
     else if(cartItemAddStatus==='rejected'){
         toast.error('Error adding product to cart, please try again later')
-    }
-
-    return ()=>{
-        dispatch(resetCartItemAddStatus())
     }
 
 },[cartItemAddStatus])
@@ -124,6 +111,10 @@ export const Wishlist = () => {
   useEffect(()=>{
     return ()=>{
       dispatch(resetWishlistFetchStatus())
+      dispatch(resetCartItemAddStatus())
+      dispatch(resetWishlistItemUpdateStatus())
+      dispatch(resetWishlistItemDeleteStatus())
+      dispatch(resetWishlistItemAddStatus())
     }
   },[])
 
