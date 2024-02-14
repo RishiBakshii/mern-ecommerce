@@ -11,6 +11,7 @@ import { createOrderAsync, selectCurrentOrder, selectOrderStatus } from '../../o
 import { resetCartByUserIdAsync, selectCartItems } from '../../cart/CartSlice'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { SHIPPING, TAXES } from '../../../constants'
+import {motion} from 'framer-motion'
 
 
 export const Checkout = () => {
@@ -29,7 +30,7 @@ export const Checkout = () => {
     const currentOrder=useSelector(selectCurrentOrder)
     const orderTotal=cartItems.reduce((acc,item)=>(item.product.price*item.quantity)+acc,0)
     const theme=useTheme()
-    const is960=useMediaQuery(theme.breakpoints.down(960))
+    const is900=useMediaQuery(theme.breakpoints.down(900))
     const is480=useMediaQuery(theme.breakpoints.down(480))
     
     useEffect(()=>{
@@ -59,13 +60,16 @@ export const Checkout = () => {
     }
 
   return (
-    <Stack flexDirection={'row'}  justifyContent={'center'} flexWrap={'wrap'}>
+    <Stack flexDirection={'row'} p={2} rowGap={10} justifyContent={'center'} flexWrap={'wrap'} mb={'5rem'} mt={2} columnGap={4} alignItems={'flex-start'}>
 
         {/* left box */}
-        <Stack p={is480?1:4} rowGap={4}>
+        <Stack rowGap={4}>
+
             {/* heading */}
             <Stack flexDirection={'row'} columnGap={is480?0.3:1} alignItems={'center'}>
-                <IconButton component={Link} to={"/cart"}><ArrowBackIcon fontSize={is480?"medium":'large'}/></IconButton>
+                <motion.div  whileHover={{x:-5}}>
+                    <IconButton component={Link} to={"/cart"}><ArrowBackIcon fontSize={is480?"medium":'large'}/></IconButton>
+                </motion.div>
                 <Typography variant='h4'>Shipping Information</Typography>
             </Stack>
 
@@ -121,11 +125,11 @@ export const Checkout = () => {
                     <Typography variant='body2' color={'text.secondary'}>Choose from existing Addresses</Typography>
                 </Stack>
 
-                <Grid container gap={2} width={is960?"auto":'50rem'}>
+                <Grid container gap={2} width={is900?"auto":'50rem'} justifyContent={'flex-start'} alignContent={'flex-start'}>
                         {
                             addresses.map((address,index)=>(
                                 <FormControl item >
-                                    <Stack key={address._id} p={2} width={is480?"90vw":is960?'auto':'20rem'} height={'14rem'} rowGap={2} component={Paper} elevation={1}>
+                                    <Stack key={address._id} p={is480?2:2} width={is480?'100%':'20rem'} height={is480?'auto':'15rem'}  rowGap={2} component={is480?Paper:Paper} elevation={1}>
 
                                         <Stack flexDirection={'row'} alignItems={'center'}>
                                             <Radio checked={selectedAddress===address} name='addressRadioGroup' value={selectedAddress} onChange={(e)=>setSelectedAddress(addresses[index])}/>
@@ -173,12 +177,10 @@ export const Checkout = () => {
         </Stack>
 
         {/* right box */}
-        <Stack p={is480?1:''} mt={5} mb={2} alignSelf={'flex-start'}>
-                <Typography variant='h5' fontWeight={400}>Order summary</Typography>
-                <Cart checkout={true}/>
-                <Stack paddingLeft={4} paddingRight={4}>
-                    <LoadingButton loading={orderStatus==='pending'} variant='contained' onClick={handleCreateOrder} size='large'>Pay and order</LoadingButton>
-                </Stack>
+        <Stack  width={is900?'100%':'auto'} alignItems={is900?'flex-start':''}>
+            <Typography variant='h4'>Order summary</Typography>
+            <Cart checkout={true}/>
+            <LoadingButton fullWidth loading={orderStatus==='pending'} variant='contained' onClick={handleCreateOrder} size='large'>Pay and order</LoadingButton>
         </Stack>
 
     </Stack>

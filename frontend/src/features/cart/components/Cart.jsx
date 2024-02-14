@@ -48,7 +48,7 @@ export const Cart = ({checkout}) => {
   return (
     <Stack justifyContent={'flex-start'} alignItems={'center'} mb={'5rem'} >
 
-        <Stack width={is900?'auto':'50rem'} mt={'3rem'} paddingLeft={2} paddingRight={2} rowGap={4} >
+        <Stack width={is900?'auto':'50rem'} mt={'3rem'} paddingLeft={checkout?0:2} paddingRight={checkout?0:2} rowGap={4} >
 
             {/* cart items */}
             <Stack rowGap={2}>
@@ -64,7 +64,7 @@ export const Cart = ({checkout}) => {
 
                 {
                     checkout?(
-                        <Stack rowGap={2} width={'100%'} p={2}>
+                        <Stack rowGap={2} width={'100%'}>
 
                             <Stack flexDirection={'row'} justifyContent={'space-between'}>
                                 <Typography>Subtotal</Typography>
