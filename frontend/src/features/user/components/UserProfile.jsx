@@ -15,7 +15,6 @@ export const UserProfile = () => {
     const status=useSelector(selectAddressStatus)
     const userInfo=useSelector(selectUserInfo)
     const addresses=useSelector(selectAddresses)
-    const addressErrors=useSelector(selectAddressErrors)
     const theme=useTheme()
     const [addAddress,setAddAddress]=useState(false)
 
@@ -88,10 +87,10 @@ export const UserProfile = () => {
   return (
     <Stack height={'calc(100vh - 4rem)'} justifyContent={'flex-start'} alignItems={'center'}>
 
-            <Stack component={Paper} elevation={1} width={is480?'20rem':is900?'30rem':"50rem"} p={2} mt={is480?0:5} rowGap={is480?'1.5rem':'2.5rem'}>
+            <Stack component={is480?'':Paper} elevation={1} width={is900?'100%':"50rem"} p={2} mt={is480?0:5} rowGap={2}>
 
                     {/* user details - [name ,email ] */}
-                    <Stack bgcolor={theme.palette.primary.light} color={theme.palette.primary.main} p={is480?0:1} rowGap={1} borderRadius={'.6rem'} justifyContent={'center'} alignItems={'center'}>
+                    <Stack bgcolor={theme.palette.primary.light} color={theme.palette.primary.main} p={2} rowGap={1} borderRadius={'.6rem'} justifyContent={'center'} alignItems={'center'}>
                         <Avatar src='none' alt={userInfo?.name} sx={{width:70,height:70}}></Avatar>
                         <Typography>{userInfo?.name}</Typography>
                         <Typography>{userInfo?.email}</Typography>
@@ -99,7 +98,7 @@ export const UserProfile = () => {
 
 
                     {/* address section */}
-                    <Stack justifyContent={'center'} alignItems={'center'}>
+                    <Stack justifyContent={'center'} alignItems={'center'} rowGap={3}>
 
 
                         {/* heading and add button */}
@@ -111,7 +110,7 @@ export const UserProfile = () => {
                         {/* add address form - state dependent*/}
                         {
                             addAddress?(
-                                <Stack m={'2rem 0rem'} width={'100%'} component={'form'} noValidate onSubmit={handleSubmit(handleAddAddress)} rowGap={2}>
+                                <Stack width={'100%'} component={'form'} noValidate onSubmit={handleSubmit(handleAddAddress)} rowGap={2}>
                     
                                         <Stack>
                                             <Typography  gutterBottom>Type</Typography>
@@ -158,7 +157,7 @@ export const UserProfile = () => {
                         }
 
                         {/* mapping on addresses here  */}
-                        <Stack width={'100%'} rowGap={2} mt={2}>
+                        <Stack width={'100%'} rowGap={2}>
                             {
                                 addresses.length>0?(
                                     addresses.map((address)=>(

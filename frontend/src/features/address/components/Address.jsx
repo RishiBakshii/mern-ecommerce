@@ -95,7 +95,7 @@ export const Address = ({id,type,street,postalCode,country,phoneNumber,state,cit
             }
 
             {/* action buttons */}
-            <Stack position={is480?"static":edit?"static":'absolute'} bottom={4} right={4} mt={is480?2:4} flexDirection={'row'} alignSelf={is480?'flex-start':'flex-end'} columnGap={1}>
+            <Stack position={is480?"static":edit?"static":'absolute'} bottom={4} right={4} mt={is480?2:4} flexDirection={'row'} alignSelf={'flex-end'} columnGap={1}>
 
                 {/* if edit is true, then save changes button is shown instead of edit*/}
                 {
