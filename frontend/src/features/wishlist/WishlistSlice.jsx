@@ -104,7 +104,7 @@ const wishlistSlice=createSlice({
 
 // exporting selectors
 export const selectWishlistItems=(state)=>state.WishlistSlice.items
-export const selectWishlistItemFetchStatus=(state)=>state.WishlistSlice.wishlistItemFetchStatus
+export const selectWishlistFetchStatus=(state)=>state.WishlistSlice.wishlistFetchStatus
 export const selectWishlistItemUpdateStatus=(state)=>state.WishlistSlice.wishlistItemUpdateStatus
 export const selectWishlistItemAddStatus=(state)=>state.WishlistSlice.wishlistItemAddStatus
 export const selectWishlistItemDeleteStatus=(state)=>state.WishlistSlice.wishlistItemDeleteStatus
