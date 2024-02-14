@@ -1,13 +1,13 @@
 import { Box, Button, Grid, IconButton, Paper, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {useDispatch,useSelector} from 'react-redux'
-import { createWishlistItemAsync, deleteWishlistItemByIdAsync, resetWishlistItemAddStatus, resetWishlistItemDeleteStatus, resetWishlistItemUpdateStatus, selectWishlistItemAddStatus, selectWishlistItemDeleteStatus, selectWishlistItemUpdateStatus, selectWishlistItems, updateWishlistItemByIdAsync } from '../WishlistSlice'
+import { createWishlistItemAsync, deleteWishlistItemByIdAsync, resetWishlistFetchStatus, resetWishlistItemAddStatus, resetWishlistItemDeleteStatus, resetWishlistItemUpdateStatus, selectWishlistFetchStatus, selectWishlistItemAddStatus, selectWishlistItemDeleteStatus, selectWishlistItemUpdateStatus, selectWishlistItems, updateWishlistItemByIdAsync } from '../WishlistSlice'
 import {ProductCard} from '../../products/components/ProductCard'
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { selectLoggedInUser } from '../../auth/AuthSlice';
-import { emptyWishlistAnimation } from '../../../assets';
+import { emptyWishlistAnimation, loadingAnimation } from '../../../assets';
 import Lottie from 'lottie-react' 
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { useForm } from "react-hook-form"
@@ -24,6 +24,7 @@ export const Wishlist = () => {
   const loggedInUser=useSelector(selectLoggedInUser)
   const cartItems=useSelector(selectCartItems)
   const cartItemAddStatus=useSelector(selectCartItemAddStatus)
+  const wishlistFetchStatus=useSelector(selectWishlistFetchStatus)
 
   const [editIndex,setEditIndex]=useState(-1)
   const [editValue,setEditValue]=useState('')
@@ -114,6 +115,18 @@ export const Wishlist = () => {
 },[cartItemAddStatus])
 
 
+  useEffect(()=>{
+    if(wishlistFetchStatus==='rejected'){
+      toast.error("Error fetching wishlist, please try again later")
+    }
+  },[wishlistFetchStatus])
+
+  useEffect(()=>{
+    return ()=>{
+      dispatch(resetWishlistFetchStatus())
+    }
+  },[])
+
   const handleNoteUpdate=(wishlistItemId)=>{
     const update={_id:wishlistItemId,note:editValue}
     dispatch(updateWishlistItemByIdAsync(update))
@@ -133,8 +146,13 @@ export const Wishlist = () => {
   return (
     // parent
     <Stack justifyContent={'flex-start'} mt={is480?3:5} mb={'14rem'} alignItems={'center'}>
+        {
+          wishlistFetchStatus==='pending'?
+          <Stack width={is480?'auto':'25rem'} height={'calc(100vh - 4rem)'} justifyContent={'center'} alignItems={'center'}>
+                <Lottie animationData={loadingAnimation}/>
+          </Stack>
+          :
 
-        {/* main child */}
         <Stack width={is1130?"auto":'70rem'} rowGap={is480?2:4}>
 
             {/* heading area and back button */}
@@ -149,7 +167,7 @@ export const Wishlist = () => {
             <Stack >
 
               {
-                wishlistItems?.length===0?(
+                !wishlistFetchStatus==='pending' && wishlistItems?.length===0?(
                   // empty wishlist animation
                   <Stack minHeight={'60vh'} width={is642?'auto':'40rem'} justifySelf={'center'}  alignSelf={'center'} justifyContent={'center'} alignItems={'center'}>
                     <Lottie animationData={emptyWishlistAnimation}/>
@@ -206,6 +224,7 @@ export const Wishlist = () => {
             </Stack>
         
         </Stack>
+        }
         
     </Stack>
   )
