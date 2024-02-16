@@ -45,10 +45,7 @@ export const Reviews = ({productId,averageRating}) => {
 
         reset()
         setValue(1)
-
-        return ()=>{
-            dispatch(resetReviewAddStatus())
-        }
+        
     },[reviewAddStatus])
 
     useEffect(()=>{
@@ -58,9 +55,6 @@ export const Reviews = ({productId,averageRating}) => {
         }
         else if(reviewDeleteStatus==='rejected'){
             toast.error("Error deleting review, please try again later")
-        }
-        return ()=>{
-            dispatch(resetReviewDeleteStatus())
         }
     },[reviewDeleteStatus])
 
@@ -72,10 +66,15 @@ export const Reviews = ({productId,averageRating}) => {
         else if(reviewUpdateStatus==='rejected'){
             toast.error("Error updating review, please try again later")
         }
+    },[reviewUpdateStatus])
+
+    useEffect(()=>{
         return ()=>{
+            dispatch(resetReviewAddStatus())
+            dispatch(resetReviewDeleteStatus())
             dispatch(resetReviewUpdateStatus())
         }
-    },[reviewUpdateStatus])
+    },[])
 
     const ratingCounts={
         5:0,
