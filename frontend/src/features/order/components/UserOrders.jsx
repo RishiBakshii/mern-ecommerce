@@ -49,11 +49,6 @@ export const UserOrders = () => {
         else if(cartItemAddStatus==='rejected'){
             toast.error('Error adding product to cart, please try again later')
         }
-
-        return ()=>{
-            dispatch(resetCartItemAddStatus())
-        }
-
     },[cartItemAddStatus])
 
     useEffect(()=>{
@@ -65,6 +60,7 @@ export const UserOrders = () => {
     useEffect(()=>{
         return ()=>{
             dispatch(resetOrderFetchStatus())
+            dispatch(resetCartItemAddStatus())
         }
     },[])
 
