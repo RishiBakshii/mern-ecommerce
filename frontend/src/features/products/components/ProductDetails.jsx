@@ -90,11 +90,6 @@ export const ProductDetails = () => {
         else if(cartItemAddStatus==='rejected'){
             toast.error('Error adding product to cart, please try again later')
         }
-
-        return ()=>{
-            dispatch(resetCartItemAddStatus())
-        }
-
     },[cartItemAddStatus])
 
     useEffect(()=>{
@@ -104,11 +99,6 @@ export const ProductDetails = () => {
         else if(wishlistItemAddStatus==='rejected'){
             toast.error("Error adding product to wishlist, please try again later")
         }
-
-        return ()=>{
-            dispatch(resetWishlistItemAddStatus())
-        }
-
     },[wishlistItemAddStatus])
 
     useEffect(()=>{
@@ -117,10 +107,6 @@ export const ProductDetails = () => {
         }
         else if(wishlistItemDeleteStatus==='rejected'){
             toast.error("Error removing product from wishlist, please try again later")
-        }
-
-        return ()=>{
-            dispatch(resetWishlistItemDeleteStatus())
         }
     },[wishlistItemDeleteStatus])
 
@@ -141,6 +127,9 @@ export const ProductDetails = () => {
             dispatch(clearSelectedProduct())
             dispatch(resetProductFetchStatus())
             dispatch(resetReviewFetchStatus())
+            dispatch(resetWishlistItemDeleteStatus())
+            dispatch(resetWishlistItemAddStatus())
+            dispatch(resetCartItemAddStatus())
         }
     },[])
 
