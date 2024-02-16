@@ -39,11 +39,13 @@ export const Cart = ({checkout}) => {
         else if(cartItemRemoveStatus==='rejected'){
             toast.error("Error removing product from cart, please try again later")
         }
+    },[cartItemRemoveStatus])
 
+    useEffect(()=>{
         return ()=>{
             dispatch(resetCartItemRemoveStatus())
         }
-    },[cartItemRemoveStatus])
+    },[])
 
   return (
     <Stack justifyContent={'flex-start'} alignItems={'center'} mb={'5rem'} >
