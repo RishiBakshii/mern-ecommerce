@@ -41,10 +41,6 @@ export const UserProfile = () => {
         else if(addressAddStatus==='rejected'){
             toast.error("Error adding address, please try again later")
         }
-
-        return ()=>{
-            dispatch(resetAddressAddStatus())
-        }
     },[addressAddStatus])
 
     useEffect(()=>{
@@ -55,11 +51,6 @@ export const UserProfile = () => {
         else if(addressUpdateStatus==='rejected'){
             toast.error("Error updating address, please try again later")
         }
-
-        return ()=>{
-            dispatch(resetAddressUpdateStatus())
-        }
-
     },[addressUpdateStatus])
 
     useEffect(()=>{
@@ -70,12 +61,15 @@ export const UserProfile = () => {
         else if(addressDeleteStatus==='rejected'){
             toast.error("Error deleting address, please try again later")
         }
+    },[addressDeleteStatus])
 
+    useEffect(()=>{
         return ()=>{
+            dispatch(resetAddressAddStatus())
+            dispatch(resetAddressUpdateStatus())
             dispatch(resetAddressDeleteStatus())
         }
-
-    },[addressDeleteStatus])
+    },[])
 
     const handleAddAddress=(data)=>{
         const address={...data,user:userInfo._id}
