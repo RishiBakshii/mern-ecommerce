@@ -62,12 +62,12 @@ export const ProductUpdate = () => {
 
 
   return (
-    <Stack justifyContent={'center'} alignItems={'center'} flexDirection={'row'} >
+    <Stack p={'0 16px'} justifyContent={'center'} alignItems={'center'} flexDirection={'row'} >
         
         {
             selectedProduct &&
         
-        <Stack width={is1100?"95vw":"60rem"} rowGap={4} mt={6} mb={6} component={'form'} noValidate onSubmit={handleSubmit(handleProductUpdate)}> 
+        <Stack width={is1100?"100%":"60rem"} rowGap={4} mt={is480?4:6} mb={6} component={'form'} noValidate onSubmit={handleSubmit(handleProductUpdate)}> 
             
             {/* feild area */}
             <Stack rowGap={3}>
