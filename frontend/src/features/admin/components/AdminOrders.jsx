@@ -43,14 +43,13 @@ export const AdminOrders = () => {
     else if(orderUpdateStatus==='rejected'){
       toast.error("Error updating order status")
     }
+  },[orderUpdateStatus])
 
-    dispatch(resetOrderUpdateStatus())
-
+  useEffect(()=>{
     return ()=>{
       dispatch(resetOrderUpdateStatus())
     }
-
-  },[orderUpdateStatus])
+  },[])
 
 
   const handleUpdateOrder=(data)=>{
