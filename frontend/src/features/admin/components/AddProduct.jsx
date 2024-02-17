@@ -30,11 +30,13 @@ export const AddProduct = () => {
         else if(productAddStatus==='rejected'){
             toast.error("Error adding product, please try again later")
         }
+    },[productAddStatus])
 
+    useEffect(()=>{
         return ()=>{
             dispatch(resetProductAddStatus())
         }
-    },[productAddStatus])
+    },[])
 
     const handleAddProduct=(data)=>{
         const newProduct={...data,images:[data.image0,data.image1,data.image2,data.image3]}
@@ -46,8 +48,7 @@ export const AddProduct = () => {
         dispatch(addProductAsync(newProduct))
     }
 
-
-
+    
   return (
     <Stack p={'0 16px'} justifyContent={'center'} alignItems={'center'} flexDirection={'row'} >
         
