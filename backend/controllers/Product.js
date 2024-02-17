@@ -93,7 +93,7 @@ exports.undeleteById=async(req,res)=>{
 exports.deleteById=async(req,res)=>{
     try {
         const {id}=req.params
-        const deleted=await Product.findByIdAndUpdate(id,{isDeleted:true},{new:true})
+        const deleted=await Product.findByIdAndUpdate(id,{isDeleted:true},{new:true}).populate("brand")
         res.status(200).json(deleted)
     } catch (error) {
         console.log(error);
