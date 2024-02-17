@@ -38,15 +38,12 @@ export const ProductUpdate = () => {
         else if(productUpdateStatus==='rejected'){
             toast.error("Error updating product, please try again later")
         }
-
-        return ()=>{
-            dispatch(resetProductUpdateStatus())
-        }
     },[productUpdateStatus])
 
     useEffect(()=>{
         return ()=>{
             dispatch(clearSelectedProduct())
+            dispatch(resetProductUpdateStatus())
         }
     },[])
 
