@@ -187,7 +187,6 @@ export const AdminDashBoard = () => {
             </Stack>
 
         </Stack>
-        
      
         <Grid gap={2} container flex={1} justifyContent={'center'} alignContent={"center"}>
             {
@@ -196,7 +195,7 @@ export const AdminDashBoard = () => {
                         <Stack sx={{opacity:product.isDeleted?.7:1}}>
                             <ProductCard key={product._id} id={product._id} title={product.title} thumbnail={product.thumbnail} brand={product.brand.name} price={product.price} isAdminCard={true}/>
                         </Stack>
-                        <Stack mt={2} flexDirection={'row'} justifySelf={'flex-end'} alignSelf={'flex-end'} columnGap={2}>
+                        <Stack paddingLeft={2} paddingRight={2} flexDirection={'row'} justifySelf={'flex-end'} alignSelf={'flex-end'} columnGap={is488?1:2}>
                             <Button component={Link} to={`/admin/product-update/${product._id}`} variant='contained'>Update</Button>
                             {
                                 product.isDeleted===true?(
@@ -215,7 +214,6 @@ export const AdminDashBoard = () => {
             <Pagination size={is488?'medium':'large'} page={page}  onChange={(e,page)=>setPage(page)} count={Math.ceil(totalResults/ITEMS_PER_PAGE)} variant="outlined" shape="rounded" />
             <Typography textAlign={'center'}>Showing {(page-1)*ITEMS_PER_PAGE+1} to {page*ITEMS_PER_PAGE>totalResults?totalResults:page*ITEMS_PER_PAGE} of {totalResults} results</Typography>
         </Stack>    
-            
     
     </Stack> 
     </>
