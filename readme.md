@@ -1,28 +1,49 @@
-## MERN Ecommerce: A Shopping Haven with Redux Toolkit & Material UI Magic
+## MERN Ecommerce: A Seamless Shopping Experience Powered by the MERN Stack, Redux Toolkit, and Material UI
 
-**Introducing MERN Ecommerce**, a full-stack web application built to revolutionize your online shopping experience! Powered by the MERN stack (MongoDB, Express.js, React, Node.js), Redux Toolkit for smooth state management, and the visually stunning Material UI, this project offers a seamless and feature-rich platform for both users and admins.
+**MERN Ecommerce** is a full-stack application designed to transform your online shopping experience. Built with the MERN stack (MongoDB, Express.js, React, Node.js), it leverages Redux Toolkit for efficient state management and Material UI for a sleek, user-friendly interface. This project offers a robust platform for both users and admins, packed with essential features for a seamless experience.
 
-![ecommerce-homepage](https://res.cloudinary.com/dh5fjdce9/image/upload/v1707365755/front_inhzp9.png)
+![ecommerce-homepage](https://github.com/RishiBakshii/mern-ecommerce/blob/main/frontend/src/assets/images/front.png?raw=true)
+<!-- ![ecommerce-banner](https://github.com/RishiBakshii/mern-ecommerce/blob/main/frontend/src/assets/images/banner4.jpg?raw=true) -->
 
-* **Become a product connoisseur:** Write, edit, and delete reviews with real-time updates reflecting on average rating, total count, and individual star percentages.
-* **Wishlist like a pro:** Add, remove, and annotate products, remembering why you loved them with personalized notes.
-* **Effortless order management:** Create and view order history for a clear picture of your shopping journey.
-* **Personalized profile:** Manage your registered email, username, and multiple addresses for a swift checkout experience.
-* **Cart control at your fingertips:** Add, adjust quantities, and view subtotals with ease.
 
-### **Empowering Admins with Control:**
+# **Features**
 
-* **Product maestro:** Add, edit, and delete products with ease, managing attributes like name, stock, and more.
-* **Second chances for products:** Soft-delete and undelete products, keeping control over your store's offerings.
-* **Order management extraordinaire:** View all orders, their details, and update their status (pending, dispatched, delivered, etc.) in real-time.
+### **User:**
+- **Product Reviews:**
+  - Write, edit, and delete reviews.
+  - Instant updates on ratings and star percentages.
+  
+- **Wishlist:**
+  - Add, remove, and annotate products with personalized notes.
+  
+- **Order Management:**
+  - Create new orders and view order history.
+  
+- **Profile Management:**
+  - Manage email, username, and multiple addresses.
+  
+- **Shopping Cart:**
+  - Add products, adjust quantities, and view subtotals.
 
-### **But wait, there's more!**
+### **Admin:**
+- **Product Management:**
+  - Add, edit, delete, and soft-delete products.
+  - Manage product attributes like name and stock.
+  
+- **Order Management:**
+  - View and update order details and status.
 
-* **Secure authentication:** Login, signup, verify OTPs, reset passwords, and logout with robust security measures.
-* **Intuitive interface:** Material UI delivers a visually appealing and user-friendly experience.
-* **Scalable architecture:** Built for growth, easily adapt the platform to cater to increasing user demands.
+### **Security & User Experience:**
+- **Secure Authentication:**
+  - Login, signup, OTP verification, password reset, and logout.
 
-**Ready to experience The Mern Ecommerce?** Dive into the code, contribute, and be part of this exciting project!
+- **Intuitive Interface:**
+  - Powered by Material UI for a visually appealing and user-friendly experience.
+
+### **Scalability:**
+- **Built for Growth:**
+  - Scalable architecture to handle increasing user demands.
+
 
 # **Project Setup**
 
