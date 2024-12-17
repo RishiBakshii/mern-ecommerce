@@ -74,7 +74,7 @@ export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity,handle
                 <Typography>${price}</Typography>
                 {
                     !isWishlistCard? isProductAlreadyInCart?
-                    ''
+                    'Added to cart'
                     :
                     !isAdminCard &&
                     <motion.button  whileHover={{scale:1.030}} whileTap={{scale:1}} onClick={(e)=>handleAddToCart(e)} style={{padding:"10px 15px",borderRadius:"3px",outline:"none",border:"none",cursor:"pointer",backgroundColor:"black",color:"white",fontSize:is408?'.9rem':is488?'.7rem':is500?'.8rem':'.9rem'}}>
