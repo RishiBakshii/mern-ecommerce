@@ -83,6 +83,7 @@ function App() {
         <main className="pt-20">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Login />} />
             <Route path="/products" element={<ProductListing />} />

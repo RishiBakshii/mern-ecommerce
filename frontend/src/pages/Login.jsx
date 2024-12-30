@@ -39,19 +39,19 @@ function Login() {
     try {
       if (activeButton === "login") {
         // Call login API
-        const response = await axios.post("http://localhost:8080/login", {
+        const response = await axios.post("http://localhost:8080/auth/login", {
           email: formData.email,
           password: formData.password,
         });
         localStorage.setItem("token", response.data.token); // Save token to localStorage
         setSuccessMessage("Login successful! Redirecting...");
         setTimeout(() => {
-          window.location.href = "/home"; // Redirect to dashboard
+          window.location.href = "/";   // Redirect to dashboard
         }, 2000);
       } else {
         // Call signup API
-        const response = await axios.post("http://localhost:8080/signup", {
-          
+        const response = await axios.post("http://localhost:8080/auth/signup", {
+          name: formData.name,
           email: formData.email,
           password: formData.password,
         });
@@ -155,6 +155,20 @@ function Login() {
               key="signup"
             >
               <h2 className="text-2xl font-bold mb-6">Sign Up</h2>
+              <div className="mb-4">
+                <label className="block mb-1 text-gray-700">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder="Enter your name"
+                  className="w-96 px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600 text-black"
+                  required
+                />
+              </div>
+
+
               <div className="mb-4">
                 <label className="block mb-1 text-gray-700">Email</label>
                 <input

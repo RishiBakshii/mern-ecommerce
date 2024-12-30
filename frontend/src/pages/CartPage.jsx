@@ -26,7 +26,7 @@ const CartPage = () => {
                 <h2 className="text-lg font-bold">{item.name}</h2>
                 <p className="text-gray-600">Price: ₹{item.price}</p>
                 <p className="text-gray-600">
-                  Subtotal: ₹{item.price * item.quantity}
+                  Contact Seller: {item.sellerId}
                 </p>
               </div>
 
