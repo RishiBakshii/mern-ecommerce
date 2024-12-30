@@ -7,7 +7,7 @@ const { sanitizeUser } = require("../utils/SanitizeUser");
 const { generateToken } = require("../utils/GenerateToken");
 const PasswordResetToken = require("../models/PasswordResetToken");
 
-exports.signup=async(req,res)=>{
+exports.signup=async(req,res)=>{    
     try {
         const existingUser=await User.findOne({email:req.body.email})
         

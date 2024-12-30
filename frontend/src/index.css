@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.transition-custom{
+    transition: 0.3s cubic-bezier(0.55, 0.055, 0, 0.9);
+}
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fadeIn {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .bg-image-custom{
+    background-image: url("../Login-Backdrop.png");
+    height: 100vh;
+    width: 100vw;
+  }

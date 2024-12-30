@@ -1,0 +1,44 @@
+.transition-nav-bar{
+    transition: 0.3s cubic-bezier(0.55, 0.055, 0, 0.9);
+}
+.nav-bar {
+    color:#fff;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    height: 3rem;
+    background: rgba(0, 0, 0, 0.7); /* Glassmorphic effect */
+    backdrop-filter: blur(10px);
+    border-radius: 9999px; /* Fully rounded */
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-button {
+    display: inline-block;
+    text-align: center;
+    color: #000;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .nav-button:hover {
+    background-color: #1e293b; /* Slate-900 */
+    color: #fff;
+    border-radius: 9999px;
+  }
+  
+  .nav-bar {
+    transition: transform 0.3s ease-in-out; /* Smooth transition */
+  }
+  
+  .translate-y-0 {
+    transform: translateY(0); /* Navbar visible */
+  }
+  
+  .-translate-y-full {
+    transform: translateY(-100%); /* Navbar hidden */
+  }
+  

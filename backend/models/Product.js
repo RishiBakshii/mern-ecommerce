@@ -14,26 +14,9 @@ const productSchema= new Schema({
         type:Number,
         required:true
     },
-    discountPercentage: {
-        type: Number,
-        default: 0,
-    },
     category:{
         type:Schema.Types.ObjectId,
         ref:"Category",
-        required:true
-    },
-    brand:{
-        type:Schema.Types.ObjectId,
-        ref:"Brand",
-        required:true
-    },
-    stockQuantity:{
-        type:Number,
-        required:true
-    },
-    thumbnail:{
-        type:String,
         required:true
     },
     images:{
