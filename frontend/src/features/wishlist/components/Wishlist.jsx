@@ -176,12 +176,12 @@ export const Wishlist = () => {
                         <Stack paddingLeft={2} paddingRight={2} paddingBottom={2}>
 
                           {/* note heading and icon */}
-                          <Stack flexDirection={'row'} alignItems={'center'}>
+                          {/* <Stack flexDirection={'row'} alignItems={'center'}>
                             <Typography variant='h6' fontWeight={400}>Note</Typography>
                             <IconButton onClick={()=>handleEdit(index)} ><EditOutlinedIcon/></IconButton>
-                          </Stack>
+                          </Stack> */}
 
-                          {
+                          {/* {
                             editIndex===index?(
 
                               <Stack rowGap={2}>
@@ -198,7 +198,7 @@ export const Wishlist = () => {
                             <Box>
                               <Typography sx={{wordWrap:"break-word",color:item.note?'text.primary':'GrayText'}}>{item.note?item.note:"Add a custom note here"}</Typography>
                             </Box>
-                          }
+                          } */}
 
                           {
                             cartItems.some((cartItem)=>cartItem.product._id===item.product._id)?
