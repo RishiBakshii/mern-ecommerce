@@ -12,12 +12,15 @@ import { Badge, Button, Chip, Stack, useMediaQuery, useTheme } from '@mui/materi
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserInfo } from '../../user/UserSlice';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import WalletIcon from '@mui/icons-material/WalletRounded';
 import { selectCartItems } from '../../cart/CartSlice';
 import { selectLoggedInUser } from '../../auth/AuthSlice';
 import { selectWishlistItems } from '../../wishlist/WishlistSlice';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ContactAdminIcon from '@mui/icons-material/QuestionMarkSharp';
 import TuneIcon from '@mui/icons-material/Tune';
 import { selectProductIsFilterOpen, toggleFilters } from '../../products/ProductSlice';
+import { px } from 'framer-motion';
 
 
 
@@ -50,7 +53,7 @@ export const Navbar=({isProductList=false})=> {
   const settings = [
     {name:"Home",to:"/"},
     {name:'Profile',to:loggedInUser?.isAdmin?"/admin/profile":"/profile"},
-    {name:loggedInUser?.isAdmin?'Orders':'My orders',to:loggedInUser?.isAdmin?"/admin/orders":"/orders"},
+    {name:loggedInUser?.isAdmin?'Orders':'My Orders',to:loggedInUser?.isAdmin?"/admin/orders":"/orders"},
     {name:'Logout',to:"/logout"},
   ];
 
@@ -58,14 +61,17 @@ export const Navbar=({isProductList=false})=> {
     <AppBar position="sticky" sx={{backgroundColor:"white",boxShadow:"none",color:"text.primary"}}>
         <Toolbar sx={{p:1,height:"4rem",display:"flex",justifyContent:"space-around"}}>
 
-          <Typography variant="h6" noWrap component="a" href="/" sx={{ mr: 2, display: { xs: 'none', md: 'flex' },fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none', }}>
-            MERN SHOP
-          </Typography>
-
-
+          <Stack flexDirection={'row'} alignItems={'center'} justifyContent={'center'} columnGap={0}>
+            <Typography variant="h4" noWrap component="a" href="/" sx={{ mr: 1, display: { xs: 'none', md: 'flex' },fontWeight: 700, letterSpacing: '.rem', color: 'red', textDecoration: 'none', }}>
+              hugs
+            </Typography>
+            <Typography variant="h4" noWrap component="a" href="/" sx={{ mr: 2, display: { xs: 'none', md: 'flex' },fontWeight: 700, letterSpacing: '.rem', color: 'blue', textDecoration: 'none', }}>
+              &   more
+            </Typography>
+          </Stack>
 
           <Stack flexDirection={'row'} alignItems={'center'} justifyContent={'center'} columnGap={2}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Options">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt={userInfo?.name} src="null" />
               </IconButton>
@@ -91,7 +97,7 @@ export const Navbar=({isProductList=false})=> {
                 loggedInUser?.isAdmin && 
               
                 <MenuItem  onClick={handleCloseUserMenu}>
-                  <Typography component={Link} color={'text.primary'} sx={{textDecoration:"none"}} to="/admin/add-product" textAlign="center">Add new Product</Typography>
+                  <Typography component={Link} color={'text.primary'} sx={{textDecoration:"none"}} to="/admin/add-product" textAlign="center">Add New Product</Typography>
                 </MenuItem>
               
               }
@@ -105,28 +111,45 @@ export const Navbar=({isProductList=false})=> {
             {loggedInUser.isAdmin && <Button variant='contained'>Admin</Button>}
             <Stack sx={{flexDirection:"row",columnGap:"1rem",alignItems:"center",justifyContent:"center"}}>
 
-            
+            {   // will need to change '50000' to actual balance
+              !loggedInUser?.isAdmin &&
+                <Badge>
+                  <Stack flexDirection={'column'} alignItems={'center'} justifyContent={'center'} columnGap={0}>
+                    <WalletIcon/>
+                    <Typography variant='h' fontWeight={300} fontSize={10}>{`50000`}</Typography>
+                  </Stack>
+                </Badge>  
+            }
+
             {
-            cartItems?.length>0 && 
-            <Badge  badgeContent={cartItems.length} color='error'>
-              <IconButton onClick={()=>navigate("/cart")}>
-                <ShoppingCartOutlinedIcon />
-                </IconButton>
-            </Badge>
+              cartItems?.length > 0 && 
+                <Badge  badgeContent={cartItems.length} color='error'>
+                  <IconButton onClick={()=>navigate("/cart")}>
+                    <ShoppingCartOutlinedIcon />
+                  </IconButton>
+                </Badge>
             }
             
             {
               !loggedInUser?.isAdmin &&
                   <Stack>
-                      <Badge badgeContent={wishlistItems?.length} color='error'>
-                          <IconButton component={Link} to={"/wishlist"}><FavoriteBorderIcon /></IconButton>
-                      </Badge>
+                    <Badge badgeContent={wishlistItems?.length} color='error'>
+                      <IconButton component={Link} to={"/wishlist"}>
+                        <FavoriteBorderIcon />
+                      </IconButton>
+                    </Badge>
                   </Stack>
             }
-            {
-              isProductList && <IconButton onClick={handleToggleFilters}><TuneIcon sx={{color:isProductFilterOpen?"black":""}}/></IconButton>
-            }
             
+            {
+              !loggedInUser?.isAdmin &&
+                <Stack>
+                  <IconButton component={Link} to={"/contact"}>
+                    <ContactAdminIcon />
+                  </IconButton>
+                </Stack>
+            }
+
             </Stack>
           </Stack>
         </Toolbar>
