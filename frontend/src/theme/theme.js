@@ -11,6 +11,11 @@ export const theme = createTheme({
     secondary:{
       main:"#background.paper"
     },
+    custom: {
+      main: "#F6F4F1", // Main beige color
+      blue: "#010c66",  // Main blue color
+      red: "#ba3a2c",  // Main red color
+    },
   },
 
   

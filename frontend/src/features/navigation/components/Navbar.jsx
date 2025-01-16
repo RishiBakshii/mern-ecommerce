@@ -58,8 +58,8 @@ export const Navbar=({isProductList=false})=> {
   ];
 
   return (
-    <AppBar position="sticky" sx={{backgroundColor:"white",boxShadow:"none",color:"text.primary"}}>
-        <Toolbar sx={{p:1,height:"4rem",display:"flex",justifyContent:"space-around"}}>
+    <AppBar position="sticky" sx={{backgroundColor:theme.palette.custom.main,boxShadow:"none",color:"text.primary"}}>
+        <Toolbar sx={{p:1,height:"8rem",display:"flex",justifyContent:"space-around"}}>
 
           <Stack flexDirection={'row'} alignItems={'center'} justifyContent={'center'} columnGap={0}>
             <Typography variant="h4" noWrap component="a" href="/" sx={{ mr: 1, display: { xs: 'none', md: 'flex' },fontWeight: 700, letterSpacing: '.rem', color: 'red', textDecoration: 'none', }}>
