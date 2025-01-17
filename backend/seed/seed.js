@@ -7,6 +7,7 @@ const {seedWishlist}=require("./Wishlist")
 const {seedCart}=require("./Cart")
 const {seedReview}=require("./Review")
 const {seedOrder}=require("./Order")
+const {seedVoucher}=require("./Voucher")
 const {connectToDB}=require("../database/db")
 
 const seedData=async()=>{
@@ -22,6 +23,7 @@ const seedData=async()=>{
         await seedCart()
         await seedReview()
         await seedOrder()
+        await seedVoucher()
 
         console.log('Seed completed..');
     } catch (error) {
