@@ -22,7 +22,11 @@ const userSchema=new Schema({
     isAdmin:{
         type:Boolean,
         default:false
-    }
+    },
+    balance:{
+        type:Number,
+        default:0
+    },
 })
 
 module.exports=mongoose.model("User",userSchema)

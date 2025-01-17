@@ -66,8 +66,8 @@ export const Contact = () => {
 
             {/* action area */}
             <Stack flexDirection={'row'} alignSelf={'flex-end'} columnGap={is480?1:2}>
-                <Button size={is480?'medium':'large'} variant='contained' type='submit'>Submit</Button>
-                <Button size={is480?'medium':'large'} variant='outlined' color='error' component={Link} to={'/home'}>Cancel</Button>
+                <Button size={is480?'medium':'large'} variant='contained' type='submit' component={Link} to={'/'}>Submit</Button>
+                <Button size={is480?'medium':'large'} variant='outlined' color='error' component={Link} to={'/'}>Cancel</Button>
             </Stack>
 
         </Stack>

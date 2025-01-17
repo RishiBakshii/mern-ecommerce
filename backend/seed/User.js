@@ -8,6 +8,7 @@ const users = [
     password:'$2a$10$GH8p5cAsGFEdYsLaSfTQ3e1eUs7KbLmVBltjbX4DDCj2eyO2KW/Ze',
     isVerified: true,
     isAdmin: false,
+    balance: 35000,
     __v: 0,
   },
   {
@@ -17,6 +18,7 @@ const users = [
     password: '$2a$10$tosjkprqtomSah0VJNyKi.TIv1JU65pl1i1IJ6wUttjYw.ENF99jG',
     isVerified: true,
     isAdmin: false,
+    balance: 1000,
     __v: 0,
   },
 ];

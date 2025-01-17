@@ -112,7 +112,7 @@ export const Navbar=({isProductList=false})=> {
                 <Tooltip title="Vouchers">
                   <Stack flexDirection={'column'} alignItems={'center'} justifyContent={'center'} columnGap={0}>
                     <WalletIcon/>
-                    <Typography variant='h' fontWeight={300} fontSize={10}>{`50000`}</Typography>
+                    <Typography variant='h6' fontWeight={300} fontSize={10}>{`${userInfo?.balance}`}</Typography>
                   </Stack>
                 </Tooltip>  
             }
