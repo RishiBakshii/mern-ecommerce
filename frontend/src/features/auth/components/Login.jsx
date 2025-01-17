@@ -107,7 +107,7 @@ export const Login = () => {
                   </Stack>
                   
                   <motion.div whileHover={{scale:1.020}} whileTap={{scale:1}}>
-                    <LoadingButton fullWidth  sx={{width: '90%', height:'2.5rem'}} loading={status==='pending'} type='submit' variant='contained'>Sign in</LoadingButton>
+                    <LoadingButton fullWidth  sx={{width: '90%', height:'2.5rem', backgroundColor: "#A33B20", color: "#FFF"}} loading={status==='pending'} type='submit' variant='contained'>Sign in</LoadingButton>
                   </motion.div>
 
               </Stack>
