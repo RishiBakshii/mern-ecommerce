@@ -17,7 +17,7 @@ import { ITEMS_PER_PAGE } from '../../../constants'
 import {createWishlistItemAsync, deleteWishlistItemByIdAsync, resetWishlistItemAddStatus, resetWishlistItemDeleteStatus, selectWishlistItemAddStatus, selectWishlistItemDeleteStatus, selectWishlistItems} from '../../wishlist/WishlistSlice'
 import {selectLoggedInUser} from '../../auth/AuthSlice'
 import {toast} from 'react-toastify'
-import {banner1, banner2, banner3, banner4, loadingAnimation} from '../../../assets'
+import {banner1, banner2, loadingAnimation} from '../../../assets'
 import { resetCartItemAddStatus, selectCartItemAddStatus } from '../../cart/CartSlice'
 import { motion } from 'framer-motion'
 import { ProductBanner } from './ProductBanner'
@@ -31,7 +31,7 @@ const sortOptions=[
 ]
 
 
-const bannerImages=[banner1,banner3,banner2,banner4]
+const bannerImages=[banner1,banner2]
 
 export const ProductList = () => {
     const [filters,setFilters]=useState({})
@@ -257,13 +257,13 @@ export const ProductList = () => {
             
 
                 {/* banners section */}
-                {/* {
+                {
                     !is600 && 
                 
                 <Stack sx={{width:"100%",height:is800?"300px":is1200?"400px":"500px"}}>
                     <ProductBanner images={bannerImages}/>
                 </Stack>
-                } */}
+                }
 
                 {/* products */}
                 <Stack rowGap={5} mt={is600?2:0}>
