@@ -225,6 +225,7 @@ return (
                 variant="contained"
                 color="primary"
                 disabled={status === "pending"}
+                sx={{ backgroundColor: "#A33B20", color: "#FFF" }}
               >
                 {status === "pending" ? "Signing up..." : "Sign up"}
               </Button>
