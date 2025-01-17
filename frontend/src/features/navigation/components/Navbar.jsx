@@ -110,18 +110,20 @@ export const Navbar=({isProductList=false})=> {
 
             {   // will need to change '50000' to actual balance
               !loggedInUser?.isAdmin &&
-                <Badge>
+                <Tooltip title="Vouchers">
                   <Stack flexDirection={'column'} alignItems={'center'} justifyContent={'center'} columnGap={0}>
                     <WalletIcon/>
                     <Typography variant='h' fontWeight={300} fontSize={10}>{`50000`}</Typography>
                   </Stack>
-                </Badge>  
+                </Tooltip>  
             }
 
             {
-              <IconButton onClick={()=>navigate("/")}>
-                <HomeIcon />
-              </IconButton>
+              <Tooltip title="Home">
+                <IconButton onClick={()=>navigate("/")}>
+                  <HomeIcon />
+                </IconButton>
+              </Tooltip>
             }
             
             <Tooltip title="Options">
@@ -132,11 +134,13 @@ export const Navbar=({isProductList=false})=> {
 
             {
               !loggedInUser?.isAdmin &&
-                <Stack>
-                  <IconButton component={Link} to={"/contact"}>
-                    <ContactAdminIcon />
-                  </IconButton>
-                </Stack>
+                <Tooltip title="Contact Admin">
+                  <Stack>
+                    <IconButton component={Link} to={"/contact"}>
+                      <ContactAdminIcon />
+                    </IconButton>
+                  </Stack>
+                </Tooltip>
             }
 
             </Stack>
