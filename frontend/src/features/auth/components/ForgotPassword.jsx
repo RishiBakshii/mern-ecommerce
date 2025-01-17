@@ -7,6 +7,8 @@ import { clearForgotPasswordError, clearForgotPasswordSuccessMessage, forgotPass
 import { LoadingButton } from '@mui/lab'
 import { Link } from 'react-router-dom'
 import {motion} from 'framer-motion'
+import bugsAndHugsH4g from '../../../assets/images/bugsAndHugsH4g.png'
+import mwhLogo from '../../../assets/images/mwh-logo.png'
 
 export const ForgotPassword = () => {
     const {register,handleSubmit,reset,formState: { errors }} = useForm()
@@ -86,8 +88,8 @@ return (
       {/* Left section: Logos */}
       <Stack flex={1} justifyContent={'center'} alignItems={'center'}>
         <Stack flexDirection={'row'} spacing={4} alignItems={'center'}>
-          <img src="path_to_hugs_logo" alt="Hugs & More" style={{ width: '444px' }} />
-          <img src="path_to_mwh_logo" alt="Muhammadiyah Welfare Home" style={{ width: '200px' }} />
+          <img src={bugsAndHugsH4g} alt="Hugs & More" style={{ width: '444px' }} />
+          <img src={mwhLogo} alt="Muhammadiyah Welfare Home" style={{ width: '200px' }} />
         </Stack>
       </Stack>
 
@@ -139,7 +141,7 @@ return (
               </form>
             )}
           </Stack>
-        </Box>
+
         {/* Back to login link */}
         <motion.div whileHover={{ x: 2 }} whileTap={{ scale: 1.05 }}>
           <Typography
@@ -151,6 +153,7 @@ return (
             Go back to <span style={{ color: "#A33B20" }}>login</span>
           </Typography>
         </motion.div>
+        </Box>
       </Stack>
     </Stack>
   );
