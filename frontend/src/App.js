@@ -10,6 +10,7 @@ import { useAuthCheck } from "./hooks/useAuth/useAuthCheck";
 import { useFetchLoggedInUserDetails } from "./hooks/useAuth/useFetchLoggedInUserDetails";
 import { AddProductPage, AdminOrdersPage, CartPage, CheckoutPage, ForgotPasswordPage, HomePage, LoginPage, OrderSuccessPage, OtpVerificationPage, ProductDetailsPage, ProductUpdatePage, ResetPasswordPage, SignupPage, UserOrdersPage, UserProfilePage, WishlistPage } from './pages';
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
+import { ContactPage } from './pages/ContactPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
 
@@ -33,6 +34,7 @@ function App() {
         <Route path='/reset-password/:userId/:passwordResetToken' element={<ResetPasswordPage/>}/>
         <Route exact path='/logout' element={<Protected><Logout/></Protected>}/>
         <Route exact path='/product-details/:id' element={<Protected><ProductDetailsPage/></Protected>}/>
+        <Route path='/contact' element={<ContactPage/>}/>
 
         {
           loggedInUser?.isAdmin?(
