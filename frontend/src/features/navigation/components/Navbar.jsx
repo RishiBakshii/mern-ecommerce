@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectUserInfo } from '../../user/UserSlice';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import WalletIcon from '@mui/icons-material/WalletRounded';
+import ProfileIcon from '@mui/icons-material/Person';
+import HomeIcon from '@mui/icons-material/Home';
 import { selectCartItems } from '../../cart/CartSlice';
 import { selectLoggedInUser } from '../../auth/AuthSlice';
 import { selectWishlistItems } from '../../wishlist/WishlistSlice';
@@ -51,9 +53,9 @@ export const Navbar=({isProductList=false})=> {
   }
 
   const settings = [
-    {name:"Home",to:"/"},
     {name:'Profile',to:loggedInUser?.isAdmin?"/admin/profile":"/profile"},
     {name:loggedInUser?.isAdmin?'Orders':'My Orders',to:loggedInUser?.isAdmin?"/admin/orders":"/orders"},
+    loggedInUser?.isAdmin?<></>:{name:'Wishlist',to:"/wishlist"},
     {name:'Logout',to:"/logout"},
   ];
 
@@ -71,11 +73,6 @@ export const Navbar=({isProductList=false})=> {
           </Stack>
 
           <Stack flexDirection={'row'} alignItems={'center'} justifyContent={'center'} columnGap={2}>
-            <Tooltip title="Options">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={userInfo?.name} src="null" />
-              </IconButton>
-            </Tooltip>
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
@@ -122,25 +119,17 @@ export const Navbar=({isProductList=false})=> {
             }
 
             {
-              cartItems?.length > 0 && 
-                <Badge  badgeContent={cartItems.length} color='error'>
-                  <IconButton onClick={()=>navigate("/cart")}>
-                    <ShoppingCartOutlinedIcon />
-                  </IconButton>
-                </Badge>
+              <IconButton onClick={()=>navigate("/")}>
+                <HomeIcon />
+              </IconButton>
             }
             
-            {
-              !loggedInUser?.isAdmin &&
-                  <Stack>
-                    <Badge badgeContent={wishlistItems?.length} color='error'>
-                      <IconButton component={Link} to={"/wishlist"}>
-                        <FavoriteBorderIcon />
-                      </IconButton>
-                    </Badge>
-                  </Stack>
-            }
-            
+            <Tooltip title="Options">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <ProfileIcon />
+              </IconButton>
+            </Tooltip>
+
             {
               !loggedInUser?.isAdmin &&
                 <Stack>
