@@ -23,6 +23,7 @@ import ContactAdminIcon from '@mui/icons-material/QuestionMarkSharp';
 import TuneIcon from '@mui/icons-material/Tune';
 import { selectProductIsFilterOpen, toggleFilters } from '../../products/ProductSlice';
 import { px } from 'framer-motion';
+import combinedLogo from '../../../assets/images/combinedLogo.png'
 
 
 
@@ -64,11 +65,9 @@ export const Navbar=({isProductList=false})=> {
         <Toolbar sx={{p:1,height:"8rem",display:"flex",justifyContent:"space-around"}}>
 
           <Stack flexDirection={'row'} alignItems={'center'} justifyContent={'center'} columnGap={0}>
-            <Typography variant="h4" noWrap component="a" href="/" sx={{ mr: 1, display: { xs: 'none', md: 'flex' },fontWeight: 700, letterSpacing: '.rem', color: 'red', textDecoration: 'none', }}>
-              hugs
-            </Typography>
-            <Typography variant="h4" noWrap component="a" href="/" sx={{ mr: 2, display: { xs: 'none', md: 'flex' },fontWeight: 700, letterSpacing: '.rem', color: 'blue', textDecoration: 'none', }}>
-              &   more
+            
+            <Typography variant="h4" noWrap component="a" href="/" sx={{ mr: 2, display: { xs: 'none', md: 'flex' },fontWeight: 700, letterSpacing: '.rem', color: 'blue', textDecoration: 'none' }}>
+              <img src={combinedLogo} alt="Hugs & More" style={{ width: '400px'}} />
             </Typography>
           </Stack>
 
