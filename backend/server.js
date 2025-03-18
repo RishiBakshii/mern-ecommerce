@@ -1,0 +1,6 @@
+const express = require('express');
+const authRoutes = require('./routes/Auth');
+// ...existing code...
+
+app.use('/auth', authRoutes); // Ensure this is correctly registered
+// ...existing code...
