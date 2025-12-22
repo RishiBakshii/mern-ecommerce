@@ -17,6 +17,7 @@ import { ITEMS_PER_PAGE } from '../../../constants'
 import {createWishlistItemAsync, deleteWishlistItemByIdAsync, resetWishlistItemAddStatus, resetWishlistItemDeleteStatus, selectWishlistItemAddStatus, selectWishlistItemDeleteStatus, selectWishlistItems} from '../../wishlist/WishlistSlice'
 import {selectLoggedInUser} from '../../auth/AuthSlice'
 import {toast} from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 import {banner1, banner2, banner3, banner4, loadingAnimation} from '../../../assets'
 import { resetCartItemAddStatus, selectCartItemAddStatus } from '../../cart/CartSlice'
 import { motion } from 'framer-motion'
@@ -63,6 +64,7 @@ export const ProductList = () => {
     const isProductFilterOpen=useSelector(selectProductIsFilterOpen)
 
     const dispatch=useDispatch()
+    const navigate=useNavigate()
 
     const handleBrandFilters=(e)=>{
 
@@ -103,16 +105,23 @@ export const ProductList = () => {
         finalFilters['pagination']={page:page,limit:ITEMS_PER_PAGE}
         finalFilters['sort']=sort
 
+        // For non-admin users (including non-logged-in), only show non-deleted products
         if(!loggedInUser?.isAdmin){
             finalFilters['user']=true
         }
 
         dispatch(fetchProductsAsync(finalFilters))
         
-    },[filters,page,sort])
+    },[filters,page,sort, loggedInUser])
 
 
     const handleAddRemoveFromWishlist=(e,productId)=>{
+        if(!loggedInUser?.isVerified){
+            e.preventDefault()
+            toast.error("Please login to add items to wishlist")
+            navigate("/login")
+            return
+        }
         if(e.target.checked){
             const data={user:loggedInUser?._id,product:productId}
             dispatch(createWishlistItemAsync(data))

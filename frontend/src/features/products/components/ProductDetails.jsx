@@ -135,6 +135,11 @@ export const ProductDetails = () => {
     },[])
 
     const handleAddToCart=()=>{
+        if(!loggedInUser?.isVerified){
+            toast.error("Please login to add items to cart")
+            navigate("/login")
+            return
+        }
         const item={user:loggedInUser._id,product:id,quantity}
         dispatch(addToCartAsync(item))
         setQuantity(1)
@@ -157,6 +162,12 @@ export const ProductDetails = () => {
     }
 
     const handleAddRemoveFromWishlist=(e)=>{
+        if(!loggedInUser?.isVerified){
+            e.preventDefault()
+            toast.error("Please login to add items to wishlist")
+            navigate("/login")
+            return
+        }
         if(e.target.checked){
             const data={user:loggedInUser?._id,product:id}
             dispatch(createWishlistItemAsync(data))
