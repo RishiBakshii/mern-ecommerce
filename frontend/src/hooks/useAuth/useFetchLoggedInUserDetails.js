@@ -14,12 +14,14 @@ export const useFetchLoggedInUserDetails = (deps) => {
     const dispatch = useDispatch();
 
     useEffect(()=>{
+        /* Fetch brands and categories for all users (logged in or not) */
+        dispatch(fetchAllBrandsAsync())
+        dispatch(fetchAllCategoriesAsync())
+
         /* when a user is logged in then this dispatches an action to get all the details of loggedInUser, 
         as while login and signup only the bare-minimum information is sent by the server */
         if(deps && loggedInUser?.isVerified){
           dispatch(fetchLoggedInUserByIdAsync(loggedInUser?._id))
-          dispatch(fetchAllBrandsAsync())
-          dispatch(fetchAllCategoriesAsync())
     
           if(!loggedInUser.isAdmin){
             dispatch(fetchCartByUserIdAsync(loggedInUser?._id))
@@ -27,5 +29,5 @@ export const useFetchLoggedInUserDetails = (deps) => {
             dispatch(fetchWishlistByUserIdAsync(loggedInUser?._id))
           }
         }
-    },[deps])
+    },[deps, dispatch])
 }

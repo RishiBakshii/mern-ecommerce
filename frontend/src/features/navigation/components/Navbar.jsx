@@ -65,69 +65,81 @@ export const Navbar=({isProductList=false})=> {
 
 
           <Stack flexDirection={'row'} alignItems={'center'} justifyContent={'center'} columnGap={2}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={userInfo?.name} src="null" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
+            {loggedInUser?.isVerified ? (
+              <>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar alt={userInfo?.name} src="null" />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: '45px' }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
 
-              {
-                loggedInUser?.isAdmin && 
-              
-                <MenuItem  onClick={handleCloseUserMenu}>
-                  <Typography component={Link} color={'text.primary'} sx={{textDecoration:"none"}} to="/admin/add-product" textAlign="center">Add new Product</Typography>
-                </MenuItem>
-              
-              }
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography component={Link} color={'text.primary'} sx={{textDecoration:"none"}} to={setting.to} textAlign="center">{setting.name}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-            <Typography variant='h6' fontWeight={300}>{is480?`${userInfo?.name.toString().split(" ")[0]}`:`Hey👋, ${userInfo?.name}`}</Typography>
-            {loggedInUser.isAdmin && <Button variant='contained'>Admin</Button>}
-            <Stack sx={{flexDirection:"row",columnGap:"1rem",alignItems:"center",justifyContent:"center"}}>
+                  {
+                    loggedInUser?.isAdmin && 
+                  
+                    <MenuItem  onClick={handleCloseUserMenu}>
+                      <Typography component={Link} color={'text.primary'} sx={{textDecoration:"none"}} to="/admin/add-product" textAlign="center">Add new Product</Typography>
+                    </MenuItem>
+                  
+                  }
+                  {settings.map((setting) => (
+                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                      <Typography component={Link} color={'text.primary'} sx={{textDecoration:"none"}} to={setting.to} textAlign="center">{setting.name}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+                <Typography variant='h6' fontWeight={300}>{is480?`${userInfo?.name?.toString().split(" ")[0]}`:`Hey👋, ${userInfo?.name}`}</Typography>
+                {loggedInUser.isAdmin && <Button variant='contained'>Admin</Button>}
+                <Stack sx={{flexDirection:"row",columnGap:"1rem",alignItems:"center",justifyContent:"center"}}>
 
-            
-            {
-            cartItems?.length>0 && 
-            <Badge  badgeContent={cartItems.length} color='error'>
-              <IconButton onClick={()=>navigate("/cart")}>
-                <ShoppingCartOutlinedIcon />
-                </IconButton>
-            </Badge>
-            }
-            
-            {
-              !loggedInUser?.isAdmin &&
-                  <Stack>
-                      <Badge badgeContent={wishlistItems?.length} color='error'>
-                          <IconButton component={Link} to={"/wishlist"}><FavoriteBorderIcon /></IconButton>
-                      </Badge>
-                  </Stack>
-            }
-            {
-              isProductList && <IconButton onClick={handleToggleFilters}><TuneIcon sx={{color:isProductFilterOpen?"black":""}}/></IconButton>
-            }
-            
-            </Stack>
+                
+                {
+                cartItems?.length>0 && 
+                <Badge  badgeContent={cartItems.length} color='error'>
+                  <IconButton onClick={()=>navigate("/cart")}>
+                    <ShoppingCartOutlinedIcon />
+                    </IconButton>
+                </Badge>
+                }
+                
+                {
+                  !loggedInUser?.isAdmin &&
+                      <Stack>
+                          <Badge badgeContent={wishlistItems?.length} color='error'>
+                              <IconButton component={Link} to={"/wishlist"}><FavoriteBorderIcon /></IconButton>
+                          </Badge>
+                      </Stack>
+                }
+                {
+                  isProductList && <IconButton onClick={handleToggleFilters}><TuneIcon sx={{color:isProductFilterOpen?"black":""}}/></IconButton>
+                }
+                
+                </Stack>
+              </>
+            ) : (
+              <>
+                <Stack sx={{flexDirection:"row",columnGap:"1rem",alignItems:"center",justifyContent:"center"}}>
+                  <Button component={Link} to="/login" variant="outlined">Login</Button>
+                  <Button component={Link} to="/signup" variant="contained">Sign Up</Button>
+                  {isProductList && <IconButton onClick={handleToggleFilters}><TuneIcon sx={{color:isProductFilterOpen?"black":""}}/></IconButton>}
+                </Stack>
+              </>
+            )}
           </Stack>
         </Toolbar>
     </AppBar>
