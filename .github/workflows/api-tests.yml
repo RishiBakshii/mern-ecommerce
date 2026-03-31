@@ -1,0 +1,177 @@
+# GitHub Actions Workflow for API Test Automation
+# Purpose: Run Playwright API tests automatically on code push/pull request
+# Change: Created for continuous integration and automated testing
+
+# CHANGE: Workflow name for GitHub Actions dashboard
+# Reason: Identify workflow in GitHub UI
+# Impact: Shows "API Tests" in workflow list
+name: API Tests
+
+# CHANGE: Trigger conditions for workflow
+# Reason: Run tests automatically when code changes
+on:
+  # CHANGE: Run on push to main/develop branches
+  # Reason: Validate new code immediately after push
+  # Problem Solved: Catch bugs before merging to production
+  # Impact: Prevents bad code from reaching production
+  push:
+    branches: [main, develop]
+
+  # CHANGE: Run on pull requests to main/develop
+  # Reason: Validate PR code before merge
+  # Problem Solved: Code review can reference test results
+  # Impact: Only approved, tested code gets merged
+  pull_request:
+    branches: [main, develop]
+
+  # CHANGE: Allow manual workflow trigger
+  # Reason: Run tests on-demand for manual testing
+  # Problem Solved: Can validate specific commits or environments
+  # Impact: Flexibility to test without code push
+  workflow_dispatch:
+    # CHANGE: Add environment input option
+    # Reason: Allow choosing environment (dev/staging/prod)
+    inputs:
+      environment:
+        # CHANGE: Friendly description for UI
+        description: "Environment to run tests against"
+        # CHANGE: Make input required
+        required: true
+        # CHANGE: Default to dev environment
+        default: "dev"
+        # CHANGE: Restrict to valid options
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+
+# CHANGE: Define jobs (main logic)
+# Reason: Organize workflow tasks
+jobs:
+  # CHANGE: Name job "api-tests"
+  # Reason: Identify this job in workflow run
+  api-tests:
+    # CHANGE: Run on ubuntu-latest GitHub runner
+    # Reason: Standardized Linux environment for testing
+    # Problem Solved: Consistent test results across runs
+    # Impact: Tests run on predictable OS
+    runs-on: ubuntu-latest
+
+    # CHANGE: Define job steps (sequential tasks)
+    # Reason: Organize workflow into logical steps
+    steps:
+      # CHANGE: Checkout source code
+      # Reason: Access test files and package.json from GitHub
+      # Impact: Workflow has project code to run tests
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # CHANGE: Setup Node.js runtime
+      # Reason: Need Node.js to run Playwright and npm
+      # Impact: Can execute npm commands and test runner
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          # CHANGE: Use Node.js version 18
+          # Reason: Stable LTS version with good compatibility
+          node-version: "18"
+
+          # CHANGE: Enable npm package caching
+          # Reason: Speed up subsequent workflow runs
+          # Problem Solved: Don't re-download npm packages each run
+          # Impact: Workflow runs faster on subsequent executions
+          cache: "npm"
+
+          # CHANGE: Specify path to package-lock.json
+          # Reason: Cache dependencies from tests/ folder, not root
+          cache-dependency-path: tests/package-lock.json
+
+      # CHANGE: Install npm dependencies
+      # Reason: Download @playwright/test and dotenv packages
+      # Problem Solved: Ensures exact versions from package-lock.json
+      # Impact: Tests have required libraries to run
+      - name: Install dependencies
+        run: |
+          cd tests
+          npm ci
+
+      # CHANGE: Install Playwright browsers
+      # Reason: Playwright needs Chrome, Firefox, WebKit binaries
+      # Problem Solved: Ensures consistent browser versions
+      # Impact: Tests can run with proper browser environment
+      - name: Install Playwright browsers
+        run: |
+          cd tests
+          npx playwright install --with-deps
+
+      # CHANGE: Load environment variables
+      # Reason: Switch between dev/staging/prod configurations
+      # Problem Solved: Test against correct environment
+      # Impact: Same tests run against multiple backends
+      - name: Load environment variables
+        run: |
+          # CHANGE: Copy correct .env file based on workflow input
+          # Reason: Set BASE_URL and credentials for target environment
+          if [ "${{ github.event.inputs.environment }}" == "staging" ]; then
+            cp tests/.env.staging tests/.env
+          elif [ "${{ github.event.inputs.environment }}" == "prod" ]; then
+            cp tests/.env.prod tests/.env
+          else
+            cp tests/.env.dev tests/.env
+          fi
+        # CHANGE: Pass environment to shell script
+        # Reason: Make workflow input available to shell
+        env:
+          ENV: ${{ github.event.inputs.environment || 'dev' }}
+
+      # CHANGE: Run Playwright tests
+      # Reason: Execute all test files and collect results
+      # Problem Solved: Tests run automatically without manual execution
+      # Impact: Test results reported in GitHub workflow
+      - name: Run API tests
+        run: |
+          cd tests
+          npm test
+        # CHANGE: Pass environment to npm test
+        # Reason: Tests use ENV variable to select configuration
+        env:
+          ENV: ${{ github.event.inputs.environment || 'dev' }}
+
+      # CHANGE: Upload test results on any outcome
+      # Reason: Archive test failures for debugging
+      # Problem Solved: Can download artifacts from failed runs
+      # Impact: Debug CI failures by reviewing test output
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          # CHANGE: Name for artifact in GitHub
+          name: test-results
+
+          # CHANGE: Path to test failure details
+          # Reason: Contains logs from failed tests
+          path: tests/test-results/
+
+          # CHANGE: Keep artifacts for 30 days
+          # Reason: Balance storage with debugging timeframe
+          retention-days: 30
+
+      # CHANGE: Upload HTML report
+      # Reason: Browsable test report with screenshots
+      # Problem Solved: Team can view test results without CLI
+      # Impact: Non-technical stakeholders can see test status
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          # CHANGE: Name for HTML report artifact
+          name: html-report
+
+          # CHANGE: Path to Playwright HTML report
+          # Reason: Contains visual breakdown of test execution
+          path: tests/playwright-report/
+
+          # CHANGE: Keep HTML report for 30 days
+          # Reason: Balance storage with debugging timeframe
+          retention-days: 30

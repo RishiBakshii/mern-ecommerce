@@ -1,14 +1,37 @@
+// PRODUCT SEED DATA
+// Purpose: Populate database with test products for ecommerce
+// Change: Created to provide sample products with valid brand/category references
+
+// CHANGE: Import Product model
+// Reason: Access Product collection and schema
+// Impact: Can insert product documents into database
 const Product = require("../models/Product");
 
+// CHANGE: Define products list with comprehensive test data
+// Reason: Create sample products with realistic pricing, images, stock
+// Problem Solved: Tests have known products to query and manipulate
+// Impact: Product API tests work with pre-populated catalog
 const products = [
+  // CHANGE: Each product has unique ObjectId and complete fields
+  // Reason: Create distinct product documents with all required properties
+  // Impact: Tests can search, filter, and update products
   {
     _id: "65a7e45902e12c44f599444e",
+    // CHANGE: Product title for display
     title: "iPhone 9",
     description: "An apple mobile which is nothing like apple",
     price: 549,
+    // CHANGE: Use valid brand ObjectId from Brand seed
+    // Reason: Products must reference existing brands
+    // Problem Solved: Foreign key constraint satisfied
+    // Impact: Product brand relationship properly established
     discountPercentage: 12.96,
     stockQuantity: 14,
     brand: "65a7e20102e12c44f59943da",
+    // CHANGE: Use valid category ObjectId from Category seed
+    // Reason: Products must reference existing categories
+    // Problem Solved: Foreign key constraint satisfied
+    // Impact: Product category relationship properly established
     category: "65a7e24602e12c44f599442c",
     thumbnail: "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
     images: [
@@ -18,6 +41,10 @@ const products = [
       "https://cdn.dummyjson.com/product-images/1/4.jpg",
       "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
     ],
+    // CHANGE: Mark all seeded products as not deleted
+    // Reason: Only deleted products should have isDeleted: true
+    // Problem Solved: Seed doesn't inadvertently hide products
+    // Impact: All seeded products appear in product lists
     isDeleted: false,
     updatedAt: "2024-02-07T09:22:57.840Z",
   },
@@ -2024,11 +2051,23 @@ const products = [
   },
 ];
 
+// CHANGE: Export seed function
+// Reason: seed.js imports and calls this function
+// Impact: Products inserted into database during seeding
 exports.seedProduct = async () => {
   try {
+    // CHANGE: Insert all product documents
+    // Reason: Populate products collection with realistic test data
+    // Problem Solved: Database has catalog of products for testing
+    // Impact: Product API tests work with known products
     await Product.insertMany(products);
+
+    // CHANGE: Log successful seeding
+    // Reason: Confirm products were inserted
     console.log("Product seeded successfully");
   } catch (error) {
+    // CHANGE: Log seeding errors
+    // Reason: Diagnose insertion failures
     console.log(error);
   }
 };

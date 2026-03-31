@@ -1,6 +1,20 @@
+// BRAND SEED DATA
+// Purpose: Populate database with product brand/manufacturer information
+// Change: Created to provide known brands for product creation
+
+// CHANGE: Import Brand model
+// Reason: Access Brand collection and schema
+// Impact: Can insert brand documents into database
 const Brand = require("../models/Brand");
 
+// CHANGE: Define brand list with hardcoded ObjectIds
+// Reason: Reference brands in product creation with fixed IDs
+// Problem Solved: Products can reference same brand ID across multiple runs
+// Impact: Consistent foreign key relationships
 const brands = [
+  // CHANGE: Each brand has unique ObjectId and name
+  // Reason: Create distinct brand documents
+  // Impact: Products can assign specific brands
   { _id: "65a7e20102e12c44f59943da", name: "Apple" },
   { _id: "65a7e20102e12c44f59943db", name: "Samsung" },
   { _id: "65a7e20102e12c44f59943dc", name: "OPPO" },
@@ -81,11 +95,23 @@ const brands = [
   { _id: "65a7e20102e12c44f5994427", name: "YIOSI" },
 ];
 
+// CHANGE: Export seed function
+// Reason: seed.js imports and calls this function
+// Impact: Brands inserted into database during seeding
 exports.seedBrand = async () => {
   try {
+    // CHANGE: Insert all brand documents
+    // Reason: Populate brands collection with test data
+    // Problem Solved: Database has known brands to reference
+    // Impact: Products can assign consistent brands
     await Brand.insertMany(brands);
-    console.log('Brand seeded successfully');
+
+    // CHANGE: Log successful seeding
+    // Reason: Confirm brands were inserted
+    console.log("Brand seeded successfully");
   } catch (error) {
+    // CHANGE: Log seeding errors
+    // Reason: Diagnose insertion failures
     console.log(error);
   }
 };
