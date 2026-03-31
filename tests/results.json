@@ -69,7 +69,7 @@
         {
           "title": "Authentication API Tests",
           "file": "auth.spec.js",
-          "line": 16,
+          "line": 52,
           "column": 6,
           "specs": [
             {
@@ -88,12 +88,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 55,
+                      "duration": 50,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-03-31T07:14:56.479Z",
+                      "startTime": "2026-03-31T11:47:48.960Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -103,7 +103,7 @@
               ],
               "id": "d5ed79a6b333c2ba7209-794d39d1ef730c4cfce1",
               "file": "auth.spec.js",
-              "line": 17,
+              "line": 57,
               "column": 3
             },
             {
@@ -122,12 +122,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 147,
+                      "duration": 219,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-03-31T07:14:56.636Z",
+                      "startTime": "2026-03-31T11:47:49.109Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -137,7 +137,7 @@
               ],
               "id": "d5ed79a6b333c2ba7209-2bd873ddcd2d42c65e2c",
               "file": "auth.spec.js",
-              "line": 25,
+              "line": 81,
               "column": 3
             },
             {
@@ -156,12 +156,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 13,
+                      "duration": 23,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-03-31T07:14:56.806Z",
+                      "startTime": "2026-03-31T11:47:49.349Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -171,7 +171,7 @@
               ],
               "id": "d5ed79a6b333c2ba7209-97333fb522af2634be40",
               "file": "auth.spec.js",
-              "line": 32,
+              "line": 105,
               "column": 3
             },
             {
@@ -186,7 +186,7 @@
                       "type": "skip",
                       "location": {
                         "file": "C:\\Users\\DELL\\Git_1_repo\\mern-ecommerce\\tests\\api\\tests\\auth.spec.js",
-                        "line": 47,
+                        "line": 135,
                         "column": 8
                       }
                     }
@@ -204,13 +204,13 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-03-31T07:14:56.844Z",
+                      "startTime": "2026-03-31T11:47:49.393Z",
                       "annotations": [
                         {
                           "type": "skip",
                           "location": {
                             "file": "C:\\Users\\DELL\\Git_1_repo\\mern-ecommerce\\tests\\api\\tests\\auth.spec.js",
-                            "line": 47,
+                            "line": 135,
                             "column": 8
                           }
                         }
@@ -223,7 +223,7 @@
               ],
               "id": "d5ed79a6b333c2ba7209-d32e76e028f69eed4c49",
               "file": "auth.spec.js",
-              "line": 47,
+              "line": 135,
               "column": 8
             },
             {
@@ -242,12 +242,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 153,
+                      "duration": 130,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-03-31T07:14:56.845Z",
+                      "startTime": "2026-03-31T11:47:49.394Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -257,7 +257,7 @@
               ],
               "id": "d5ed79a6b333c2ba7209-3acbc755c507d853c2d9",
               "file": "auth.spec.js",
-              "line": 59,
+              "line": 162,
               "column": 3
             }
           ]
@@ -274,7 +274,7 @@
         {
           "title": "Product API Tests",
           "file": "products.spec.js",
-          "line": 18,
+          "line": 59,
           "column": 6,
           "specs": [
             {
@@ -293,12 +293,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 56,
+                      "duration": 38,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-03-31T07:14:56.515Z",
+                      "startTime": "2026-03-31T11:47:48.978Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -308,7 +308,7 @@
               ],
               "id": "85a36a0156a63dbd112b-46fca6babbd83b987b3a",
               "file": "products.spec.js",
-              "line": 19,
+              "line": 62,
               "column": 3
             },
             {
@@ -327,12 +327,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 140,
+                      "duration": 300,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-03-31T07:14:56.680Z",
+                      "startTime": "2026-03-31T11:47:49.113Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -342,7 +342,7 @@
               ],
               "id": "85a36a0156a63dbd112b-b3d4c6b3df7f1a3fdd40",
               "file": "products.spec.js",
-              "line": 27,
+              "line": 75,
               "column": 3
             },
             {
@@ -361,12 +361,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 20,
+                      "duration": 116,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-03-31T07:14:56.843Z",
+                      "startTime": "2026-03-31T11:47:49.434Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -376,7 +376,7 @@
               ],
               "id": "85a36a0156a63dbd112b-e1da2e7fdc87f97b7476",
               "file": "products.spec.js",
-              "line": 33,
+              "line": 94,
               "column": 3
             },
             {
@@ -395,12 +395,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 112,
+                      "duration": 83,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-03-31T07:14:56.893Z",
+                      "startTime": "2026-03-31T11:47:49.579Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -410,7 +410,7 @@
               ],
               "id": "85a36a0156a63dbd112b-6f28ec7d80f85df651ac",
               "file": "products.spec.js",
-              "line": 54,
+              "line": 152,
               "column": 3
             },
             {
@@ -429,12 +429,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 19,
+                      "duration": 26,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-03-31T07:14:57.028Z",
+                      "startTime": "2026-03-31T11:47:49.681Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -444,79 +444,11 @@
               ],
               "id": "85a36a0156a63dbd112b-b66a3a8f1a2b1d29302a",
               "file": "products.spec.js",
-              "line": 60,
+              "line": 171,
               "column": 3
             },
             {
               "title": "DELETE /products/:id - should soft-delete product",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "api-tests",
-                  "projectName": "api-tests",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 16,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-03-31T07:14:57.067Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "85a36a0156a63dbd112b-6efa9eb2d1816d11e0cd",
-              "file": "products.spec.js",
-              "line": 70,
-              "column": 3
-            },
-            {
-              "title": "GET /products/:id after delete - should return product with isDeleted true",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "api-tests",
-                  "projectName": "api-tests",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 12,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-03-31T07:14:57.109Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "85a36a0156a63dbd112b-39b62a0ce6923c0b215a",
-              "file": "products.spec.js",
-              "line": 76,
-              "column": 3
-            },
-            {
-              "title": "POST /products with invalid data - should return validation error",
               "ok": true,
               "tags": [],
               "tests": [
@@ -536,7 +468,75 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-03-31T07:14:57.141Z",
+                      "startTime": "2026-03-31T11:47:49.727Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "85a36a0156a63dbd112b-6efa9eb2d1816d11e0cd",
+              "file": "products.spec.js",
+              "line": 198,
+              "column": 3
+            },
+            {
+              "title": "GET /products/:id after delete - should return product with isDeleted true",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api-tests",
+                  "projectName": "api-tests",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 16,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-31T11:47:49.759Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "85a36a0156a63dbd112b-39b62a0ce6923c0b215a",
+              "file": "products.spec.js",
+              "line": 217,
+              "column": 3
+            },
+            {
+              "title": "POST /products with invalid data - should return validation error",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api-tests",
+                  "projectName": "api-tests",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 18,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-31T11:47:49.791Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -546,7 +546,7 @@
               ],
               "id": "85a36a0156a63dbd112b-21802ef634918429479a",
               "file": "products.spec.js",
-              "line": 82,
+              "line": 236,
               "column": 3
             }
           ]
@@ -556,8 +556,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-03-31T07:14:54.175Z",
-    "duration": 3068.3770000000004,
+    "startTime": "2026-03-31T11:47:46.961Z",
+    "duration": 2941.795,
     "expected": 12,
     "skipped": 1,
     "unexpected": 0,
