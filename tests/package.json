@@ -1,82 +1,26 @@
 {
-  // CHANGE: Added package name for API test suite
-  // Reason: Identify the project and its purpose
-  // Impact: Enables npm registry publishing and clarity in monorepo environments
   "name": "api-tests",
-  
-  // CHANGE: Set version for release tracking
-  // Reason: Track test framework versions and releases
-  // Impact: Enables semantic versioning and CI/CD automation
   "version": "1.0.0",
-  
-  // CHANGE: Added description for documentation
-  // Reason: Clarify purpose of the project
-  // Impact: Helps team members understand the codebase quickly
   "description": "Playwright API automation tests",
-  
   "main": "index.js",
-  
-  // CHANGE: Added npm scripts for test execution
-  // Reason: Standardize how tests are run across environments
-  // Problem Solved: Team members can run tests consistently using "npm test"
-  // Impact: Enables CI/CD integration and local debugging
   "scripts": {
-    // CHANGE: Basic test runner without browser UI
-    // Reason: Faster execution, suitable for CI/CD pipelines
-    // Impact: Tests run in headless mode by default
     "test": "playwright test",
-    
-    // CHANGE: Test runner with browser UI visible
-    // Reason: Local debugging and development purposes
-    // Impact: Developers can watch test execution in real-time
     "test:headed": "playwright test --headed",
-    
-    // CHANGE: Debug mode for single-stepping through tests
-    // Reason: Advanced troubleshooting of flaky or failing tests
-    // Impact: Enables line-by-line test debugging
     "test:debug": "playwright test --debug",
-    
-    // CHANGE: Interactive test UI for test development
-    // Reason: Helps write and refine tests interactively
-    // Impact: Faster test development cycle
     "test:ui": "playwright test --ui",
-    
-    // CHANGE: Command to view HTML test report
-    // Reason: Review test results after execution
-    // Problem Solved: Provides visual inspection of test failures with screenshots
-    // Impact: Non-technical team members can review test results
     "report": "playwright show-report",
-    
-    // CHANGE: Install Playwright browsers
-    // Reason: Required setup step for new machines or CI/CD agents
-    // Impact: Ensures test dependencies are available before running tests
     "install-browsers": "playwright install"
   },
-  
   "keywords": [
     "playwright",
     "api",
     "testing",
     "automation"
   ],
-  
   "author": "",
   "license": "ISC",
-  
-  // CHANGE: Specified dev dependencies for test framework
-  // Reason: Tests only run during development and CI, not in production
-  // Impact: Reduces production bundle size and installation time
   "devDependencies": {
-    // CHANGE: Added Playwright test framework
-    // Reason: Core testing library for API automation
-    // Problem Solved: Provides modern test runner with built-in assertions and request handling
-    // Impact: Enables reliable, maintainable API testing
     "@playwright/test": "^1.40.0",
-    
-    // CHANGE: Added dotenv for environment variable management
-    // Reason: Securely load environment variables from .env files
-    // Problem Solved: Prevents hardcoding API credentials in source code
-    // Impact: Supports multiple environments (dev/staging/prod) without code changes
     "dotenv": "^16.3.1"
   }
 }
