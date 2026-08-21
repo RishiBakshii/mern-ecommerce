@@ -32,7 +32,7 @@ function App() {
         <Route path='/forgot-password' element={<ForgotPasswordPage/>}/>
         <Route path='/reset-password/:userId/:passwordResetToken' element={<ResetPasswordPage/>}/>
         <Route exact path='/logout' element={<Protected><Logout/></Protected>}/>
-        <Route exact path='/product-details/:id' element={<Protected><ProductDetailsPage/></Protected>}/>
+        <Route exact path='/product-details/:id' element={<ProductDetailsPage/>}/>
 
         {
           loggedInUser?.isAdmin?(
@@ -47,7 +47,7 @@ function App() {
           ):(
             // user routes
             <>
-            <Route path='/' element={<Protected><HomePage/></Protected>}/>
+            <Route path='/' element={<HomePage/>}/>
             <Route path='/cart' element={<Protected><CartPage/></Protected>}/>
             <Route path='/profile' element={<Protected><UserProfilePage/></Protected>}/>
             <Route path='/checkout' element={<Protected><CheckoutPage/></Protected>}/>

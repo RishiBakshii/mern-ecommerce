@@ -134,11 +134,20 @@ export const ProductDetails = () => {
         }
     },[])
 
-    const handleAddToCart=()=>{
-        const item={user:loggedInUser._id,product:id,quantity}
+    const handleAddToCart = () => {
+    if (loggedInUser?.isVerified) {
+        const item = {
+            user: loggedInUser._id,
+            product: id,
+            quantity
+        }
+
         dispatch(addToCartAsync(item))
         setQuantity(1)
+    } else {
+        navigate('/login')
     }
+}
 
     const handleDecreaseQty=()=>{
         if(quantity!==1){
